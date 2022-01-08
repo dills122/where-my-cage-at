@@ -1,0 +1,12 @@
+<nb-layout>
+  <nb-layout-header>
+    <button nbButton (click)="toggleTheme()">Toggle Theme</button>
+    <nb-actions>
+      <nb-action icon="home-outline" routerLink="/home"></nb-action>
+    </nb-actions>
+  </nb-layout-header>
+
+  <nb-layout-column>
+    <router-outlet></router-outlet>
+  </nb-layout-column>
+</nb-layout>
