@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 
-export type Theme = 'default' | 'dark';
+export type Theme = 'purple-theme' | 'custom-dark';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ThemeService {
-  currentTheme: Theme = 'default';
+  currentTheme: Theme = 'custom-dark';
 
   constructor(private themeService: NbThemeService) {}
 
   toggleTheme() {
-    this.currentTheme = this.currentTheme === 'default' ? 'dark' : 'default';
+    this.currentTheme = this.currentTheme === 'purple-theme' ? 'custom-dark' : 'purple-theme';
     this.themeService.changeTheme(this.currentTheme);
   }
 }

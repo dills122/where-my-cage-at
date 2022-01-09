@@ -15,7 +15,7 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserModule,
     BrowserAnimationsModule,
     RouterModule.forRoot([], { relativeLinkResolution: 'legacy' }),
-    NbThemeModule.forRoot({ name: 'default' }),
+    NbThemeModule.forRoot({ name: 'custom-dark' }),
     NbLayoutModule,
     NbEvaIconsModule,
     NbButtonModule,
