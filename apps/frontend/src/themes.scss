@@ -1,5 +1,4 @@
 @import '~@nebular/theme/styles/theming';
-@import '~@nebular/theme/styles/themes/default';
 @import '~@nebular/theme/styles/themes/dark';
 
 $nb-themes: nb-register-theme(
@@ -56,10 +55,10 @@ $nb-themes: nb-register-theme(
     color-basic-500: #5E6E7A,
     color-basic-600: #2D4151,
     color-basic-700: #081E30,
-    color-basic-800: #061623,
-    color-basic-900: #041019,
-    color-basic-1000: #020A0F,
-    color-basic-1100: #010305,
+    color-basic-800: #061A28,
+    color-basic-900: #051521,
+    color-basic-1000: #040E16,
+    color-basic-1100: #030B12,
     background-basic-color-1: color-basic-700,
     background-basic-color-2: color-basic-800,
     background-basic-color-3: color-basic-900,
@@ -71,57 +70,8 @@ $nb-themes: nb-register-theme(
     border-basic-color-5: color-basic-1100,
     shadow: 0 0.5rem 1rem 0 color-basic-800,
     text-disabled-color: color-basic-600,
+    font-family-primary: 'Easy Print, Courier New'
   ),
   custom-dark,
   dark
 );
-
-$nb-themes: nb-register-theme((
-
-  color-primary-100: #DAD7FA,
-  color-primary-200: #B5B0F5,
-  color-primary-300: #8A83E3,
-  color-primary-400: #655EC7,
-  color-primary-500: #3730A3,
-  color-primary-600: #28238C,
-  color-primary-700: #1C1875,
-  color-primary-800: #120F5E,
-  color-primary-900: #0B094E,
-  color-success-100: #DDF8D0,
-  color-success-200: #B7F1A4,
-  color-success-300: #80D770,
-  color-success-400: #4DAF46,
-  color-success-500: #197A1B,
-  color-success-600: #12681B,
-  color-success-700: #0C571B,
-  color-success-800: #074619,
-  color-success-900: #043A18,
-  color-info-100: #D1E4FB,
-  color-info-200: #A4C8F7,
-  color-info-300: #74A2E8,
-  color-info-400: #4E7ED2,
-  color-info-500: #1E50B5,
-  color-info-600: #153D9B,
-  color-info-700: #0F2D82,
-  color-info-800: #091F68,
-  color-info-900: #051556,
-  color-warning-100: #FBF2CA,
-  color-warning-200: #F8E296,
-  color-warning-300: #EAC75F,
-  color-warning-400: #D5A837,
-  color-warning-500: #BA8003,
-  color-warning-600: #9F6802,
-  color-warning-700: #855301,
-  color-warning-800: #6B3F00,
-  color-warning-900: #593100,
-  color-danger-100: #FAD7D1,
-  color-danger-200: #F5AAA6,
-  color-danger-300: #E17479,
-  color-danger-400: #C44E5E,
-  color-danger-500: #9E1F3D,
-  color-danger-600: #87163C,
-  color-danger-700: #710F39,
-  color-danger-800: #5B0934,
-  color-danger-900: #4B0531
-
-), purple-theme, default);
