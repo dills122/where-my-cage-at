@@ -97,6 +97,9 @@ importers:
       karma-coverage: ~2.0.3
       karma-jasmine: ~4.0.0
       karma-jasmine-html-reporter: ~1.7.0
+      primeflex: ~3.1.2
+      primeicons: ~5.0.0
+      primeng: ~13.0.4
       rxjs: ~6.6.0
       tslib: ^2.2.0
       typescript: ~4.5.4
@@ -111,6 +114,9 @@ importers:
       '@angular/platform-browser': 13.1.1_ba78c0245ba37c1eb9e40fba17f0c0db
       '@angular/platform-browser-dynamic': 13.1.1_53ae741ee19166964f64e7b56404e938
       '@angular/router': 13.1.1_e501d38cd0d5a91bf68d9abb1ed3344d
+      primeflex: 3.1.2
+      primeicons: 5.0.0
+      primeng: 13.0.4_171b113408798b04c77003a2a0cfe988
       rxjs: 6.6.7
       tslib: 2.3.1
       zone.js: 0.11.4
@@ -8880,6 +8886,33 @@ packages:
       ansi-styles: 5.2.0
       react-is: 17.0.2
     dev: true
+
+  /primeflex/3.1.2:
+    resolution: {integrity: sha512-q63sFNk3KPHSoM4EEEgo0MFTJSQhz4PZpJoQnVa8bcju/N7D8koloF9fniXV8UBlKFQzh0DLr5iFZ4c6FFXO4g==}
+    dev: false
+
+  /primeicons/5.0.0:
+    resolution: {integrity: sha512-heygWF0X5HFI1otlZE62pp6ye7sZ8om78J9au2BRkg8O7Y8AHTZ9qKMRzchZUHLe8zUAvdi6hZzzm9XxgwIExw==}
+    dev: false
+
+  /primeng/13.0.4_171b113408798b04c77003a2a0cfe988:
+    resolution: {integrity: sha512-hX6TcZ5UwCzA3cfl9csk/N9l0R9mek/QR/BWDQI2zH9Jtc5W1x9FUXnZPj4pUlCDvYL5NW21Yu7d9fDhIe20qQ==}
+    peerDependencies:
+      '@angular/common': ^13.0.0
+      '@angular/core': ^13.0.0
+      '@angular/forms': ^13.0.0
+      primeicons: ^5.0.0
+      rxjs: ^6.0.0 || ^7.0.0
+      zone.js: ^0.10.2 || ^0.11.0
+    dependencies:
+      '@angular/common': 13.1.1_@angular+core@13.1.1+rxjs@6.6.7
+      '@angular/core': 13.1.1_rxjs@6.6.7+zone.js@0.11.4
+      '@angular/forms': 13.1.1_e501d38cd0d5a91bf68d9abb1ed3344d
+      primeicons: 5.0.0
+      rxjs: 6.6.7
+      tslib: 2.3.1
+      zone.js: 0.11.4
+    dev: false
 
   /process-nextick-args/2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}

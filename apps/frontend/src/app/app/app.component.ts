@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ThemeService } from '../services/theme/theme-service';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +8,13 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
-  constructor() {}
+  private theme: string;
+  constructor(private themeService: ThemeService) {
+    this.theme = 'dark-th';
+  }
+
+  changeTheme(theme: string) {
+    this.theme = theme;
+    this.themeService.switchTheme(this.theme);
+  }
 }
