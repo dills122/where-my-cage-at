@@ -84,8 +84,6 @@ importers:
       '@angular/platform-browser-dynamic': ~12.1.0-
       '@angular/router': ~12.1.0-
       '@cypress/schematic': ^1.6.0
-      '@nebular/eva-icons': 8.0.0
-      '@nebular/theme': ^8.0.0
       '@schematics/angular': ~12.1.3
       '@types/jasmine': ~3.8.0
       '@types/node': ^16.0.0
@@ -93,13 +91,14 @@ importers:
       '@typescript-eslint/parser': ^4.28.2
       cypress: latest
       eslint: ^7.30.0
-      eva-icons: ^1.1.2
       jasmine-core: ~3.8.0
       karma: ~6.3.0
       karma-chrome-launcher: ~3.1.0
       karma-coverage: ~2.0.3
       karma-jasmine: ~4.0.0
       karma-jasmine-html-reporter: ~1.7.0
+      primeicons: ~5.0.0
+      primeng: ~13.0.4
       rxjs: ~6.6.0
       tslib: ^2.2.0
       typescript: ~4.3.2
@@ -114,9 +113,8 @@ importers:
       '@angular/platform-browser': 12.1.5_e484ae13dc87c6c09683a80ada7d62e3
       '@angular/platform-browser-dynamic': 12.1.5_78eac561215971802d68ab8c9f465231
       '@angular/router': 12.1.5_1135d6cdbaede2853ed61d07cc14cec5
-      '@nebular/eva-icons': 8.0.0_34424bb0a8f2a484bff7db6b3ecdcbb7
-      '@nebular/theme': 8.0.0_0fed7d4dd82e0a9961e1e0bb286b0361
-      eva-icons: 1.1.3
+      primeicons: 5.0.0
+      primeng: 13.0.4_40a8a1246b2682f0769ee60beca606c7
       rxjs: 6.6.7
       tslib: 2.3.1
       zone.js: 0.11.4
@@ -135,7 +133,7 @@ importers:
       '@types/node': 16.11.19
       '@typescript-eslint/eslint-plugin': 4.33.0_d212f40a84a592446cd1718bfda08a13
       '@typescript-eslint/parser': 4.33.0_eslint@7.32.0+typescript@4.3.5
-      cypress: 9.2.0
+      cypress: 9.2.1
       eslint: 7.32.0
       jasmine-core: 3.8.0
       karma: 6.3.9
@@ -2368,37 +2366,6 @@ packages:
       - supports-color
     dev: true
 
-  /@nebular/eva-icons/8.0.0_34424bb0a8f2a484bff7db6b3ecdcbb7:
-    resolution: {integrity: sha512-eUNEQJP5w+XiAW1FyEVneno0qiNKoDZlobkglhdvVR1u7e3D4a5IxwnaKK0Izl/6j6eSs/qoBuzrBkJ4alaNjw==}
-    peerDependencies:
-      '@nebular/theme': 8.0.0
-      eva-icons: ^1.1.2
-    dependencies:
-      '@nebular/theme': 8.0.0_0fed7d4dd82e0a9961e1e0bb286b0361
-      eva-icons: 1.1.3
-    dev: false
-
-  /@nebular/theme/8.0.0_0fed7d4dd82e0a9961e1e0bb286b0361:
-    resolution: {integrity: sha512-Lq1a3IgjfU1bqwCrsPQBd3nGmjK61fND+6r4lmXFWDRvXti18k5KMIvzY+KryNsTEhEOyby+V5R16T67MKZs6g==}
-    peerDependencies:
-      '@angular/animations': ^12.0.0
-      '@angular/cdk': ^12.0.0
-      '@angular/common': ^12.0.0
-      '@angular/core': ^12.0.0
-      '@angular/router': ^12.0.0
-      rxjs: ^6.5.4
-      tslib: ^2.1.0
-    dependencies:
-      '@angular/animations': 12.1.5_@angular+core@12.1.5
-      '@angular/cdk': 12.2.13_fd902e851afb72a22ce8445b6105d123
-      '@angular/common': 12.1.5_@angular+core@12.1.5+rxjs@6.6.7
-      '@angular/core': 12.1.5_rxjs@6.6.7+zone.js@0.11.4
-      '@angular/router': 12.1.5_1135d6cdbaede2853ed61d07cc14cec5
-      intersection-observer: 0.7.0
-      rxjs: 6.6.7
-      tslib: 2.3.1
-    dev: false
-
   /@nestjs/cli/8.1.6_eslint@7.32.0:
     resolution: {integrity: sha512-SFz/DNjsxNamBEi00ml6+Qx7DmnljI+lYqNzk/+1WZWCfONmvGxQrUaXcUHulkwMXZF/wpD93rgbbnT1CXirqQ==}
     engines: {node: '>= 10.13.0', npm: '>= 6.11.0'}
@@ -4292,6 +4259,15 @@ packages:
       colors: 1.4.0
     dev: true
 
+  /cli-table3/0.6.1:
+    resolution: {integrity: sha512-w0q/enDHhPLq44ovMGdQeeDLvwxwavsJX7oQGYt/LrBlYsyaxyDnp6z3QzFut/6kLLKnlcUVJLrpB7KBfgG/RA==}
+    engines: {node: 10.* || >= 12.*}
+    dependencies:
+      string-width: 4.2.3
+    optionalDependencies:
+      colors: 1.4.0
+    dev: true
+
   /cli-truncate/2.1.0:
     resolution: {integrity: sha512-n8fOixwDD6b/ObinzTrp1ZKFzbgvKZvuz/TvejnLn1aQfC6r52XEx85FmuC+3HI+JM7coBRXUvNqEU2PHVrHpg==}
     engines: {node: '>=8'}
@@ -4867,8 +4843,8 @@ packages:
     resolution: {integrity: sha1-XQKkaFCt8bSjF5RqOSj8y1v9BCU=}
     dev: true
 
-  /cypress/9.2.0:
-    resolution: {integrity: sha512-Jn26Tprhfzh/a66Sdj9SoaYlnNX6Mjfmj5PHu2a7l3YHXhrgmavM368wjCmgrxC6KHTOv9SpMQGhAJn+upDViA==}
+  /cypress/9.2.1:
+    resolution: {integrity: sha512-LVEe4yWCo4xO0Vd8iYjFHRyd5ulRvM56XqMgAdn05Qb9kJ6iJdO/MmjKD8gNd768698cp1FDuSmFQZHVZGk+Og==}
     engines: {node: '>=12.0.0'}
     hasBin: true
     requiresBuild: true
@@ -4885,7 +4861,7 @@ packages:
       chalk: 4.1.2
       check-more-types: 2.24.0
       cli-cursor: 3.1.0
-      cli-table3: 0.6.0
+      cli-table3: 0.6.1
       commander: 5.1.0
       common-tags: 1.8.2
       dayjs: 1.10.7
@@ -5577,10 +5553,6 @@ packages:
   /etag/1.8.1:
     resolution: {integrity: sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc=}
     engines: {node: '>= 0.6'}
-
-  /eva-icons/1.1.3:
-    resolution: {integrity: sha512-QBSEWNbEx1H0numXP1qgxKVCZHonRaky5ft4pGzQBcO4cy7mEja6TuJ8rc7BqX2pmkvetVQWKDH+DK/8y7GTag==}
-    dev: false
 
   /eventemitter2/6.4.5:
     resolution: {integrity: sha512-bXE7Dyc1i6oQElDG0jMRZJrRAn9QR2xyyFGmBdZleNmyQX0FqGYmhZIrIrpPfm/w//LTo4tVQGOGQcGCb5q9uw==}
@@ -6734,10 +6706,6 @@ packages:
     resolution: {integrity: sha512-agE4QfB2Lkp9uICn7BAqoscw4SZP9kTE2hxiFI3jBPmXJfdqiahTbUuKGsMoN2GtqL9AxhYioAcVvgsb1HvRbA==}
     engines: {node: '>= 0.10'}
     dev: true
-
-  /intersection-observer/0.7.0:
-    resolution: {integrity: sha512-Id0Fij0HsB/vKWGeBe9PxeY45ttRiBmhFyyt/geBdDHBYNctMRTE3dC1U3ujzz3lap+hVXlEcVaB56kZP/eEUg==}
-    dev: false
 
   /ip-regex/2.1.0:
     resolution: {integrity: sha1-+ni/XS5pE8kRzp+BnuUUa7bYROk=}
@@ -9812,6 +9780,29 @@ packages:
       ansi-styles: 5.2.0
       react-is: 17.0.2
     dev: true
+
+  /primeicons/5.0.0:
+    resolution: {integrity: sha512-heygWF0X5HFI1otlZE62pp6ye7sZ8om78J9au2BRkg8O7Y8AHTZ9qKMRzchZUHLe8zUAvdi6hZzzm9XxgwIExw==}
+    dev: false
+
+  /primeng/13.0.4_40a8a1246b2682f0769ee60beca606c7:
+    resolution: {integrity: sha512-hX6TcZ5UwCzA3cfl9csk/N9l0R9mek/QR/BWDQI2zH9Jtc5W1x9FUXnZPj4pUlCDvYL5NW21Yu7d9fDhIe20qQ==}
+    peerDependencies:
+      '@angular/common': ^13.0.0
+      '@angular/core': ^13.0.0
+      '@angular/forms': ^13.0.0
+      primeicons: ^5.0.0
+      rxjs: ^6.0.0 || ^7.0.0
+      zone.js: ^0.10.2 || ^0.11.0
+    dependencies:
+      '@angular/common': 12.1.5_@angular+core@12.1.5+rxjs@6.6.7
+      '@angular/core': 12.1.5_rxjs@6.6.7+zone.js@0.11.4
+      '@angular/forms': 12.1.5_1135d6cdbaede2853ed61d07cc14cec5
+      primeicons: 5.0.0
+      rxjs: 6.6.7
+      tslib: 2.3.1
+      zone.js: 0.11.4
+    dev: false
 
   /process-nextick-args/2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
