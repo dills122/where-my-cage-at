@@ -1,11 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './container/home.component';
 import { HomeRoutingModule } from './home-routing.module';
 
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { DividerModule } from 'primeng/divider';
+import { ServiceButtonNodeComponent } from './components/service-button-node/service-button-node.component';
+
 @NgModule({
-  declarations: [HomeComponent],
-  imports: [CommonModule, HomeRoutingModule]
+  declarations: [HomeComponent, ServiceButtonNodeComponent],
+  imports: [CommonModule, HomeRoutingModule, ButtonModule, CardModule, DividerModule]
 })
 export class HomeModule {}

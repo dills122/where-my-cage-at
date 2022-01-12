@@ -1,12 +1,33 @@
-<nb-layout>
-  <nb-layout-header>
-    <button nbButton (click)="toggleTheme()">Toggle Theme</button>
-    <nb-actions>
-      <nb-action icon="home-outline" routerLink="/home"></nb-action>
-    </nb-actions>
-  </nb-layout-header>
-
-  <nb-layout-column>
+<div class="grid">
+  <div class="col-12">
+    <!-- Header -->
+    <div class="flex align-content-center justify-content-between header-container">
+      <div class="flex align-items-center p-2" routerLink="/">LOGO HERE</div>
+      <div>
+        <div class="flex justify-content-between align-content-center">
+          <div class="flex align-items-center px-3 py-2">
+            <div class="flex justify-content-center flex-wrap">
+              <p-toggleButton onLabel="Light" offLabel="Dark" onIcon="pi pi-moon" offIcon="pi pi-sun" iconPos="right"
+                [(ngModel)]="isDarkTheme" (onChange)="handleChange($event)"></p-toggleButton>
+            </div>
+          </div>
+          <div class="flex align-items-center p-2">
+            <button pButton type="button" label="Home" class="p-button-text" routerLink="/"></button>
+          </div>
+          <div class="flex align-items-center p-2">
+            <button pButton type="button" label="Services" class="p-button-text"></button>
+          </div>
+          <div class="flex align-items-center p-2">
+            <button pButton type="button" label="Staff Picks" class="p-button-text"></button>
+          </div>
+          <div class="flex align-items-center p-2">
+            <button pButton type="button" label="Data View" class="p-button-text"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12">
     <router-outlet></router-outlet>
-  </nb-layout-column>
-</nb-layout>
+  </div>
+</div>

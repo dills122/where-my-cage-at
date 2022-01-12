@@ -1,5 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ThemeService } from '../services/theme/theme.service';
+import { ThemeService } from '../services/theme/theme-service';
+
+enum Themes {
+  dark = 'dark-th',
+  light = 'light-th'
+}
 
 @Component({
   selector: 'app-root',
@@ -8,9 +13,18 @@ import { ThemeService } from '../services/theme/theme.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
-  constructor(private themeService: ThemeService) {}
+  private theme: Themes;
+  isDarkTheme: boolean = true;
+  constructor(private themeService: ThemeService) {
+    this.theme = Themes.dark;
+  }
 
-  toggleTheme() {
-    this.themeService.toggleTheme();
+  handleChange(e: { checked: boolean }) {
+    this.changeTheme(e.checked);
+  }
+
+  changeTheme(isDarkTheme: boolean) {
+    this.theme = isDarkTheme ? Themes.dark : Themes.light;
+    this.themeService.switchTheme(this.theme.toString());
   }
 }
