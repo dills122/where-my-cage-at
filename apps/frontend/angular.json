@@ -34,9 +34,9 @@
             "styles": [
               "src/styles.scss",
               "src/assets/fonts/fonts.scss",
+              "node_modules/primeflex/primeflex.scss",
               "node_modules/primeicons/primeicons.css",
               "node_modules/primeng/resources/primeng.min.css",
-              "node_modules/primeflex/primeflex.css",
               {
                 "input": "src/theme-dark.scss",
                 "bundleName": "dark-th",

@@ -7,6 +7,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app/app.component';
 import { AppRoutingModule } from './app-routing.module';
 
+import { ToggleButtonModule } from 'primeng/togglebutton';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -14,6 +16,8 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserAnimationsModule,
     RouterModule.forRoot([], { relativeLinkResolution: 'legacy' }),
     FormsModule,
+
+    ToggleButtonModule,
 
     // app
     AppRoutingModule

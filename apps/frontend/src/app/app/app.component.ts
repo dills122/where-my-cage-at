@@ -9,8 +9,10 @@ import { ThemeService } from '../services/theme/theme-service';
 })
 export class AppComponent {
   private theme: string;
+  isDarkTheme: boolean;
   constructor(private themeService: ThemeService) {
     this.theme = 'dark-th';
+    this.isDarkTheme = true;
   }
 
   changeTheme(theme: string) {
