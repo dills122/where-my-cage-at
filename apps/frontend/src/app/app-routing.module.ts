@@ -12,6 +12,11 @@ const routes: Routes = [
     loadChildren: () => import('./features/home/home.module').then((m) => m.HomeModule)
   },
   {
+    path: 'service-overview/:serviceId',
+    loadChildren: () =>
+      import('./features/service-overview/service-overview.module').then((m) => m.ServiceOverviewModule)
+  },
+  {
     path: '**',
     redirectTo: 'home'
   }

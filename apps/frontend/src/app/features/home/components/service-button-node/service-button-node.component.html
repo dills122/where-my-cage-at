@@ -1,0 +1,10 @@
+<div class="flex align-items-center justify-content-center w-4rem h-4rem border-round m-2"
+  (click)="openServicePage(serviceId)">
+  <div class="flex flex-column text-center">
+    <div class="flex align-items-center justify-content-center">
+      <i class="pi mb-3" [ngClass]="serviceIcon">
+      </i>
+    </div>
+    <div class="flex align-items-center justify-content-center font-bold">{{serviceName}}</div>
+  </div>
+</div>
