@@ -2,19 +2,27 @@
   <div class="col-12">
     <!-- Header -->
     <div class="flex align-content-center justify-content-between header-container">
-      <div class="flex align-items-center p-2">LOGO HERE</div>
+      <div class="flex align-items-center p-2" routerLink="/">LOGO HERE</div>
       <div>
         <div class="flex justify-content-between align-content-center">
           <div class="flex align-items-center px-3 py-2">
             <div class="flex justify-content-center flex-wrap">
               <p-toggleButton onLabel="Light" offLabel="Dark" onIcon="pi pi-moon" offIcon="pi pi-sun" iconPos="right"
-                [(ngModel)]="isDarkTheme"></p-toggleButton>
+                [(ngModel)]="isDarkTheme" (onChange)="handleChange($event)"></p-toggleButton>
             </div>
           </div>
-          <div class="flex align-items-center p-2">Link 1</div>
-          <div class="flex align-items-center p-2">Link 2</div>
-          <div class="flex align-items-center p-2">Link 3</div>
-          <div class="flex align-items-center p-2">Link 4</div>
+          <div class="flex align-items-center p-2">
+            <button pButton type="button" label="Home" class="p-button-text" routerLink="/"></button>
+          </div>
+          <div class="flex align-items-center p-2">
+            <button pButton type="button" label="Services" class="p-button-text"></button>
+          </div>
+          <div class="flex align-items-center p-2">
+            <button pButton type="button" label="Staff Picks" class="p-button-text"></button>
+          </div>
+          <div class="flex align-items-center p-2">
+            <button pButton type="button" label="Data View" class="p-button-text"></button>
+          </div>
         </div>
       </div>
     </div>

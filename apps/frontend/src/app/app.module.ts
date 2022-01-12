@@ -8,6 +8,7 @@ import { AppComponent } from './app/app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { ToggleButtonModule } from 'primeng/togglebutton';
+import { ButtonModule } from 'primeng/button';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,6 +19,7 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
     FormsModule,
 
     ToggleButtonModule,
+    ButtonModule,
 
     // app
     AppRoutingModule

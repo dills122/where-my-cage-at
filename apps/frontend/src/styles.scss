@@ -10,10 +10,14 @@ html {
 }
 
 body {
-    font-family: 'Easy Print','Courier New', Courier, monospace;
     background-color: var(--surface-ground);
     color: var(--text-color);
     min-height: 100%;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+body,
+body .p-component {
+    font-family: 'Easy Print','Courier New', Courier, monospace;
 }
