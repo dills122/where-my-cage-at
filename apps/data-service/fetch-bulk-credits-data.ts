@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv';
 
 import { Tmdb, NotFoundError } from '@dills1220/tmdb';
-import { MovieCreditsListsByRole } from './types';
+import { CastCredit, MovieCreditsListsByRole } from './types';
 
 dotenv.config({ path: __dirname + '/.env' });
 
@@ -9,7 +9,7 @@ const apiKey = process.env.TMDB_KEY;
 
 const personId = 2963;
 
-export default async () => {
+export default async (): Promise<CastCredit[]> => {
   if (!(apiKey != null)) {
     throw Error('Unable to find API key');
   }
@@ -25,7 +25,7 @@ export default async () => {
   } catch (error) {
     if (error instanceof NotFoundError) {
       console.error('Person not found, strange..');
-      return;
+      throw error;
     } else {
       console.error(error);
       throw error;
