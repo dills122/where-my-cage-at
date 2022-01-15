@@ -24,8 +24,15 @@ export interface RequestArgs {
 
 export default class WTW {
   private _locale = 'en_US';
+  private _defaults = {
+    pageSize: 100
+  };
   public set locale(locale: string) {
     this._locale = locale;
+  }
+
+  public get defaults() {
+    return this._defaults;
   }
 
   private setupDefaultQuerySearchTerms() {
@@ -88,8 +95,9 @@ export default class WTW {
     });
   }
 
-  getPersonsFilmography(personId: number, query?: string) {
-    const endNotifier = new Subject();
+  getPersonsFilmography(args: { personId: number; query?: string; pageSize?: number; pages?: number }) {
+    const { personId, query, pageSize, pages } = args;
+    const endNotifier = new Subject<boolean>();
     return this.request<SearchResults>({
       url: `titles/${this._locale}/popular`,
       method: 'GET',
@@ -102,7 +110,7 @@ export default class WTW {
           monitization_types: [],
           matching_offers_only: false,
           page: 1,
-          page_size: 500,
+          page_size: pageSize || this.defaults.pageSize,
           query,
           ...this.setupDefaultQuerySearchTerms()
         })
@@ -110,8 +118,9 @@ export default class WTW {
     }).pipe(
       expand((data, index) => {
         const { totalPages, page, pageSize } = data;
+        const hasHitMaxUserReqPageCount = page >= (pages || totalPages);
         const hasHitMaxServerPageCount = page >= totalPages;
-        if (hasHitMaxServerPageCount) {
+        if (hasHitMaxServerPageCount || hasHitMaxUserReqPageCount) {
           endNotifier.next(true);
           endNotifier.complete();
           return EMPTY;
