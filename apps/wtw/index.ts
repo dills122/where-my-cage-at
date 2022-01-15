@@ -1,6 +1,17 @@
 import got, { OptionsOfJSONResponseBody } from 'got';
 import camelCaseObject from 'camelcase-keys';
-import { catchError, from, map, Observable, throwError } from 'rxjs';
+import {
+  catchError,
+  EMPTY,
+  expand,
+  from,
+  map,
+  Observable,
+  reduce,
+  Subject,
+  takeUntil,
+  throwError
+} from 'rxjs';
 import _ from 'lodash';
 
 const API_DOMAIN = 'https://apis.justwatch.com/content';
@@ -53,7 +64,7 @@ export default class WTW {
 
   private request<T>({ url, method, querySearchTerms }: RequestArgs): Observable<T> {
     return from(
-      got<object>(url, {
+      got<string>(url, {
         prefixUrl: API_DOMAIN,
         headers: {
           ['User-Agent']: 'JustWatch client (https://github.com/dills122/where-my-cage-at/apps/wtw)'
@@ -63,7 +74,7 @@ export default class WTW {
       } as OptionsOfJSONResponseBody)
     ).pipe(
       map(({ body }) => {
-        return camelCaseObject(body, { deep: true }) as T;
+        return camelCaseObject(JSON.parse(body), { deep: true }) as T;
       }),
       catchError((err) => throwError(() => new Error(err)))
     );
@@ -78,7 +89,8 @@ export default class WTW {
   }
 
   getPersonsFilmography(personId: number, query?: string) {
-    return this.request<unknown>({
+    const endNotifier = new Subject();
+    return this.request<SearchResults>({
       url: `titles/${this._locale}/popular`,
       method: 'GET',
       querySearchTerms: {
@@ -95,7 +107,41 @@ export default class WTW {
           ...this.setupDefaultQuerySearchTerms()
         })
       }
-    });
+    }).pipe(
+      expand((data, index) => {
+        const { totalPages, page, pageSize } = data;
+        const hasHitMaxServerPageCount = page >= totalPages;
+        if (hasHitMaxServerPageCount) {
+          endNotifier.next(true);
+          endNotifier.complete();
+          return EMPTY;
+        }
+        const nextPage = index + 1;
+        return this.request<SearchResults>({
+          url: `titles/${this._locale}/popular`,
+          method: 'GET',
+          querySearchTerms: {
+            body: JSON.stringify({
+              person_id: personId,
+              enable_provider_filter: false,
+              is_upcoming: false,
+              package_intersection: false,
+              monitization_types: [],
+              matching_offers_only: false,
+              page: nextPage,
+              page_size: pageSize,
+              query,
+              ...this.setupDefaultQuerySearchTerms()
+            })
+          }
+        });
+      }),
+      takeUntil(endNotifier),
+      map((data) => [...data.items]),
+      reduce((acc, data) => {
+        return acc.concat(...data);
+      })
+    );
   }
 
   getProviders() {
@@ -146,4 +192,54 @@ export interface ServiceProvider {
   };
   addonPackages: string[] | null;
   parentPackages: string[] | null;
+}
+
+export interface PaginatedResults {
+  page: number;
+  pageSize: number;
+  totalPages: number;
+  totalResults: number;
+  items: ObjectSearchResult[];
+}
+
+export interface SearchResults extends PaginatedResults {
+  items: ObjectSearchResult[];
+}
+
+export interface ObjectSearchResult {
+  id: number;
+  title: string;
+  fullPath: string;
+  fullPaths: {
+    [str: string]: string;
+  };
+  poster: string;
+  // backdrops TODO implement later
+  originalReleaseYear: number;
+  tmdbPopularity: number;
+  objectType: 'movie' | 'person';
+  localizedReleaseDate: string;
+  offers: Offers[];
+  productionCountries: string[];
+  scoring: {
+    providerType: string;
+    value: number;
+  }[];
+}
+
+export interface Offers {
+  providerId: number;
+  monetizationType: string;
+  packageShortName: string;
+  retailPrice: number;
+  lastChangeRetailPrice?: number;
+  lastChangeDifference?: number;
+  lastChangePercentage?: number;
+  lastChangeDate?: string;
+  currency: string;
+  urls: {
+    [str: string]: string; //standard_web looks to be most used
+  };
+  presentationType: string;
+  country: string;
 }
