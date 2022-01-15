@@ -8,7 +8,7 @@ const API_DOMAIN = 'https://apis.justwatch.com/content';
 export interface RequestArgs {
   url: string;
   method: 'GET' | 'POST';
-  querySearchTerms?: QuerySearchTerms;
+  querySearchTerms?: Record<string, string | number | boolean | null | undefined>;
 }
 
 export default class WTW {
@@ -52,9 +52,6 @@ export default class WTW {
   }
 
   private request<T>({ url, method, querySearchTerms }: RequestArgs): Observable<T> {
-    if (querySearchTerms) {
-      console.log(this.setupSearchParams(querySearchTerms));
-    }
     return from(
       got<object>(url, {
         prefixUrl: API_DOMAIN,
@@ -76,7 +73,28 @@ export default class WTW {
     return this.request<ServiceProvider[]>({
       url: `titles/${this._locale}/popular`,
       method: 'GET',
-      querySearchTerms
+      querySearchTerms: this.setupSearchParams(querySearchTerms)
+    });
+  }
+
+  getPersonsFilmography(personId: number, query?: string) {
+    return this.request<unknown>({
+      url: `titles/${this._locale}/popular`,
+      method: 'GET',
+      querySearchTerms: {
+        body: JSON.stringify({
+          person_id: personId,
+          enable_provider_filter: false,
+          is_upcoming: false,
+          package_intersection: false,
+          monitization_types: [],
+          matching_offers_only: false,
+          page: 1,
+          page_size: 500,
+          query,
+          ...this.setupDefaultQuerySearchTerms()
+        })
+      }
     });
   }
 
@@ -97,7 +115,9 @@ export interface QuerySearchTerms {
   languages?: string[];
   release_year_from?: string;
   release_year_until?: string;
-  monetization_types?: string;
+  monetization_types?: string[];
+  matching_offers_only?: boolean;
+  person_id?: number;
   min_price?: string;
   max_price?: string;
   scoring_filter_types?: string;
