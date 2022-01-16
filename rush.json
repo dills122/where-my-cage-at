@@ -38,6 +38,11 @@
       "packageName": "redis-sdk",
       "projectFolder": "apps/redis-sdk",
       "versionPolicyName": "versionPolicy"
+    },
+    {
+      "packageName": "@dills1220/wtw",
+      "projectFolder": "apps/wtw",
+      "versionPolicyName": "wtw"
     }
   ]
 }

@@ -13,6 +13,10 @@
     "definitionName": "lockStepVersion",
     "version": "0.1.3",
     "nextBump": "patch"
+  },
+  {
+    "policyName": "wtw",
+    "definitionName": "individualVersion"
   }
   // {
   //   /**
