@@ -153,7 +153,8 @@ export default class WTW {
         map((data) => [...data.items]),
         reduce((acc, data) => {
           return acc.concat(...data);
-        })
+        }),
+        map((movies) => movies.filter((movie) => movie.objectType === 'movie'))
       )
     );
   }

@@ -3,7 +3,7 @@ import { MovieRecord } from '..';
 import { ServiceProvider } from './data-types';
 import config from './shared';
 
-export default class ReadOnlyClient {
+export class ReadOnlyClient {
   private _client: ReJSON;
   private _connected: boolean;
   constructor({ host, port }: { host: string; port: string }) {

@@ -4,7 +4,8 @@ import { Movie } from '../types';
 
 dotenv.config({ path: __dirname + '/.env' });
 
-const apiKey = process.env.TMDB_KEY;
+// const apiKey = process.env.TMDB_KEY;
+const apiKey = '2f6f061b137d85ddfebf0ab5c37b262d';
 
 export default async (movieId: number) => {
   if (!(apiKey != null)) {

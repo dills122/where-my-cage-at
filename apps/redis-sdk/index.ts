@@ -1,3 +1,3 @@
-export * from './src/client';
+export { FullClient } from './src/client';
 export * from './src/data-types';
-export * from './src/readonly-client';
+export { ReadOnlyClient } from './src/readonly-client';

@@ -37,7 +37,21 @@
       "commandKind": "global",
       "shellCommand": "prettier . --write",
       "summary": "Formats all the repos code"
-    }
+    },
+    {
+      "commandKind": "bulk",
+      "name": "compile",
+      "summary": "compilies all of the projects typescript",
+      "enableParallelism": true,
+      "ignoreMissingScript": true
+    },
+    {
+      "commandKind": "bulk",
+      "name": "clean",
+      "summary": "removes all of the compilation generated files",
+      "enableParallelism": true,
+      "ignoreMissingScript": true
+    },
     // {
     //   /**
     //    * (Required) Determines the type of custom command.

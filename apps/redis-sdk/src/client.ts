@@ -1,7 +1,7 @@
 import { ReJSON } from 'redis-modules-sdk';
 import { MovieRecord, ServiceProvider } from './data-types';
 
-export default class FullClient {
+export class FullClient {
   private _client: ReJSON;
   private _connected: boolean;
   constructor({ host, port }: { host: string; port: string }) {
