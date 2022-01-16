@@ -1,6 +1,6 @@
 import { NotFoundError, Tmdb } from '@dills1220/tmdb';
 import * as dotenv from 'dotenv';
-import { Movie } from './types';
+import { Movie } from '../types';
 
 dotenv.config({ path: __dirname + '/.env' });
 

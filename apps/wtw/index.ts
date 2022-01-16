@@ -4,6 +4,7 @@ import {
   catchError,
   EMPTY,
   expand,
+  firstValueFrom,
   from,
   map,
   Observable,
@@ -88,76 +89,82 @@ export default class WTW {
   }
 
   search(querySearchTerms: QuerySearchTerms) {
-    return this.request<ServiceProvider[]>({
-      url: `titles/${this._locale}/popular`,
-      method: 'GET',
-      querySearchTerms: this.setupSearchParams(querySearchTerms)
-    });
+    return firstValueFrom(
+      this.request<ServiceProvider[]>({
+        url: `titles/${this._locale}/popular`,
+        method: 'GET',
+        querySearchTerms: this.setupSearchParams(querySearchTerms)
+      })
+    );
   }
 
   getPersonsFilmography(args: { personId: number; query?: string; pageSize?: number; pages?: number }) {
     const { personId, query, pageSize, pages } = args;
     const endNotifier = new Subject<boolean>();
-    return this.request<SearchResults>({
-      url: `titles/${this._locale}/popular`,
-      method: 'GET',
-      querySearchTerms: {
-        body: JSON.stringify({
-          person_id: personId,
-          enable_provider_filter: false,
-          is_upcoming: false,
-          package_intersection: false,
-          monitization_types: [],
-          matching_offers_only: false,
-          page: 1,
-          page_size: pageSize || this.defaults.pageSize,
-          query,
-          ...this.setupDefaultQuerySearchTerms()
-        })
-      }
-    }).pipe(
-      expand((data, index) => {
-        const { totalPages, page, pageSize } = data;
-        const hasHitMaxUserReqPageCount = page >= (pages || totalPages);
-        const hasHitMaxServerPageCount = page >= totalPages;
-        if (hasHitMaxServerPageCount || hasHitMaxUserReqPageCount) {
-          endNotifier.next(true);
-          endNotifier.complete();
-          return EMPTY;
+    return firstValueFrom(
+      this.request<SearchResults>({
+        url: `titles/${this._locale}/popular`,
+        method: 'GET',
+        querySearchTerms: {
+          body: JSON.stringify({
+            person_id: personId,
+            enable_provider_filter: false,
+            is_upcoming: false,
+            package_intersection: false,
+            monitization_types: [],
+            matching_offers_only: false,
+            page: 1,
+            page_size: pageSize || this.defaults.pageSize,
+            query,
+            ...this.setupDefaultQuerySearchTerms()
+          })
         }
-        const nextPage = index + 1;
-        return this.request<SearchResults>({
-          url: `titles/${this._locale}/popular`,
-          method: 'GET',
-          querySearchTerms: {
-            body: JSON.stringify({
-              person_id: personId,
-              enable_provider_filter: false,
-              is_upcoming: false,
-              package_intersection: false,
-              monitization_types: [],
-              matching_offers_only: false,
-              page: nextPage,
-              page_size: pageSize,
-              query,
-              ...this.setupDefaultQuerySearchTerms()
-            })
+      }).pipe(
+        expand((data, index) => {
+          const { totalPages, page, pageSize } = data;
+          const hasHitMaxUserReqPageCount = page >= (pages || totalPages);
+          const hasHitMaxServerPageCount = page >= totalPages;
+          if (hasHitMaxServerPageCount || hasHitMaxUserReqPageCount) {
+            endNotifier.next(true);
+            endNotifier.complete();
+            return EMPTY;
           }
-        });
-      }),
-      takeUntil(endNotifier),
-      map((data) => [...data.items]),
-      reduce((acc, data) => {
-        return acc.concat(...data);
-      })
+          const nextPage = index + 1;
+          return this.request<SearchResults>({
+            url: `titles/${this._locale}/popular`,
+            method: 'GET',
+            querySearchTerms: {
+              body: JSON.stringify({
+                person_id: personId,
+                enable_provider_filter: false,
+                is_upcoming: false,
+                package_intersection: false,
+                monitization_types: [],
+                matching_offers_only: false,
+                page: nextPage,
+                page_size: pageSize,
+                query,
+                ...this.setupDefaultQuerySearchTerms()
+              })
+            }
+          });
+        }),
+        takeUntil(endNotifier),
+        map((data) => [...data.items]),
+        reduce((acc, data) => {
+          return acc.concat(...data);
+        })
+      )
     );
   }
 
   getProviders() {
-    return this.request<ServiceProvider[]>({
-      url: `providers/locale/${this._locale}`,
-      method: 'GET'
-    });
+    return firstValueFrom(
+      this.request<ServiceProvider[]>({
+        url: `providers/locale/${this._locale}`,
+        method: 'GET'
+      })
+    );
   }
 }
 
@@ -230,10 +237,10 @@ export interface ObjectSearchResult {
   localizedReleaseDate: string;
   offers: Offers[];
   productionCountries: string[];
-  scoring: {
+  scoring: Array<{
     providerType: string;
     value: number;
-  }[];
+  }>;
 }
 
 export interface Offers {

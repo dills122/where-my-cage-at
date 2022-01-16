@@ -1,8 +1,7 @@
-import { describe } from 'mocha';
 import { expect } from 'chai';
+import { describe } from 'mocha';
+import { of } from 'rxjs';
 import Sinon from 'sinon';
-import { lastValueFrom, of } from 'rxjs';
-
 import WTW, { ServiceProvider } from './index';
 
 describe('WTW::', () => {
@@ -21,7 +20,7 @@ describe('WTW::', () => {
       });
       it('should return empty array if no providers are found', async () => {
         const api = new WTW();
-        const results = await lastValueFrom(api.getProviders());
+        const results = await api.getProviders();
         expect(results).to.be.an('array').and.length(0);
         expect(stubs.requestStub.callCount).to.equal(1);
       });
@@ -35,7 +34,7 @@ describe('WTW::', () => {
             } as ServiceProvider
           ])
         );
-        const results = await lastValueFrom(api.getProviders());
+        const results = await api.getProviders();
         console.log(results);
         const [first] = results;
         expect(results).to.be.an('array').and.length(1);

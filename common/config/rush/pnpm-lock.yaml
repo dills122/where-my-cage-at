@@ -67,6 +67,7 @@ importers:
   ../../apps/data-service:
     specifiers:
       '@dills1220/tmdb': 2.7.1
+      '@dills1220/wtw': workspace:*
       '@types/express': ^4.17.13
       '@types/node-cron': ~2.0.3
       '@typescript-eslint/eslint-plugin': 5.3.0
@@ -76,14 +77,17 @@ importers:
       express: ^4.17.2
       node-cron: ^3.0.0
       pm2: ^5.1.2
+      redis-sdk: workspace:*
       ts-node-dev: ^1.1.8
       typescript: ~4.5.4
     dependencies:
       '@dills1220/tmdb': 2.7.1
+      '@dills1220/wtw': link:../wtw
       dotenv: 11.0.0
       express: 4.17.2
       node-cron: 3.0.0
       pm2: 5.1.2
+      redis-sdk: link:../redis-sdk
     devDependencies:
       '@types/express': 4.17.13
       '@types/node-cron': 2.0.5
