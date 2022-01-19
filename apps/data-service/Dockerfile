@@ -5,7 +5,7 @@ COPY ../../ .
 RUN adduser -S app
 RUN rm -rf ./common/temp \
     && rush update --purge \
-    && rush build
+    && rush build --to data-service
 RUN mkdir ./prod \
     && rush deploy --project data-service --target-folder ./prod \
     && cp ./.env ./prod/
