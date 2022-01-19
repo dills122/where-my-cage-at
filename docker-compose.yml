@@ -4,3 +4,8 @@ services:
     extends:
       file: common-services.yml
       service: redis-base
+  data-service:
+    build:
+      context: .
+      dockerfile: ./apps/data-service/Dockerfile
+    restart: always
