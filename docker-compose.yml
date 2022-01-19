@@ -8,9 +8,13 @@ services:
     build:
       context: .
       dockerfile: ./apps/data-service/Dockerfile
+    ports:
+      - '${CRON_PORT}:${CRON_PORT}'
     restart: always
   api:
     build:
       context: .
       dockerfile: ./apps/api/Dockerfile
+    ports:
+      - '${API_PORT}:${API_PORT}'
     restart: always

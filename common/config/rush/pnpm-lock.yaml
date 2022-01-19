@@ -19,6 +19,7 @@ importers:
       '@types/supertest': ^2.0.11
       '@typescript-eslint/eslint-plugin': 5.3.0
       '@typescript-eslint/parser': 5.3.0
+      dotenv: ~14.2.0
       eslint: ^8.2.0
       eslint-config-prettier: ^8.3.0
       eslint-plugin-prettier: ^3.4.0
@@ -39,6 +40,7 @@ importers:
       '@nestjs/common': 8.2.5_fc03343260ad7d5e42407ec402f4b5b1
       '@nestjs/core': 8.2.5_0ed71eb7860020cb226bec298d546a38
       '@nestjs/platform-express': 8.2.5_dd9ef2e1e23f087665d46fe53bbbed58
+      dotenv: 14.2.0
       pm2: 5.1.2
       reflect-metadata: 0.1.13
       rimraf: 3.0.2
@@ -74,7 +76,7 @@ importers:
       '@types/node-cron': ~2.0.3
       '@typescript-eslint/eslint-plugin': 5.3.0
       '@typescript-eslint/parser': 5.3.0
-      dotenv: ~11.0.0
+      dotenv: ~14.2.0
       eslint: ^8.2.0
       express: ^4.17.2
       node-cron: ^3.0.0
@@ -85,7 +87,7 @@ importers:
     dependencies:
       '@dills1220/tmdb': 2.7.1
       '@dills1220/wtw': link:../wtw
-      dotenv: 11.0.0
+      dotenv: 14.2.0
       express: 4.17.2
       node-cron: 3.0.0
       pm2: 5.1.2
@@ -5442,8 +5444,8 @@ packages:
       domhandler: 4.3.0
     dev: true
 
-  /dotenv/11.0.0:
-    resolution: {integrity: sha512-Fp/b504Y5W+e+FpCxTFMUZ7ZEQkQYF0rx+KZtmwixJxGQbLHrhCwo3FjZgNC8vIfrSi29PABNbMoCGD9YoiXbQ==}
+  /dotenv/14.2.0:
+    resolution: {integrity: sha512-05POuPJyPpO6jqzTNweQFfAyMSD4qa4lvsMOWyTRTdpHKy6nnnN+IYWaXF+lHivhBH/ufDKlR4IWCAN3oPnHuw==}
     engines: {node: '>=12'}
     dev: false
 
