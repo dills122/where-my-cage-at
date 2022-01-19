@@ -1,0 +1,8 @@
+version: '3.7'
+services:
+  redis-base:
+    image: redislabs/rejson
+    hostname: redis-redisjson
+    ports:
+      - '${REDIS_PORT}:${REDIS_PORT}'
+    restart: always

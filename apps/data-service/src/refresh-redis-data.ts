@@ -2,11 +2,12 @@ import WTW, { Offers } from '@dills1220/wtw';
 import * as dotenv from 'dotenv';
 import { FullClient, MovieRecord, ServiceProvider } from 'redis-sdk';
 import FetchMovieData from './gathers/fetch-movie-details';
+import config from '../config';
 
 //TODO look into this, not working correctly
 dotenv.config({ path: __dirname + '/.env' });
 
-// const JustWatchPersonId = Number(process.env.JW_PERSON_ID);
+const JustWatchPersonId = Number(process.env.JW_PERSON_ID || config.JustWatchPersonId);
 const RedisPort = process.env.REDIS_PORT || '6379';
 
 interface UpdateFailures {
@@ -29,7 +30,7 @@ export default async () => {
     console.log(`Starting Redis data refresh at: ${new Date().toISOString()}`);
     const wtw = new WTW();
     const creditRecords = await wtw.getPersonsFilmography({
-      personId: 6747
+      personId: JustWatchPersonId
     });
     console.log('Retrieved Credit Records');
     const serviceProviders = await wtw.getProviders();

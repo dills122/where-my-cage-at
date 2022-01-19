@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv';
 
 import { Tmdb, NotFoundError } from '@dills1220/tmdb';
-import { CastCredit, MovieCreditsListsByRole } from './types';
+import { CastCredit, MovieCreditsListsByRole } from '../types';
 
 dotenv.config({ path: __dirname + '/.env' });
 

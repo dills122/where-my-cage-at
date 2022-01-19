@@ -52,6 +52,18 @@
       "enableParallelism": true,
       "ignoreMissingScript": true
     },
+    {
+      "name": "docker-up",
+      "commandKind": "global",
+      "shellCommand": "docker compose up -d",
+      "summary": "Starts docker env"
+    },
+    {
+      "name": "docker-down",
+      "commandKind": "global",
+      "shellCommand": "docker compose down",
+      "summary": "Shut down docker env"
+    },
     // {
     //   /**
     //    * (Required) Determines the type of custom command.
