@@ -1,6 +1,11 @@
 import refresh from './src/refresh-redis-data';
 import cron from 'node-cron';
 import express from 'express';
+import * as dotenv from 'dotenv';
+
+dotenv.config({ path: __dirname + '/.env' });
+
+const PORT = process.env.CRON_PORT || 3001;
 
 const app = express();
 
@@ -16,4 +21,4 @@ cron.schedule('35 4 * * *', () => {
     });
 });
 
-app.listen(3000);
+app.listen(Number(PORT));
