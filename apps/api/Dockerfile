@@ -9,6 +9,7 @@ RUN rm -rf ./common/temp \
 RUN mkdir ./prod \
     && rush deploy --project api --target-folder ./prod \
     && cp ./.env ./prod/
+RUN npm i -g @nestjs/cli
 WORKDIR /tmp/prod/apps/api
 RUN chown -R app /tmp/prod
 USER app
