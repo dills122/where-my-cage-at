@@ -9,3 +9,8 @@ services:
       context: .
       dockerfile: ./apps/data-service/Dockerfile
     restart: always
+  api:
+    build:
+      context: .
+      dockerfile: ./apps/api/Dockerfile
+    restart: always
