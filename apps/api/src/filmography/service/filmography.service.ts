@@ -3,8 +3,8 @@ import { ReadOnlyClient } from 'redis-sdk';
 
 @Injectable()
 export class FilmographyService {
-  client: ReadOnlyClient;
-  isConnected = false;
+  private client: ReadOnlyClient;
+  private isConnected = false;
   constructor() {
     this.client = new ReadOnlyClient({
       host: 'localhost',
@@ -13,8 +13,20 @@ export class FilmographyService {
   }
 
   async getAll() {
-    await this.connect();
+    if (!this.isConnected) {
+      await this.connect();
+    }
     return await this.client.getMovieCatalog();
+  }
+
+  async getRecord(tmdbId: number) {
+    if (!this.isConnected) {
+      await this.connect();
+    }
+    const records = await this.getAll();
+    return records.find((record) => {
+      return record.id === tmdbId;
+    });
   }
 
   private async connect() {
