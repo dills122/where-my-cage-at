@@ -31,7 +31,8 @@
     "pm2": "^5.1.2",
     "dotenv": "~14.2.0",
     "class-validator": "~0.13.2",
-    "class-transformer": "~0.5.1"
+    "class-transformer": "~0.5.1",
+    "redis-sdk": "workspace:*"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.1.6",
