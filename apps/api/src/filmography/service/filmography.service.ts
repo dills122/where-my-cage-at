@@ -1,17 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { ReadOnlyClient } from 'redis-sdk';
+import RedisServiceBase from 'src/shared/base-redis.service';
 
 @Injectable()
-export class FilmographyService {
-  private client: ReadOnlyClient;
-  private isConnected = false;
-  constructor() {
-    this.client = new ReadOnlyClient({
-      host: 'localhost',
-      port: '6379',
-    });
-  }
-
+export class FilmographyService extends RedisServiceBase {
   async getAll() {
     if (!this.isConnected) {
       await this.connect();
@@ -27,15 +18,5 @@ export class FilmographyService {
     return records.find((record) => {
       return record.id === tmdbId;
     });
-  }
-
-  private async connect() {
-    await this.client.connect();
-    this.isConnected = true;
-  }
-
-  private async disconnect() {
-    await this.client.disconnect();
-    this.isConnected = false;
   }
 }
