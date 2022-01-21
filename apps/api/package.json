@@ -22,14 +22,17 @@
     "pm2": "pm2 start processes.json --no-daemon"
   },
   "dependencies": {
-    "@nestjs/common": "^8.2.4",
-    "@nestjs/core": "^8.2.4",
-    "@nestjs/platform-express": "^8.2.4",
+    "@nestjs/common": "^8.2.5",
+    "@nestjs/core": "^8.2.5",
+    "@nestjs/platform-fastify": "~8.2.5",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "~7.3.0",
     "pm2": "^5.1.2",
-    "dotenv": "~14.2.0"
+    "dotenv": "~14.2.0",
+    "class-validator": "~0.13.2",
+    "class-transformer": "~0.5.1",
+    "redis-sdk": "workspace:*"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.1.6",
