@@ -15,7 +15,7 @@
   "dependencies": {
     "got": "11.8.3",
     "lodash": "^4.17.21",
-    "rxjs": "~7.3.0",
+    "rxjs": "7.4.0",
     "camelcase-keys": "~7.0.1"
   },
   "repository": {
