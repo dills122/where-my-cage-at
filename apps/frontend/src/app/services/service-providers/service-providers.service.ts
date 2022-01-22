@@ -2,7 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, isDevMode } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { ServiceProvider } from 'src/app/models';
-import { ServiceProviderRepository } from 'src/app/repositories';
+import {
+  ServiceProviderRepository,
+  skipServiceProviderWhileCached
+} from 'src/app/repositories/service-provider.repository';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +16,6 @@ export class ServiceProvidersService {
   getServiceProviders() {
     return this.http
       .get<ServiceProvider[]>(`${this.apiURL}/service-providers`)
-      .pipe(tap((records) => this.serviceProviderRepository.set(records)));
+      .pipe(tap(this.serviceProviderRepository.set), skipServiceProviderWhileCached('service-provider'));
   }
 }
