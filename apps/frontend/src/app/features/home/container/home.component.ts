@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { FilmographyService } from 'src/app/services/filmography/filmography.service';
+import { Component } from '@angular/core';
 
 const services: ServiceInfo[] = [
   {
@@ -35,11 +34,8 @@ interface ServiceInfo {
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
   readonly cardHeader: string = "Checkout What's Streaming on your Platform";
   frontPageServices = services;
-  constructor(private filmographyService: FilmographyService) {}
-  ngOnInit(): void {
-    this.filmographyService.getFilmographyCredits().subscribe();
-  }
+  constructor() {}
 }
