@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, isDevMode } from '@angular/core';
-import { MovieRecord } from 'src/app/models';
 import { tap } from 'rxjs/operators';
-import { FilmographyRepository } from 'src/app/repositories';
+import { MovieRecord } from 'src/app/models';
+import { FilmographyRepository, skipFilmographyWhileCached } from 'src/app/repositories';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +14,6 @@ export class FilmographyService {
   getFilmographyCredits() {
     return this.http
       .get<MovieRecord[]>(`${this.apiURL}/filmography`)
-      .pipe(tap((records) => this.filmographyRepository.set(records)));
+      .pipe(tap(this.filmographyRepository.set), skipFilmographyWhileCached('filmography'));
   }
 }
