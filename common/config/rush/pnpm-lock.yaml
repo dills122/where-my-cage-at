@@ -118,7 +118,7 @@ importers:
       '@angular-eslint/schematics': 13.0.1
       '@angular-eslint/template-parser': 13.0.1
       '@angular/animations': ~13.1.1
-      '@angular/cdk': ^12.0.0
+      '@angular/cdk': ^13.1.3
       '@angular/cli': ~13.1.2
       '@angular/common': ~13.1.1
       '@angular/compiler': ~13.1.1
@@ -129,6 +129,15 @@ importers:
       '@angular/platform-browser-dynamic': ~13.1.1
       '@angular/router': ~13.1.1
       '@cypress/schematic': ^1.6.0
+      '@ngneat/effects-ng': ^1.0.0
+      '@ngneat/elf': ^1.0.2
+      '@ngneat/elf-cli-ng': ^1.0.0
+      '@ngneat/elf-devtools': ^1.2.0
+      '@ngneat/elf-entities': ^2.1.0
+      '@ngneat/elf-pagination': ^1.0.0
+      '@ngneat/elf-persist-state': ^1.0.0
+      '@ngneat/elf-requests': ^1.1.1
+      '@ngneat/elf-state-history': ^1.0.1
       '@schematics/angular': ~12.1.3
       '@types/jasmine': ~3.8.0
       '@types/node': ^16.0.0
@@ -151,7 +160,7 @@ importers:
       zone.js: ~0.11.4
     dependencies:
       '@angular/animations': 13.1.2_@angular+core@13.1.2
-      '@angular/cdk': 12.2.13_f4c3a1c469e649526d46a2a4e751621d
+      '@angular/cdk': 13.1.3_f4c3a1c469e649526d46a2a4e751621d
       '@angular/common': 13.1.2_@angular+core@13.1.2+rxjs@6.6.7
       '@angular/compiler': 13.1.2
       '@angular/core': 13.1.2_rxjs@6.6.7+zone.js@0.11.4
@@ -159,6 +168,15 @@ importers:
       '@angular/platform-browser': 13.1.2_500a9672c0d9e2e28977f34ef1b17880
       '@angular/platform-browser-dynamic': 13.1.2_18e6017ca0e4619df13975d8c4e522bf
       '@angular/router': 13.1.2_cf45e419bd80581050850625cfd82698
+      '@ngneat/effects-ng': 1.0.0_@angular+core@13.1.2
+      '@ngneat/elf': 1.0.2_typescript@4.5.4
+      '@ngneat/elf-cli-ng': 1.0.0
+      '@ngneat/elf-devtools': 1.2.0
+      '@ngneat/elf-entities': 2.1.0
+      '@ngneat/elf-pagination': 1.0.0_@ngneat+elf-entities@2.1.0
+      '@ngneat/elf-persist-state': 1.0.0
+      '@ngneat/elf-requests': 1.1.1
+      '@ngneat/elf-state-history': 1.0.1
       primeflex: 3.1.2
       primeicons: 5.0.0
       primeng: 13.0.4_0956fb4eadf8ca19e367ed7b4427156f
@@ -682,12 +700,12 @@ packages:
       tslib: 2.3.1
     dev: false
 
-  /@angular/cdk/12.2.13_f4c3a1c469e649526d46a2a4e751621d:
-    resolution: {integrity: sha512-zSKRhECyFqhingIeyRInIyTvYErt4gWo+x5DQr0b7YLUbU8DZSwWnG4w76Ke2s4U8T7ry1jpJBHoX/e8YBpGMg==}
+  /@angular/cdk/13.1.3_f4c3a1c469e649526d46a2a4e751621d:
+    resolution: {integrity: sha512-Psuri2mc6W+xKtZr39FHL+cDz7Le9kKTo8ziCtUiydikBBdqfOu6AnWUrEMEGFxS2wt8nolFXDAGUaMUAE3Ekg==}
     peerDependencies:
-      '@angular/common': ^12.0.0 || ^13.0.0-0
-      '@angular/core': ^12.0.0 || ^13.0.0-0
-      rxjs: ^6.5.3 || ^7.0.0
+      '@angular/common': ^13.0.0 || ^14.0.0-0
+      '@angular/core': ^13.0.0 || ^14.0.0-0
+      rxjs: ^6.5.3 || ^7.4.0
     dependencies:
       '@angular/common': 13.1.2_@angular+core@13.1.2+rxjs@6.6.7
       '@angular/core': 13.1.2_rxjs@6.6.7+zone.js@0.11.4
@@ -2685,6 +2703,67 @@ packages:
       '@nestjs/core': 8.2.5_48b4868f6b088e933037e722ef113f84
       tslib: 2.3.1
     dev: true
+
+  /@ngneat/effects-ng/1.0.0_@angular+core@13.1.2:
+    resolution: {integrity: sha512-66LpA9dBz++dmqAwAOckZ2RUREDlILrbfooEq7XfVgj0TMxgO2PVdQDNIxBwXCJQq5TWJQnLz17V2w0pp8UKFA==}
+    peerDependencies:
+      '@angular/core': '>=13.0.0'
+    dependencies:
+      '@angular/core': 13.1.2_rxjs@6.6.7+zone.js@0.11.4
+      '@ngneat/effects': 1.0.0
+      rxjs: 7.5.2
+      ts-action: 11.0.0
+      ts-action-operators: 9.1.2_rxjs@7.5.2+ts-action@11.0.0
+      tslib: 2.3.1
+    dev: false
+
+  /@ngneat/effects/1.0.0:
+    resolution: {integrity: sha512-wVLbgVvqKX5L4qWtATAkf1XAoqq50S8a9LsZGiBpw/GpytK4ou3xo7fH+uSAXFlCjn6hLxAozIzqE6/JIXXa4Q==}
+    dependencies:
+      rxjs: 7.5.2
+      ts-action: 11.0.0
+      ts-action-operators: 9.1.2_rxjs@7.5.2+ts-action@11.0.0
+    dev: false
+
+  /@ngneat/elf-cli-ng/1.0.0:
+    resolution: {integrity: sha512-twAvWL5tEtBy/Q65kqoa5aaSE4kG1sFGLZH7QPJwLEBuFayDIzyhT/swJQVLZc+Dv6M4cdHpAyLAg3OfeuWd+Q==}
+    dev: false
+
+  /@ngneat/elf-devtools/1.2.0:
+    resolution: {integrity: sha512-0mnW7O9qP6qs45abzTCkk5jI9tBsxtQlMizMJCD+HvHHfQk1l5Z7w9PyBhX7hrD5pw0xYc3XE5fuEzQSzP6Jjg==}
+    dev: false
+
+  /@ngneat/elf-entities/2.1.0:
+    resolution: {integrity: sha512-9zzd8CUYEdLjTZWpigw2uRdUidYe+ouvladatdFij1vibKmsF7RBkSbwe8YyTDv34+BLGwJ6B99KnWqn5kypTA==}
+    dev: false
+
+  /@ngneat/elf-pagination/1.0.0_@ngneat+elf-entities@2.1.0:
+    resolution: {integrity: sha512-AbUih9Ji6Hp+j1g2mxy94LPF9uhPGGaYR8nyz8ddeD1XGHxlxweGDbhfCZT0XNnKc5OpvH1oh3W+okFFptWcfg==}
+    peerDependencies:
+      '@ngneat/elf-entities': '*'
+    dependencies:
+      '@ngneat/elf-entities': 2.1.0
+    dev: false
+
+  /@ngneat/elf-persist-state/1.0.0:
+    resolution: {integrity: sha512-ftCNXNEEpyi36IjI7MWlAYvpLRxCc1GIQnH1JwEIAp9sz0/5wq64/L7kHM5lonEiYA7uV4N5YLbDvnfgHjwegg==}
+    dev: false
+
+  /@ngneat/elf-requests/1.1.1:
+    resolution: {integrity: sha512-XFO9dslTLbd/6ObLLfk4pYc28P8Db1pODcRiIPxdQ1nX3rdRZGYB2rewZ7Ra+zvKZ5gp7R89ObVckB4DE8LtmA==}
+    dev: false
+
+  /@ngneat/elf-state-history/1.0.1:
+    resolution: {integrity: sha512-CSH8LTDL/xUGxgEJl2L2l+EXuMo2VHLdbRzxDcmJLTIgrMwm7celTpkLcGK/vwbreyUFnH85YyLQzVHl+UFowQ==}
+    dev: false
+
+  /@ngneat/elf/1.0.2_typescript@4.5.4:
+    resolution: {integrity: sha512-tfQX92CjTrjUFmR0VxS8M7EJgQFm+u1FGMLVbnwmAf7De0ITZ2w96n9q4bwa++3hXxBo0ODGzWjmO1Y7RxXOUA==}
+    peerDependencies:
+      typescript: '>= 4.1.2'
+    dependencies:
+      typescript: 4.5.4
+    dev: false
 
   /@ngtools/webpack/13.1.3_5876a80c5ca2acb64c62fcb3ea4b7b4b:
     resolution: {integrity: sha512-6Pf52IbChm/dFuegfv0smeBTW2moi0Gdkyjgk/7VWqE6hN35m+YGrCh+XnPp1POJwOKxhAByhV9zs6NWxrK1vA==}
@@ -10538,7 +10617,6 @@ packages:
     resolution: {integrity: sha512-PwDt186XaL3QN5qXj/H9DGyHhP3/RYYgZZwqBv9Tv8rsAaiwFH1IsJJlcgD37J7UW5a6O67qX0KWKS3/pu0m4w==}
     dependencies:
       tslib: 2.3.1
-    dev: true
 
   /safe-buffer/5.1.2:
     resolution: {integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==}
@@ -11487,6 +11565,20 @@ packages:
     resolution: {integrity: sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A==}
     hasBin: true
     dev: true
+
+  /ts-action-operators/9.1.2_rxjs@7.5.2+ts-action@11.0.0:
+    resolution: {integrity: sha512-DZ+sJvBdOluThwCBcCdDnz0NiVeQxEwveL+cmkJGLO1ps+x/D0xwSefmOIa1S7p2nXFHH52ZPr/8VEvxZHaNgg==}
+    peerDependencies:
+      rxjs: '>=6.0.0'
+      ts-action: ^11.0.0 || ^10.0.0 || ^9.0.0
+    dependencies:
+      rxjs: 7.5.2
+      ts-action: 11.0.0
+    dev: false
+
+  /ts-action/11.0.0:
+    resolution: {integrity: sha512-TDxvzZ5UtKsBuw0McRs/L+iASj80m60nV8EXCP680ZdIl+oRHPGnBk85sZJWXLzqQwb6yQ+CcMzPTfBr0dEaAA==}
+    dev: false
 
   /ts-jest/27.1.3_55419cf7d2d28473b94220163534fc30:
     resolution: {integrity: sha512-6Nlura7s6uM9BVUAoqLH7JHyMXjz8gluryjpPXxr3IxZdAXnU6FhjvVLHFtfd1vsE1p8zD1OJfskkc0jhTSnkA==}

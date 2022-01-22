@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -10,11 +11,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { ButtonModule } from 'primeng/button';
 
+import { FilmographyRepository, ServiceProviderRepository } from './repositories';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     RouterModule.forRoot([], { relativeLinkResolution: 'legacy' }),
     FormsModule,
 
@@ -24,7 +28,7 @@ import { ButtonModule } from 'primeng/button';
     // app
     AppRoutingModule
   ],
-  providers: [],
+  providers: [FilmographyRepository, ServiceProviderRepository],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
