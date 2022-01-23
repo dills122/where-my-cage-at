@@ -1,5 +1,11 @@
 import { createState, Store } from '@ngneat/elf';
-import { selectAll, selectEntity, setEntities, withEntities } from '@ngneat/elf-entities';
+import {
+  selectAll,
+  selectEntity,
+  selectManyByPredicate,
+  setEntities,
+  withEntities
+} from '@ngneat/elf-entities';
 import { createRequestsCacheOperator, updateRequestCache, withRequestsCache } from '@ngneat/elf-requests';
 import { MovieRecord } from '../models';
 
@@ -18,5 +24,15 @@ export class FilmographyRepository {
   }
   getCredit(creditId: number) {
     return filmographyStore.pipe(selectEntity(creditId));
+  }
+  getAllCreditsByProviderId(providerId: number) {
+    return filmographyStore.pipe(
+      selectManyByPredicate((credit) => {
+        if (!credit.offers) {
+          return false;
+        }
+        return credit.offers.some((offer) => offer.providerId === providerId);
+      })
+    );
   }
 }

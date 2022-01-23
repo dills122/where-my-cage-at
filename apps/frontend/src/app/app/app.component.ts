@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ServiceProviderRepository } from '../repositories';
+import { FilmographyService } from '../services/filmography/filmography.service';
 import { ServiceProvidersService } from '../services/service-providers/service-providers.service';
 import { ThemeService } from '../services/theme/theme-service';
 
@@ -19,14 +19,21 @@ export default class AppComponent implements OnInit, OnDestroy {
   private theme: Themes;
   isDarkTheme: boolean = true;
   subscriptions: Subscription[] = [];
-  constructor(private themeService: ThemeService, private serviceProviderService: ServiceProvidersService) {
+  constructor(
+    private themeService: ThemeService,
+    private serviceProviderService: ServiceProvidersService,
+    private filmographyService: FilmographyService
+  ) {
     this.theme = Themes.dark;
   }
   ngOnDestroy(): void {
     this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
   ngOnInit(): void {
-    this.subscriptions = [this.serviceProviderService.getServiceProviders().subscribe()];
+    this.subscriptions = [
+      this.serviceProviderService.getServiceProviders().subscribe(),
+      this.filmographyService.getFilmographyCredits().subscribe()
+    ];
   }
 
   handleChange(e: { checked: boolean }) {

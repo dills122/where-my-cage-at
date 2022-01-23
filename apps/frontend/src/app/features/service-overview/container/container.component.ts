@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ServiceProviderRepository } from 'src/app/repositories';
+import { ActivatedRoute } from '@angular/router';
+import { FilmographyRepository, ServiceProviderRepository } from 'src/app/repositories';
 
 @Component({
   selector: 'app-container',
@@ -8,14 +8,23 @@ import { ServiceProviderRepository } from 'src/app/repositories';
   styleUrls: ['./container.component.scss']
 })
 export class ContainerComponent implements OnInit {
-  constructor(private serviceProviderRepository: ServiceProviderRepository, private route: ActivatedRoute) {}
+  serviceId: number;
+  constructor(
+    private serviceProviderRepository: ServiceProviderRepository,
+    private filmographyRepository: FilmographyRepository,
+    private route: ActivatedRoute
+  ) {
+    this.serviceId = Number(this.route.snapshot.paramMap.get('serviceId') || '');
+  }
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('serviceId');
-    if (!id) {
+    if (!this.serviceId) {
       return;
     }
-    this.serviceProviderRepository.getServiceProviderById(Number(id)).subscribe((provider) => {
+    this.serviceProviderRepository.getServiceProviderById(this.serviceId).subscribe((provider) => {
       console.log(provider);
+    });
+    this.filmographyRepository.getAllCreditsByProviderId(this.serviceId).subscribe((credits) => {
+      console.log('Credits::', credits);
     });
   }
 }
