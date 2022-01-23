@@ -9,9 +9,7 @@ import {
 import { createRequestsCacheOperator, updateRequestCache, withRequestsCache } from '@ngneat/elf-requests';
 import { MovieRecord } from '../models';
 
-interface FilmographyCredit extends MovieRecord {}
-
-const { state, config } = createState(withEntities<FilmographyCredit>(), withRequestsCache<'filmography'>());
+const { state, config } = createState(withEntities<MovieRecord>(), withRequestsCache<'filmography'>());
 
 const filmographyStore = new Store({ state, name: 'filmography', config });
 

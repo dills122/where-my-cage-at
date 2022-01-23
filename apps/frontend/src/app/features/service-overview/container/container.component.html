@@ -1,1 +1,20 @@
-<p>Service Overview container works!</p>
+<div class="grid">
+  <div class="col-offset-2 col-8">
+    <div class="grid">
+      <div class="col-12">
+        <h1>{{ (serviceProviderData$ | async)?.clearName}}</h1>
+      </div>
+      <div class="col-12">
+        <p-card [header]="cardHeader" id="whats-streaming-platform-card" class="text-center">
+          <div class="flex justify-content-around flex-wrap m-2">
+            <!-- Not sure what to put here? -->
+          </div>
+        </p-card>
+      </div>
+      <div class="col-12">
+        <app-film-node *ngFor="let filmCredit of this.filmsAvailable$ | async" [filmOverview]="filmCredit">
+        </app-film-node>
+      </div>
+    </div>
+  </div>
+</div>
