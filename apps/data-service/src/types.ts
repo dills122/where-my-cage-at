@@ -45,6 +45,9 @@ export interface Movie {
   revenue: number;
   overview: string | null;
   genres: GenreType[];
+  shortDescription: string;
+  ageCertification: string | null;
+  cinemaReleaseDate: string;
 }
 
 export interface GenreType {

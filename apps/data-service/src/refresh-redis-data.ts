@@ -87,7 +87,15 @@ async function getAdditionalMovieData(movieId: number, title: string, offers: Of
     if (movieId === 0) {
       throw Error('Error with data being pulled, id should always be defined');
     }
-    const { title, popularity, releaseDate, posterPath } = await FetchMovieData(movieId);
+    const {
+      title,
+      popularity,
+      releaseDate,
+      posterPath,
+      shortDescription,
+      cinemaReleaseDate,
+      ageCertification
+    } = await FetchMovieData(movieId);
     return {
       id: movieId,
       title,
@@ -96,7 +104,10 @@ async function getAdditionalMovieData(movieId: number, title: string, offers: Of
       tmdbPopularity: popularity,
       localizedReleaseDate: releaseDate,
       objectType: 'movie',
-      originalReleaseYear: new Date(releaseDate).getFullYear()
+      originalReleaseYear: new Date(releaseDate).getFullYear(),
+      shortDescription,
+      ageCertification,
+      cinemaReleaseDate
       //TODO might want to expand this more
     } as MovieRecord;
   } catch (err) {

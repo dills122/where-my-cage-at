@@ -52,7 +52,11 @@ export default class WTW {
         'production_countries',
         'offers',
         'original_release_year',
-        'backdrops'
+        'backdrops',
+        'short_description',
+        'age_certification',
+        'cinema_release_date',
+        'external_ids'
       ]
     };
   }
@@ -241,6 +245,13 @@ export interface ObjectSearchResult {
   scoring: Array<{
     providerType: string;
     value: number;
+  }>;
+  ageCertification: string;
+  cinemaReleaseDate: string;
+  shortDescription: string;
+  externalIds: Array<{
+    provider: string;
+    externalId: string;
   }>;
 }
 

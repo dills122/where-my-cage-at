@@ -21,6 +21,9 @@ export interface ServiceProvider {
 
 export interface MovieRecord extends Record {
   objectType: 'movie';
+  ageCertification: string;
+  cinemaReleaseDate: string;
+  shortDescription: string;
 }
 
 //TODO might be able to reuse this for a person object
@@ -43,6 +46,10 @@ export interface Record {
     providerType: string;
     value: number;
   }[];
+  externalIds: Array<{
+    provider: string;
+    externalId: string;
+  }>;
 }
 
 export interface Offers {
