@@ -1,7 +1,15 @@
 import { createState, Store } from '@ngneat/elf';
 import { createRequestsCacheOperator, updateRequestCache, withRequestsCache } from '@ngneat/elf-requests';
-import { selectAll, selectEntity, selectMany, setEntities, withEntities } from '@ngneat/elf-entities';
+import {
+  selectAll,
+  selectEntity,
+  selectEntityByPredicate,
+  selectMany,
+  setEntities,
+  withEntities
+} from '@ngneat/elf-entities';
 import { ServiceProvider } from '../models';
+import { EMPTY, filter, of, switchMap } from 'rxjs';
 
 const { state, config } = createState(
   withEntities<ServiceProvider>(),
@@ -18,8 +26,27 @@ export class ServiceProviderRepository {
   set(entities: ServiceProvider[]) {
     serviceProviderStore.update(updateRequestCache('service-provider'), setEntities(entities));
   }
-  getServiceProvider(providerId: number) {
-    return serviceProviderStore.pipe(selectEntity(providerId));
+  getServiceProviderById(providerId: number) {
+    return serviceProviderStore.pipe(
+      selectEntity(providerId),
+      switchMap((provider) => {
+        if (provider === undefined) {
+          return EMPTY;
+        }
+        return of(provider);
+      })
+    );
+  }
+  getServiceProviderByName(proivderName: string) {
+    return serviceProviderStore.pipe(
+      selectEntityByPredicate((provider) => provider.clearName.toLowerCase() === proivderName.toLowerCase()),
+      switchMap((provider) => {
+        if (provider === undefined) {
+          return EMPTY;
+        }
+        return of(provider);
+      })
+    );
   }
   getSubsetOfProviders(providerIds: number[]) {
     return serviceProviderStore.pipe(selectMany(providerIds));

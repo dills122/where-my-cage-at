@@ -1,26 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-import { FilmographyService } from 'src/app/services/filmography/filmography.service';
+import { Component } from '@angular/core';
 
-const services: ServiceInfo[] = [
+const services = [
   {
-    serviceId: 1,
     serviceIcon: 'pi-video',
-    serviceName: 'Hulu'
+    serviceName: 'Hulu',
+    serviceId: 15
   },
   {
-    serviceId: 2,
     serviceIcon: 'pi-video',
-    serviceName: 'Netflix'
+    serviceName: 'Netflix',
+    serviceId: 8
   },
   {
-    serviceId: 3,
     serviceIcon: 'pi-video',
-    serviceName: 'HBO Max'
+    serviceName: 'HBO Max',
+    serviceId: 384
   },
   {
-    serviceId: 4,
     serviceIcon: 'pi-ellipsis-h',
-    serviceName: 'See More'
+    serviceName: 'See More',
+    serviceId: 99999
   }
 ];
 
@@ -35,11 +34,28 @@ interface ServiceInfo {
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
   readonly cardHeader: string = "Checkout What's Streaming on your Platform";
-  frontPageServices = services;
-  constructor(private filmographyService: FilmographyService) {}
-  ngOnInit(): void {
-    this.filmographyService.getFilmographyCredits().subscribe();
-  }
+  highlightedServices: ServiceInfo[] = services;
+  constructor() {}
+  // ngOnInit(): void {
+  //   from([8, 15, 384])
+  //     .pipe(
+  //       mergeMap((id) => {
+  //         return this.serviceProviderRepository.getServiceProviderById(id).pipe(
+  //           map((provider) => {
+  //             const additionalData = services.find(
+  //               (service) => service.serviceName.toLowerCase() === provider.clearName.toLowerCase()
+  //             );
+  //             return {
+  //               serviceId: provider.id,
+  //               serviceName: provider.clearName,
+  //               serviceIcon: additionalData?.serviceIcon
+  //             } as ServiceInfo;
+  //           })
+  //         );
+  //       })
+  //     )
+  //     .subscribe((service) => this.highlightedServices.push(service));
+  // }
 }

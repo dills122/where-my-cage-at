@@ -1,4 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { ServiceProviderRepository } from '../repositories';
+import { ServiceProvidersService } from '../services/service-providers/service-providers.service';
 import { ThemeService } from '../services/theme/theme-service';
 
 enum Themes {
@@ -12,11 +15,18 @@ enum Themes {
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppComponent {
+export default class AppComponent implements OnInit, OnDestroy {
   private theme: Themes;
   isDarkTheme: boolean = true;
-  constructor(private themeService: ThemeService) {
+  subscriptions: Subscription[] = [];
+  constructor(private themeService: ThemeService, private serviceProviderService: ServiceProvidersService) {
     this.theme = Themes.dark;
+  }
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
+  }
+  ngOnInit(): void {
+    this.subscriptions = [this.serviceProviderService.getServiceProviders().subscribe()];
   }
 
   handleChange(e: { checked: boolean }) {
