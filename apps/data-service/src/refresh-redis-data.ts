@@ -94,7 +94,11 @@ async function getAdditionalMovieData(movieId: number, title: string, offers: Of
       posterPath,
       shortDescription,
       cinemaReleaseDate,
-      ageCertification
+      ageCertification,
+      runtime,
+      genres,
+      imdbId,
+      originalLanguage
     } = await FetchMovieData(movieId);
     return {
       id: movieId,
@@ -107,8 +111,11 @@ async function getAdditionalMovieData(movieId: number, title: string, offers: Of
       originalReleaseYear: new Date(releaseDate).getFullYear(),
       shortDescription,
       ageCertification,
-      cinemaReleaseDate
-      //TODO might want to expand this more
+      cinemaReleaseDate,
+      runtime,
+      imdbId,
+      originalLanguage,
+      genres
     } as MovieRecord;
   } catch (err) {
     console.log(`Failed getting data for movie: ${movieId}`);

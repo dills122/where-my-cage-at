@@ -4,49 +4,33 @@ export interface ServiceProvider {
   shortName: string;
   clearName: string;
   monetizationTypes: string[];
-  //   data: {
-  //     deeplinkData: [];
-  //     packages: {
-  //       androidTv: string;
-  //       fireTv: string;
-  //       tvos: string;
-  //       tizenos: string;
-  //       webos: string;
-  //       xbox: string;
-  //     };
-  //   };
-  //   addonPackages: string[] | null;
-  //   parentPackages: string[] | null;
 }
-
-export interface MovieRecord extends Record {
-  objectType: 'movie';
+export interface MovieRecord {
+  id: number;
+  imdbId: string;
+  title: string;
+  poster: string;
+  originalReleaseYear: number;
+  tmdbPopularity: number;
+  runtime: number;
+  originalLanguage: string;
   ageCertification: string;
   cinemaReleaseDate: string;
   shortDescription: string;
-}
-
-//TODO might be able to reuse this for a person object
-export interface Record {
-  id: number;
-  title: string;
-  fullPath: string;
-  fullPaths: {
-    [str: string]: string;
-  };
-  poster: string;
-  // backdrops TODO implement later
-  originalReleaseYear: number;
-  tmdbPopularity: number;
-  objectType: 'movie' | 'person';
+  objectType: 'movie';
   localizedReleaseDate: string;
   offers: Offers[];
-  productionCountries: string[];
-  scoring: {
+  genres: Array<string>;
+  fullPath?: string;
+  fullPaths?: {
+    [str: string]: string;
+  };
+  productionCountries?: string[];
+  scoring?: {
     providerType: string;
     value: number;
   }[];
-  externalIds: Array<{
+  externalIds?: Array<{
     provider: string;
     externalId: string;
   }>;
@@ -57,10 +41,6 @@ export interface Offers {
   monetizationType: string;
   packageShortName: string;
   retailPrice: number;
-  // lastChangeRetailPrice?: number;
-  // lastChangeDifference?: number;
-  // lastChangePercentage?: number;
-  // lastChangeDate?: string;
   currency: string;
   urls: {
     [str: string]: string; //standard_web looks to be most used
