@@ -6,19 +6,33 @@ import {
   setEntities,
   withEntities
 } from '@ngneat/elf-entities';
+import { localStorageStrategy, persistState } from '@ngneat/elf-persist-state';
 import { createRequestsCacheOperator, updateRequestCache, withRequestsCache } from '@ngneat/elf-requests';
 import { MovieRecord } from '../models';
 
+const storeName = 'filmography';
+
 const { state, config } = createState(withEntities<MovieRecord>(), withRequestsCache<'filmography'>());
 
-const filmographyStore = new Store({ state, name: 'filmography', config });
+const filmographyStore = new Store({ state, name: storeName, config });
+
+export const filmographyPersist = persistState(filmographyStore, {
+  key: storeName,
+  storage: localStorageStrategy
+});
 
 export const skipFilmographyWhileCached = createRequestsCacheOperator(filmographyStore);
 
 export class FilmographyRepository {
+  initialized$ = filmographyPersist.initialized$;
   credits$ = filmographyStore.pipe(selectAll());
   set(entities: MovieRecord[]) {
-    filmographyStore.update(setEntities(entities), updateRequestCache('filmography'));
+    filmographyStore.update(
+      updateRequestCache(storeName, {
+        value: 'full'
+      }),
+      setEntities(entities)
+    );
   }
   getCredit(creditId: number) {
     return filmographyStore.pipe(selectEntity(creditId));

@@ -36,7 +36,7 @@ export default async () => {
     const serviceProviders = await wtw.getProviders();
     console.log('Retrieved Service Providers');
     console.log('Beginning iteration over movie credits');
-    // console.log(JSON.stringify(creditRecords, null, 4));
+
     for (const record of creditRecords) {
       const { scoring = [], title, offers, objectType } = record;
       const { value: tmdbId = 0 } =

@@ -14,8 +14,11 @@ export class ServiceProvidersService {
   private apiURL = isDevMode() ? 'http://localhost:3000' : 'https://wheremycageat.com';
   constructor(private http: HttpClient, private serviceProviderRepository: ServiceProviderRepository) {}
   getServiceProviders() {
-    return this.http
-      .get<ServiceProvider[]>(`${this.apiURL}/service-providers`)
-      .pipe(tap(this.serviceProviderRepository.set), skipServiceProviderWhileCached('service-provider'));
+    return this.http.get<ServiceProvider[]>(`${this.apiURL}/service-providers`).pipe(
+      tap(this.serviceProviderRepository.set),
+      skipServiceProviderWhileCached('service-provider', {
+        value: 'full'
+      })
+    );
   }
 }
