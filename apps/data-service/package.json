@@ -20,7 +20,8 @@
     "@dills1220/tmdb": "2.7.1",
     "dotenv": "~14.2.0",
     "@dills1220/wtw": "workspace:*",
-    "redis-sdk": "workspace:*"
+    "redis-sdk": "workspace:*",
+    "got": "11.8.3"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",

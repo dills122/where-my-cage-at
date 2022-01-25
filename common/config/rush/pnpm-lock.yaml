@@ -13,6 +13,7 @@ importers:
       '@nestjs/platform-fastify': ~8.2.5
       '@nestjs/schematics': ^8.0.5
       '@nestjs/testing': ^8.2.4
+      '@nestjs/throttler': ~2.0.0
       '@types/express': ^4.17.13
       '@types/jest': ^27.0.0
       '@types/node': ^16.0.0
@@ -25,6 +26,7 @@ importers:
       eslint: ^8.2.0
       eslint-config-prettier: ^8.3.0
       eslint-plugin-prettier: ^3.4.0
+      fastify-helmet: ~7.0.1
       jest: 27.0.6
       pm2: ^5.1.2
       prettier: ^2.3.2
@@ -43,9 +45,11 @@ importers:
       '@nestjs/common': 8.2.5_7b1fc936b9361df55228aaa721957d0e
       '@nestjs/core': 8.2.5_fdec88194f0d0e15ee78c83dc4b42db9
       '@nestjs/platform-fastify': 8.2.5_dd9ef2e1e23f087665d46fe53bbbed58
+      '@nestjs/throttler': 2.0.0_8b618827ffa1784f2e7b042a97d87b6c
       class-transformer: 0.5.1
       class-validator: 0.13.2
       dotenv: 14.2.0
+      fastify-helmet: 7.0.1
       pm2: 5.1.2
       redis-sdk: link:../redis-sdk
       reflect-metadata: 0.1.13
@@ -86,6 +90,7 @@ importers:
       dotenv: ~14.2.0
       eslint: ^8.2.0
       express: ^4.17.2
+      got: 11.8.3
       node-cron: ^3.0.0
       pm2: ^5.1.2
       redis-sdk: workspace:*
@@ -96,6 +101,7 @@ importers:
       '@dills1220/wtw': link:../wtw
       dotenv: 14.2.0
       express: 4.17.2
+      got: 11.8.3
       node-cron: 3.0.0
       pm2: 5.1.2
       redis-sdk: link:../redis-sdk
@@ -2704,6 +2710,19 @@ packages:
       tslib: 2.3.1
     dev: true
 
+  /@nestjs/throttler/2.0.0_8b618827ffa1784f2e7b042a97d87b6c:
+    resolution: {integrity: sha512-N20iaRPqm0PNfZoCtcmwCoJzYBMUT9WveafFjGiQN0ov63RfVwzu0+bdv4AFxITd/t3vEDWoadzfUGyJBD43hw==}
+    peerDependencies:
+      '@nestjs/common': ^7.0.0 || ^8.0.0
+      '@nestjs/core': ^7.0.0 || ^8.0.0
+      reflect-metadata: ^0.1.13
+    dependencies:
+      '@nestjs/common': 8.2.5_7b1fc936b9361df55228aaa721957d0e
+      '@nestjs/core': 8.2.5_fdec88194f0d0e15ee78c83dc4b42db9
+      md5: 2.3.0
+      reflect-metadata: 0.1.13
+    dev: false
+
   /@ngneat/effects-ng/1.0.0_@angular+core@13.1.2:
     resolution: {integrity: sha512-66LpA9dBz++dmqAwAOckZ2RUREDlILrbfooEq7XfVgj0TMxgO2PVdQDNIxBwXCJQq5TWJQnLz17V2w0pp8UKFA==}
     peerDependencies:
@@ -4558,6 +4577,10 @@ packages:
     resolution: {integrity: sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==}
     dev: true
 
+  /charenc/0.0.2:
+    resolution: {integrity: sha1-wKHS86cJLgN3S/qD8UwPxXkKhmc=}
+    dev: false
+
   /charm/0.1.2:
     resolution: {integrity: sha1-BsIe7RobBq62dVPNxT4jJ0usIpY=}
     dev: false
@@ -4987,6 +5010,10 @@ packages:
       shebang-command: 2.0.0
       which: 2.0.2
     dev: true
+
+  /crypt/0.0.2:
+    resolution: {integrity: sha1-iNf/fsDfuG9xPch7u0LQRNPmxBs=}
+    dev: false
 
   /css-blank-pseudo/0.1.4:
     resolution: {integrity: sha512-LHz35Hr83dnFeipc7oqFDmsjHdljj3TQtxGGiNWSOsTLIAubSm4TEz8qCaKFpk7idaQ1GfWscF4E6mgpBysA1w==}
@@ -6311,6 +6338,13 @@ packages:
       fastify-plugin: 3.0.0
     dev: false
 
+  /fastify-helmet/7.0.1:
+    resolution: {integrity: sha512-/PSKDJZkBhJ0ioY1swOUfYNYQRfRnXD5X2eKD9TSVBuPKbH+OYg/IYBxad33uaOGlWn28MNOd+kw5sQKSWY1yA==}
+    dependencies:
+      fastify-plugin: 3.0.0
+      helmet: 5.0.2
+    dev: false
+
   /fastify-plugin/3.0.0:
     resolution: {integrity: sha512-ZdCvKEEd92DNLps5n0v231Bha8bkz1DjnPP/aEz37rz/q42Z5JVLmgnqR4DYuNn3NXAO3IDCPyRvgvxtJ4Ym4w==}
     dev: false
@@ -6918,6 +6952,11 @@ packages:
     hasBin: true
     dev: true
 
+  /helmet/5.0.2:
+    resolution: {integrity: sha512-QWlwUZZ8BtlvwYVTSDTBChGf8EOcQ2LkGMnQJxSzD1mUu8CCjXJZq/BXP8eWw4kikRnzlhtYo3lCk0ucmYA3Vg==}
+    engines: {node: '>=12.0.0'}
+    dev: false
+
   /hexoid/1.0.0:
     resolution: {integrity: sha512-QFLV0taWQOZtvIRIAdBChesmogZrtuXvVWsFHZTk2SU+anspqZ2vMnoLg7IE1+Uk16N19APic1BuF8bC8c2m5g==}
     engines: {node: '>=8'}
@@ -7269,6 +7308,10 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       binary-extensions: 2.2.0
+
+  /is-buffer/1.1.6:
+    resolution: {integrity: sha512-NcdALwpXkTm5Zvvbk7owOUSvVvBKDgKP5/ewfXEznmQFfs4ZRmanOeKBTjRVjka3QFoN6XJ+9F3USqfHqTaU5w==}
+    dev: false
 
   /is-ci/3.0.1:
     resolution: {integrity: sha512-ZYvCgrefwqoQ6yTyYUbQu64HsITZ3NfKX1lzaEYdkTDcfKzzCI/wthRRYKkdjHKFVgNiXKAKm65Zo1pk2as/QQ==}
@@ -8590,6 +8633,14 @@ packages:
   /map-obj/4.3.0:
     resolution: {integrity: sha512-hdN1wVrZbb29eBGiGjJbeP8JbKjq1urkHJ/LIP/NY48MZ1QVXUsQBV1G1zvYFHn1XE06cwjBsOI2K3Ulnj1YXQ==}
     engines: {node: '>=8'}
+    dev: false
+
+  /md5/2.3.0:
+    resolution: {integrity: sha512-T1GITYmFaKuO91vxyoQMFETst+O71VUPEU3ze5GNzDm0OWdP8v1ziTaAEPUr/3kLsY3Sftgz242A1SetQiDL7g==}
+    dependencies:
+      charenc: 0.0.2
+      crypt: 0.0.2
+      is-buffer: 1.1.6
     dev: false
 
   /media-typer/0.3.0:
