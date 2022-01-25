@@ -32,7 +32,9 @@
     "dotenv": "~14.2.0",
     "class-validator": "~0.13.2",
     "class-transformer": "~0.5.1",
-    "redis-sdk": "workspace:*"
+    "redis-sdk": "workspace:*",
+    "fastify-helmet": "~7.0.1",
+    "@nestjs/throttler": "~2.0.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.1.6",
