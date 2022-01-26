@@ -2,8 +2,14 @@
   (click)="openServicePage(serviceId)">
   <div class="flex flex-column text-center">
     <div class="flex align-items-center justify-content-center">
-      <i class="pi mb-3" [ngClass]="serviceIcon">
-      </i>
+      <div *ngIf="serviceId === 99999; else elseBlock">
+        <i class="pi mb-3" [ngClass]="serviceIcon">
+        </i>
+      </div>
+      <ng-template #elseBlock>
+        <img [lazyLoad]="imageUrl" />
+      </ng-template>
+
     </div>
     <div class="flex align-items-center justify-content-center font-bold">{{serviceName}}</div>
   </div>
