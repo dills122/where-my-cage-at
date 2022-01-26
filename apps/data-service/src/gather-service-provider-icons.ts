@@ -4,6 +4,7 @@ import stream from 'node:stream';
 import fs from 'node:fs';
 import got from 'got';
 import path from 'node:path';
+import { cwd } from 'node:process';
 
 const pipeline = promisify(stream.pipeline);
 
@@ -20,7 +21,7 @@ export default async () => {
 			}
 			try {
 				const url = buildIconUrl(provider.iconUrl);
-				await fetchAndDownloadIcon(url, `${provider.clearName.replace(/\s+/g, '-')}-${provider.id}`);
+				await fetchAndDownloadIcon(url, `${provider.id}`);
 				console.log(`Retrieved and downloaded icon for service: ${provider.clearName}`);
 			} catch (err) {
 				console.error(err);
@@ -45,6 +46,6 @@ function buildIconUrl(iconUrl: string) {
 async function fetchAndDownloadIcon(url: string, serviceId: string) {
 	await pipeline(
 		got.stream(url),
-		fs.createWriteStream(path.join(__dirname, '..', 'icons', `${serviceId}.webp`))
+		fs.createWriteStream(path.join(cwd(), '..', '..', 'data', 'icons', `${serviceId}.webp`))
 	);
 }
