@@ -12,8 +12,11 @@ export class FilmographyService {
   constructor(private http: HttpClient, private filmographyRepository: FilmographyRepository) {}
 
   getFilmographyCredits() {
-    return this.http
-      .get<MovieRecord[]>(`${this.apiURL}/filmography`)
-      .pipe(tap(this.filmographyRepository.set), skipFilmographyWhileCached('filmography'));
+    return this.http.get<MovieRecord[]>(`${this.apiURL}/filmography`).pipe(
+      tap(this.filmographyRepository.set),
+      skipFilmographyWhileCached('filmography', {
+        value: 'full'
+      })
+    );
   }
 }
