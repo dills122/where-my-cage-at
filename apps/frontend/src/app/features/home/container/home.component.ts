@@ -1,45 +1,61 @@
-import { Component, OnInit } from '@angular/core';
-import { FilmographyService } from 'src/app/services/filmography/filmography.service';
+import { Component } from '@angular/core';
 
-const services: ServiceInfo[] = [
-  {
-    serviceId: 15,
-    serviceIcon: 'pi-video',
-    serviceName: 'Hulu'
-  },
-  {
-    serviceId: 8,
-    serviceIcon: 'pi-video',
-    serviceName: 'Netflix'
-  },
-  {
-    serviceId: 384,
-    serviceIcon: 'pi-video',
-    serviceName: 'HBO Max'
-  },
-  {
-    serviceId: 99999,
-    serviceIcon: 'pi-ellipsis-h',
-    serviceName: 'See More'
-  }
+const services = [
+	{
+		serviceId: 15,
+		serviceIcon: 'pi-video',
+		serviceName: 'Hulu'
+	},
+	{
+		serviceIcon: 'pi-video',
+		serviceName: 'Netflix',
+		serviceId: 8
+	},
+	{
+		serviceIcon: 'pi-video',
+		serviceName: 'HBO Max',
+		serviceId: 384
+	},
+	{
+		serviceIcon: 'pi-ellipsis-h',
+		serviceName: 'See More',
+		serviceId: 99999
+	}
 ];
 
 interface ServiceInfo {
-  serviceName: string;
-  serviceIcon: string;
-  serviceId: number;
+	serviceName: string;
+	serviceIcon: string;
+	serviceId: number;
 }
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+	selector: 'app-home',
+	templateUrl: './home.component.html',
+	styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
-  readonly cardHeader: string = "Checkout What's Streaming on your Platform";
-  frontPageServices = services;
-  constructor(private filmographyService: FilmographyService) {}
-  ngOnInit(): void {
-    this.filmographyService.getFilmographyCredits().subscribe();
-  }
+export class HomeComponent {
+	readonly cardHeader: string = "Checkout What's Streaming on your Platform";
+	highlightedServices: ServiceInfo[] = services;
+	constructor() {}
+	// ngOnInit(): void {
+	//   from([8, 15, 384])
+	//     .pipe(
+	//       mergeMap((id) => {
+	//         return this.serviceProviderRepository.getServiceProviderById(id).pipe(
+	//           map((provider) => {
+	//             const additionalData = services.find(
+	//               (service) => service.serviceName.toLowerCase() === provider.clearName.toLowerCase()
+	//             );
+	//             return {
+	//               serviceId: provider.id,
+	//               serviceName: provider.clearName,
+	//               serviceIcon: additionalData?.serviceIcon
+	//             } as ServiceInfo;
+	//           })
+	//         );
+	//       })
+	//     )
+	//     .subscribe((service) => this.highlightedServices.push(service));
+	// }
 }

@@ -36,7 +36,7 @@ export default async () => {
     const serviceProviders = await wtw.getProviders();
     console.log('Retrieved Service Providers');
     console.log('Beginning iteration over movie credits');
-    // console.log(JSON.stringify(creditRecords, null, 4));
+
     for (const record of creditRecords) {
       const { scoring = [], title, offers, objectType } = record;
       const { value: tmdbId = 0 } =
@@ -87,7 +87,19 @@ async function getAdditionalMovieData(movieId: number, title: string, offers: Of
     if (movieId === 0) {
       throw Error('Error with data being pulled, id should always be defined');
     }
-    const { title, popularity, releaseDate, posterPath } = await FetchMovieData(movieId);
+    const {
+      title,
+      popularity,
+      releaseDate,
+      posterPath,
+      shortDescription,
+      cinemaReleaseDate,
+      ageCertification,
+      runtime,
+      genres,
+      imdbId,
+      originalLanguage
+    } = await FetchMovieData(movieId);
     return {
       id: movieId,
       title,
@@ -96,8 +108,14 @@ async function getAdditionalMovieData(movieId: number, title: string, offers: Of
       tmdbPopularity: popularity,
       localizedReleaseDate: releaseDate,
       objectType: 'movie',
-      originalReleaseYear: new Date(releaseDate).getFullYear()
-      //TODO might want to expand this more
+      originalReleaseYear: new Date(releaseDate).getFullYear(),
+      shortDescription,
+      ageCertification,
+      cinemaReleaseDate,
+      runtime,
+      imdbId,
+      originalLanguage,
+      genres
     } as MovieRecord;
   } catch (err) {
     console.log(`Failed getting data for movie: ${movieId}`);

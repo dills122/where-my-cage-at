@@ -44,10 +44,8 @@ export interface Movie {
   originalLanguage: string;
   revenue: number;
   overview: string | null;
-  genres: GenreType[];
-}
-
-export interface GenreType {
-  id: number;
-  name: string;
+  genres: Array<string>; //map this to a list of strings instead
+  shortDescription: string;
+  ageCertification: string | null;
+  cinemaReleaseDate: string;
 }
