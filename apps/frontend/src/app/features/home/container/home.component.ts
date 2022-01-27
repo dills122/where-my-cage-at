@@ -1,61 +1,61 @@
 import { Component } from '@angular/core';
 
 const services = [
-  {
-    serviceIcon: 'pi-video',
-    serviceName: 'Hulu',
-    serviceId: 15
-  },
-  {
-    serviceIcon: 'pi-video',
-    serviceName: 'Netflix',
-    serviceId: 8
-  },
-  {
-    serviceIcon: 'pi-video',
-    serviceName: 'HBO Max',
-    serviceId: 384
-  },
-  {
-    serviceIcon: 'pi-ellipsis-h',
-    serviceName: 'See More',
-    serviceId: 99999
-  }
+	{
+		serviceId: 15,
+		serviceIcon: 'pi-video',
+		serviceName: 'Hulu'
+	},
+	{
+		serviceIcon: 'pi-video',
+		serviceName: 'Netflix',
+		serviceId: 8
+	},
+	{
+		serviceIcon: 'pi-video',
+		serviceName: 'HBO Max',
+		serviceId: 384
+	},
+	{
+		serviceIcon: 'pi-ellipsis-h',
+		serviceName: 'See More',
+		serviceId: 99999
+	}
 ];
 
 interface ServiceInfo {
-  serviceName: string;
-  serviceIcon: string;
-  serviceId: number;
+	serviceName: string;
+	serviceIcon: string;
+	serviceId: number;
 }
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+	selector: 'app-home',
+	templateUrl: './home.component.html',
+	styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-  readonly cardHeader: string = "Checkout What's Streaming on your Platform";
-  highlightedServices: ServiceInfo[] = services;
-  constructor() {}
-  // ngOnInit(): void {
-  //   from([8, 15, 384])
-  //     .pipe(
-  //       mergeMap((id) => {
-  //         return this.serviceProviderRepository.getServiceProviderById(id).pipe(
-  //           map((provider) => {
-  //             const additionalData = services.find(
-  //               (service) => service.serviceName.toLowerCase() === provider.clearName.toLowerCase()
-  //             );
-  //             return {
-  //               serviceId: provider.id,
-  //               serviceName: provider.clearName,
-  //               serviceIcon: additionalData?.serviceIcon
-  //             } as ServiceInfo;
-  //           })
-  //         );
-  //       })
-  //     )
-  //     .subscribe((service) => this.highlightedServices.push(service));
-  // }
+	readonly cardHeader: string = "Checkout What's Streaming on your Platform";
+	highlightedServices: ServiceInfo[] = services;
+	constructor() {}
+	// ngOnInit(): void {
+	//   from([8, 15, 384])
+	//     .pipe(
+	//       mergeMap((id) => {
+	//         return this.serviceProviderRepository.getServiceProviderById(id).pipe(
+	//           map((provider) => {
+	//             const additionalData = services.find(
+	//               (service) => service.serviceName.toLowerCase() === provider.clearName.toLowerCase()
+	//             );
+	//             return {
+	//               serviceId: provider.id,
+	//               serviceName: provider.clearName,
+	//               serviceIcon: additionalData?.serviceIcon
+	//             } as ServiceInfo;
+	//           })
+	//         );
+	//       })
+	//     )
+	//     .subscribe((service) => this.highlightedServices.push(service));
+	// }
 }

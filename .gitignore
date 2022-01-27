@@ -70,3 +70,7 @@ common/autoinstallers/*/.npmrc
 
 certs/
 keys/
+
+*.secret.ts
+
+tsconfig.tsbuildinfo
