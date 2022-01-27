@@ -20,8 +20,19 @@ async function bootstrap() {
 			logger: true,
 		}),
 	);
-	await app.register(fastifyHelmet);
-	app.enableCors();
+	await app.register(fastifyHelmet, {
+		crossOriginResourcePolicy: false,
+	});
+	app.enableCors({
+		origin: [
+			'http://localhost:4200',
+			'https://localhost:4200',
+			'http://localhost:3000',
+			'https://localhost:3000',
+			'https://wheremycageat.com',
+			'https://api.wheremycageat.com',
+		],
+	});
 	app.useGlobalPipes(new ValidationPipe());
 	//TODO update this with a way to handle envs
 	app.useStaticAssets({

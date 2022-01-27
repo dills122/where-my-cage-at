@@ -1,4 +1,4 @@
-<div class="grid content-container">
+<div class="grid-nogutter content-container">
 	<div class="col-12">
 		<div class="flex justify-content-center flex-wrap">
 			<div
@@ -8,12 +8,13 @@
 		</div>
 	</div>
 	<div class="col-12">
-		<div class="grid">
+		<div class="grid-nogutter">
 			<div class="col-8 col-offset-2">
 				<p-card [header]="cardHeader" id="whats-streaming-platform-card" class="text-center">
 					<div class="flex justify-content-around flex-wrap">
-						<app-service-button-node *ngFor="let service of highlightedServices" [serviceName]="service.serviceName"
-							[serviceIcon]="service.serviceIcon" [serviceId]="service.serviceId">
+						<app-service-button-node *ngFor="let service of highlightedServices"
+							[serviceName]="service.serviceName" [serviceIcon]="service.serviceIcon"
+							[serviceId]="service.serviceId">
 						</app-service-button-node>
 					</div>
 				</p-card>
