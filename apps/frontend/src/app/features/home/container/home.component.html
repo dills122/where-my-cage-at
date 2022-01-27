@@ -1,7 +1,8 @@
 <div class="grid content-container">
   <div class="col-12">
     <div class="flex justify-content-center flex-wrap">
-      <div class="flex align-items-center justify-content-center hero-text">
+      <div
+        class="flex align-items-center justify-content-center sm:text-7xl text-5xl text-center sm:my-8 my-4 mx-3 sm:mx-0">
         <div>This Movie Night Make it a Nick-casion..</div>
       </div>
     </div>
@@ -10,7 +11,7 @@
     <div class="grid">
       <div class="col-8 col-offset-2">
         <p-card [header]="cardHeader" id="whats-streaming-platform-card" class="text-center">
-          <div class="flex justify-content-around flex-wrap m-2">
+          <div class="flex justify-content-around flex-wrap">
             <app-service-button-node *ngFor="let service of frontPageServices" [serviceName]="service.serviceName"
               [serviceIcon]="service.serviceIcon" [serviceId]="service.serviceId"></app-service-button-node>
           </div>

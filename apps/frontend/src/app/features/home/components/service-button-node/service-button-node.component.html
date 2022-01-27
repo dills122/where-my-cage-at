@@ -1,13 +1,13 @@
-<div class="flex align-items-center justify-content-center w-4rem h-4rem border-round m-2"
-  (click)="openServicePage(serviceId)">
+<div class="flex align-items-center justify-content-center m-2" (click)="openServicePage(serviceId)">
   <div class="flex flex-column text-center">
-    <div class="flex align-items-center justify-content-center">
-      <div *ngIf="serviceId === 99999; else elseBlock">
-        <i class="pi mb-3" [ngClass]="serviceIcon">
+    <div class="flex align-items-center justify-content-center m-3">
+      <div *ngIf="serviceId === 99999; else elseBlock" style="min-width: 100px; min-height: 100px;"
+        class="flex align-content-center justify-content-center">
+        <i class="pi mb-3 flex align-items-center justify-content-center" [ngClass]="serviceIcon">
         </i>
       </div>
       <ng-template #elseBlock>
-        <img [lazyLoad]="imageUrl" />
+        <img [lazyLoad]="imageUrl" class="border-circle" />
       </ng-template>
 
     </div>

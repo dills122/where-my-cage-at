@@ -1,26 +1,28 @@
 <div class="grid">
   <div class="col-12">
     <!-- Header -->
-    <div class="flex align-content-center justify-content-between header-container">
-      <div class="flex align-items-center p-2" routerLink="/">LOGO HERE</div>
+    <div
+      class="flex sm:flex-row flex-column align-content-center sm:justify-content-between justify-content-center header-container">
+      <div class="flex sm:align-items-center justify-content-center p-2" routerLink="/">LOGO HERE</div>
       <div>
-        <div class="flex justify-content-between align-content-center">
-          <div class="flex align-items-center px-3 py-2">
+        <div
+          class="flex sm:flex-row flex-column sm:justify-content-between justify-content-center align-content-center">
+          <div class="flex sm:align-items-center justify-content-center px-3 py-2">
             <div class="flex justify-content-center flex-wrap">
               <p-toggleButton onLabel="Light" offLabel="Dark" onIcon="pi pi-moon" offIcon="pi pi-sun" iconPos="right"
                 [(ngModel)]="isDarkTheme" (onChange)="handleChange($event)"></p-toggleButton>
             </div>
           </div>
-          <div class="flex align-items-center p-2">
+          <div class="flex sm:align-items-center justify-content-center p-2">
             <button pButton type="button" label="Home" class="p-button-text" routerLink="/"></button>
           </div>
-          <div class="flex align-items-center p-2">
+          <div class="flex sm:align-items-center justify-content-center p-2">
             <button pButton type="button" label="Services" class="p-button-text"></button>
           </div>
-          <div class="flex align-items-center p-2">
+          <div class="flex sm:align-items-center justify-content-center p-2">
             <button pButton type="button" label="Staff Picks" class="p-button-text"></button>
           </div>
-          <div class="flex align-items-center p-2">
+          <div class="flex sm:align-items-center justify-content-center p-2">
             <button pButton type="button" label="Data View" class="p-button-text"></button>
           </div>
         </div>
