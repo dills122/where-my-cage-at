@@ -4,12 +4,12 @@ import { ServiceProvidersService } from '../service/service-providers.service';
 
 @Controller('service-providers')
 export class ServiceProvidersController {
-  constructor(
-    private readonly serviceProviderService: ServiceProvidersService,
-  ) {}
+	constructor(
+		private readonly serviceProviderService: ServiceProvidersService,
+	) {}
 
-  @Get()
-  async findAll(): Promise<ServiceProvider[]> {
-    return this.serviceProviderService.getAll();
-  }
+	@Get()
+	async findAll(): Promise<ServiceProvider[]> {
+		return this.serviceProviderService.getAll();
+	}
 }

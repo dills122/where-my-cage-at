@@ -12,6 +12,7 @@ importers:
       '@nestjs/core': ^8.2.5
       '@nestjs/platform-fastify': ~8.2.5
       '@nestjs/schematics': ^8.0.5
+      '@nestjs/serve-static': ~2.2.2
       '@nestjs/testing': ^8.2.4
       '@types/express': ^4.17.13
       '@types/jest': ^27.0.0
@@ -25,6 +26,7 @@ importers:
       eslint: ^8.2.0
       eslint-config-prettier: ^8.3.0
       eslint-plugin-prettier: ^3.4.0
+      fastify-static: ~4.5.0
       jest: 27.0.6
       pm2: ^5.1.2
       prettier: ^2.3.2
@@ -43,9 +45,11 @@ importers:
       '@nestjs/common': 8.2.5_7b1fc936b9361df55228aaa721957d0e
       '@nestjs/core': 8.2.5_fdec88194f0d0e15ee78c83dc4b42db9
       '@nestjs/platform-fastify': 8.2.5_dd9ef2e1e23f087665d46fe53bbbed58
+      '@nestjs/serve-static': 2.2.2_dd9ef2e1e23f087665d46fe53bbbed58
       class-transformer: 0.5.1
       class-validator: 0.13.2
       dotenv: 14.2.0
+      fastify-static: 4.5.0
       pm2: 5.1.2
       redis-sdk: link:../redis-sdk
       reflect-metadata: 0.1.13
@@ -86,6 +90,7 @@ importers:
       dotenv: ~14.2.0
       eslint: ^8.2.0
       express: ^4.17.2
+      got: 11.8.3
       node-cron: ^3.0.0
       pm2: ^5.1.2
       redis-sdk: workspace:*
@@ -96,6 +101,7 @@ importers:
       '@dills1220/wtw': link:../wtw
       dotenv: 14.2.0
       express: 4.17.2
+      got: 11.8.3
       node-cron: 3.0.0
       pm2: 5.1.2
       redis-sdk: link:../redis-sdk
@@ -151,6 +157,7 @@ importers:
       karma-coverage: ~2.0.3
       karma-jasmine: ~4.0.0
       karma-jasmine-html-reporter: ~1.7.0
+      ng-lazyload-image: ~9.1.2
       primeflex: ~3.1.2
       primeicons: ~5.0.0
       primeng: ~13.0.4
@@ -177,6 +184,7 @@ importers:
       '@ngneat/elf-persist-state': 1.0.0
       '@ngneat/elf-requests': 1.1.1
       '@ngneat/elf-state-history': 1.0.1
+      ng-lazyload-image: 9.1.2_15a68f7b0daed56d82fc7ada052f36e2
       primeflex: 3.1.2
       primeicons: 5.0.0
       primeng: 13.0.4_40077c2f827be8e3740cb57f33d48c37
@@ -2684,6 +2692,17 @@ packages:
     transitivePeerDependencies:
       - chokidar
     dev: true
+
+  /@nestjs/serve-static/2.2.2_dd9ef2e1e23f087665d46fe53bbbed58:
+    resolution: {integrity: sha512-3Mr+Q/npS3N7iGoF3Wd6Lj9QcjMGxbNrSqupi5cviM0IKrZ1BHl5qekW95rWYNATAVqoTmjGROAq+nKKpuUagQ==}
+    peerDependencies:
+      '@nestjs/common': ^6.0.0 || ^7.0.0 || ^8.0.0
+      '@nestjs/core': ^6.0.0 || ^7.0.0 || ^8.0.0
+    dependencies:
+      '@nestjs/common': 8.2.5_7b1fc936b9361df55228aaa721957d0e
+      '@nestjs/core': 8.2.5_fdec88194f0d0e15ee78c83dc4b42db9
+      path-to-regexp: 0.1.7
+    dev: false
 
   /@nestjs/testing/8.2.5_dd9ef2e1e23f087665d46fe53bbbed58:
     resolution: {integrity: sha512-M0uGfmPb5hc3k8jEHW2/Ilia+BYnxZoZ4MmqrWlLND/zTNSSJZJXUISLDtukka9/GAzGTlyQ3yQJMGL+GjnqXA==}
@@ -5580,6 +5599,11 @@ packages:
     resolution: {integrity: sha1-rT/0yG7C0CkyL1oCw6mmBslbP1k=}
     engines: {node: '>= 0.8'}
 
+  /encoding-negotiator/2.0.1:
+    resolution: {integrity: sha512-GSK7qphNR4iPcejfAlZxKDoz3xMhnspwImK+Af5WhePS9jUpK/Oh7rUdyENWu+9rgDflOCTmAojBsgsvM8neAQ==}
+    engines: {node: '>=10.13.0'}
+    dev: false
+
   /encoding/0.1.13:
     resolution: {integrity: sha512-ETBauow1T35Y/WZMkio9jiM0Z5xjHHmJ4XmjZOq1l/dXz3lr2sRn87nJy20RupqSh1F2m3HHPSp8ShIPQJrJ3A==}
     requiresBuild: true
@@ -6313,6 +6337,18 @@ packages:
 
   /fastify-plugin/3.0.0:
     resolution: {integrity: sha512-ZdCvKEEd92DNLps5n0v231Bha8bkz1DjnPP/aEz37rz/q42Z5JVLmgnqR4DYuNn3NXAO3IDCPyRvgvxtJ4Ym4w==}
+    dev: false
+
+  /fastify-static/4.5.0:
+    resolution: {integrity: sha512-Q7Tgl55AjsmBwiO4hKYib2BUCt+XTWLJ6Xp8YPPHU3EsrKNpevJ4cz8pjf1Ey1QhHw9O8Y2FDKdu+IC74oHvqw==}
+    dependencies:
+      content-disposition: 0.5.4
+      encoding-negotiator: 2.0.1
+      fastify-plugin: 3.0.0
+      glob: 7.2.0
+      p-limit: 3.1.0
+      readable-stream: 3.6.0
+      send: 0.17.2
     dev: false
 
   /fastify-warning/0.2.0:
@@ -8897,6 +8933,19 @@ packages:
     resolution: {integrity: sha1-yobR/ogoFpsBICCOPchCS524NCw=}
     dev: false
 
+  /ng-lazyload-image/9.1.2_15a68f7b0daed56d82fc7ada052f36e2:
+    resolution: {integrity: sha512-E5oz5HdTRtYW/TH+jceT4VMcRXKdX9Ut82eEwt2K0/bFAXKU14HluCFa8cMidPBgSa08Mlf+gmoKCTvAfUPgag==}
+    peerDependencies:
+      '@angular/common': '>=11.0.0'
+      '@angular/core': '>=11.0.0'
+      rxjs: '>=6.0.0'
+    dependencies:
+      '@angular/common': 13.1.2_@angular+core@13.1.2+rxjs@7.4.0
+      '@angular/core': 13.1.2_rxjs@7.4.0+zone.js@0.11.4
+      rxjs: 7.4.0
+      tslib: 2.3.1
+    dev: false
+
   /nice-napi/1.0.2:
     resolution: {integrity: sha512-px/KnJAJZf5RuBGcfD+Sp2pAKq0ytz8j+1NehvgIGFkvtvFrDM3T8E4x/JJODXK9WZow8RRGrbA9QQ3hs+pDhA==}
     os: ['!win32']
@@ -9276,7 +9325,6 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       yocto-queue: 0.1.0
-    dev: true
 
   /p-locate/4.1.0:
     resolution: {integrity: sha512-R79ZZ/0wAxKGu3oYMlz8jy/kbhsNrS7SKZ7PxEHBgJ5+F2mtFW2fK2cOtBh1cHYkQsbzFV7I+EoRKe6Yt0oK7A==}
@@ -10310,7 +10358,6 @@ packages:
       inherits: 2.0.4
       string_decoder: 1.3.0
       util-deprecate: 1.0.2
-    dev: true
 
   /readdirp/3.6.0:
     resolution: {integrity: sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==}
@@ -11196,7 +11243,6 @@ packages:
     resolution: {integrity: sha512-hkRX8U1WjJFd8LsDJ2yQ/wWWxaopEsABU1XfkM8A+j0+85JAGppt16cr1Whg6KIbb4okU6Mql6BOj+uup/wKeA==}
     dependencies:
       safe-buffer: 5.2.1
-    dev: true
 
   /strip-ansi/6.0.1:
     resolution: {integrity: sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==}
@@ -11916,7 +11962,6 @@ packages:
 
   /util-deprecate/1.0.2:
     resolution: {integrity: sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=}
-    dev: true
 
   /utils-merge/1.0.1:
     resolution: {integrity: sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=}
@@ -12520,7 +12565,6 @@ packages:
   /yocto-queue/0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
-    dev: true
 
   /zone.js/0.11.4:
     resolution: {integrity: sha512-DDh2Ab+A/B+9mJyajPjHFPWfYU1H+pdun4wnnk0OcQTNjem1XQSZ2CDW+rfZEUDjv5M19SBqAkjZi0x5wuB5Qw==}
