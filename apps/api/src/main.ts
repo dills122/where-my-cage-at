@@ -5,6 +5,7 @@ import {
 	FastifyAdapter,
 	NestFastifyApplication,
 } from '@nestjs/platform-fastify';
+import fastifyCompress from 'fastify-compress';
 import { AppModule } from './app.module';
 import * as dotenv from 'dotenv';
 import { join } from 'path';
@@ -34,6 +35,7 @@ async function bootstrap() {
 		],
 	});
 	app.useGlobalPipes(new ValidationPipe());
+	app.register(fastifyCompress);
 	//TODO update this with a way to handle envs
 	app.useStaticAssets({
 		root: join(__dirname, '..', '..', '..', 'data', 'icons'),
