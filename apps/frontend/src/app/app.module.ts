@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -9,6 +9,7 @@ import { ButtonModule } from 'primeng/button';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { AppRoutingModule } from './app-routing.module';
 import AppComponent from './app/app.component';
+import { HeadersInterceptor } from './interceptors/headers/headers.interceptor';
 import { FilmographyRepository, ServiceProviderRepository } from './repositories';
 
 @NgModule({
@@ -27,7 +28,11 @@ import { FilmographyRepository, ServiceProviderRepository } from './repositories
 		// app
 		AppRoutingModule
 	],
-	providers: [FilmographyRepository, ServiceProviderRepository],
+	providers: [
+		FilmographyRepository,
+		ServiceProviderRepository,
+		{ provide: HTTP_INTERCEPTORS, useClass: HeadersInterceptor, multi: true }
+	],
 	bootstrap: [AppComponent]
 })
 export class AppModule {}
