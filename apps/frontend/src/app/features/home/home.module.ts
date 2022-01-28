@@ -6,12 +6,22 @@ import { HomeRoutingModule } from './home-routing.module';
 
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
-import { DividerModule } from 'primeng/divider';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ServiceButtonNodeComponent } from './components/service-button-node/service-button-node.component';
 import { SharedModule } from '../shared/shared.module';
+import { FormsModule } from '@angular/forms';
+import { FilmSearchComponent } from './components/film-search/film-search.component';
 
 @NgModule({
-	declarations: [HomeComponent, ServiceButtonNodeComponent],
-	imports: [CommonModule, HomeRoutingModule, ButtonModule, CardModule, DividerModule, SharedModule]
+	declarations: [HomeComponent, ServiceButtonNodeComponent, FilmSearchComponent],
+	imports: [
+		CommonModule,
+		HomeRoutingModule,
+		ButtonModule,
+		CardModule,
+		AutoCompleteModule,
+		SharedModule,
+		FormsModule
+	]
 })
 export class HomeModule {}
