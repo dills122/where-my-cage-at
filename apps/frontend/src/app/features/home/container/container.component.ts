@@ -30,9 +30,9 @@ interface ServiceInfo {
 }
 
 @Component({
-	selector: 'app-home',
-	templateUrl: './home.component.html',
-	styleUrls: ['./home.component.scss']
+	selector: 'app-home-container',
+	templateUrl: './container.component.html',
+	styleUrls: ['./container.component.scss']
 })
 export class HomeComponent {
 	readonly cardHeader: string = "Checkout What's Streaming on your Platform";
