@@ -124,16 +124,18 @@ export default class WTW {
 					})
 				}
 			}).pipe(
-				expand((data, index) => {
+				takeUntil(endNotifier),
+				expand((data) => {
 					const { totalPages, page, pageSize } = data;
 					const hasHitMaxUserReqPageCount = page >= (pages || totalPages);
 					const hasHitMaxServerPageCount = page >= totalPages;
+
 					if (hasHitMaxServerPageCount || hasHitMaxUserReqPageCount) {
 						endNotifier.next(true);
 						endNotifier.complete();
 						return EMPTY;
 					}
-					const nextPage = index + 1;
+					const nextPage = page + 1;
 					return this.request<SearchResults>({
 						url: `titles/${this._locale}/popular`,
 						method: 'GET',
@@ -153,7 +155,6 @@ export default class WTW {
 						}
 					});
 				}),
-				takeUntil(endNotifier),
 				map((data) => [...data.items]),
 				reduce((acc, data) => {
 					return acc.concat(...data);

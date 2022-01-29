@@ -5,7 +5,7 @@ import { MovieRecord, ServiceProvider } from 'src/app/models';
 import { FilmographyRepository, ServiceProviderRepository } from 'src/app/repositories';
 
 @Component({
-	selector: 'app-container',
+	selector: 'app-service-overview-container',
 	templateUrl: './container.component.html',
 	styleUrls: ['./container.component.scss']
 })

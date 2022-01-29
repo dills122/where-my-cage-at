@@ -1,0 +1,11 @@
+<div class="grid-nogutter sm:my-8 my-4">
+	<div class="col-12">
+		<h3>Search your favorite title:</h3>
+	</div>
+	<div class="col-12">
+		<div class="p-fluid">
+			<p-autoComplete [(ngModel)]="text" [suggestions]="results" (completeMethod)="search($event)"
+				(onSelect)="navigate($event)" field="title" [minLength]="1" [forceSelection]="true"></p-autoComplete>
+		</div>
+	</div>
+</div>
