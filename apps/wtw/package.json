@@ -1,6 +1,6 @@
 {
 	"name": "@dills1220/wtw",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "What to watch, Unoffical Justwatch api wrapper",
 	"scripts": {
 		"test": "mocha -r ts-node/register \"*.spec.ts\"",
