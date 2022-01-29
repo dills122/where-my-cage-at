@@ -4,8 +4,8 @@
 	</div>
 	<div class="col-12">
 		<div class="p-fluid">
-			<p-autoComplete [(ngModel)]="text" [suggestions]="results" (completeMethod)="search($event)" field="title"
-				[minLength]="1"></p-autoComplete>
+			<p-autoComplete [(ngModel)]="text" [suggestions]="results" (completeMethod)="search($event)"
+				(onSelect)="navigate($event)" field="title" [minLength]="1" [forceSelection]="true"></p-autoComplete>
 		</div>
 	</div>
 </div>

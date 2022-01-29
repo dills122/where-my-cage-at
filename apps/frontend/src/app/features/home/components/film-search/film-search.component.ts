@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import Fuse from 'fuse.js';
 import { map, mergeMap, of, Subject, switchMap, takeUntil, tap, toArray } from 'rxjs';
 import { FilmographyRepository } from 'src/app/repositories';
@@ -41,7 +42,7 @@ export class FilmSearchComponent implements OnInit, OnDestroy {
 		})
 	);
 
-	constructor(private filmographyRepository: FilmographyRepository) {}
+	constructor(private filmographyRepository: FilmographyRepository, private router: Router) {}
 
 	ngOnDestroy(): void {
 		this.notifier.next(true);
@@ -65,5 +66,9 @@ export class FilmSearchComponent implements OnInit, OnDestroy {
 		this.results = searchResults.map((item) => {
 			return item.item;
 		});
+	}
+
+	navigate(event: FilmSearchResult) {
+		this.router.navigate([`/film-overview/${event.id}`]);
 	}
 }
