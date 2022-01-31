@@ -10,6 +10,7 @@ groups:
 packages:
   - git
   - nginx
+  # - python3 # Not sure if i need this
 
 # Add users to the system. Users are added after groups are added.
 users:
@@ -24,12 +25,11 @@ users:
     ssh-authorized-keys:
       - ${pub_key}
 
-bootcmd:
+runcmd:
   - sudo apt-get install certbot
   - apt-get install python3-certbot-nginx
-
-runcmd:
-  - /usr/bin/sleep 10
+  - /usr/bin/sh ./app-src/certbot.sh
+  - ufw allow OpenSSH && ufw enable && sudo ufw allow "Nginx Full"
   - /usr/bin/git clone https://github.com/dills122/where-my-cage-at.git app-src
   - /usr/bin/sh ./app-src/deploy.sh
   - /usr/bin/docker update --restart unless-stopped $(docker ps -q)
