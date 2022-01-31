@@ -1,16 +1,16 @@
 {
-  "apps": [
-    {
-      "name": "cron",
-      "script": "./cron-runner.js",
-      "merge_logs": true,
-      "max_restarts": 20,
-      "instances": "max",
-      "exec_mode": "cluster",
-      "max_memory_restart": "200M",
-      "env": {
-        "NODE_ENV": "production"
-      }
-    }
-  ]
+	"apps": [{
+		"name": "cron",
+		"script": "./cron-runner.js",
+		"merge_logs": true,
+		"max_restarts": 5,
+		"instances": "1",
+		"max_memory_restart": "200M",
+		"env_production": {
+			"NODE_ENV": "prod"
+		},
+		"env_development": {
+			"NODE_ENV": "dev"
+		}
+	}]
 }

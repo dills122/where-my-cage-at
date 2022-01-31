@@ -8,9 +8,9 @@ RUN rm -rf ./common/temp \
     && rush build --to data-service
 RUN mkdir ./prod \
     && rush deploy --project data-service --target-folder ./prod \
-    && cp ./.env ./prod/
+    && cp ./.env ./prod/apps/data-service
 WORKDIR /tmp/prod/apps/data-service
 RUN chown -R app /tmp/prod
 USER app
 
-CMD ["pm2-runtime", "start", "processes.json"]
+CMD ["pm2-runtime", "start", "processes.json", "--env", "production"]
