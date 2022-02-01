@@ -2,7 +2,7 @@
 
 # Should only be run in a droplet
 
-mkdir -p /var/www/prod
+sudo mkdir -p /var/www/prod
 
 # Copy Nginx config files
 cp ~/app-src/.docker/nginx/conf.d/* /etc/nginx/conf.d/
@@ -17,6 +17,6 @@ docker compose up -d
 # Might be dup commands
 sudo systemctl restart nginx
 
-nginx -t && nginx -s reload
+sudo nginx -t && sudo nginx -s reload
 
 popd
