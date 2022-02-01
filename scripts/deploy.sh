@@ -4,8 +4,9 @@
 
 sudo mkdir -p /var/www/prod
 
+sudo rm -rf /etc/nginx/conf.d/* && sudo rm -rf /etc/nginx/sites-enabled/default
 # Copy Nginx config files
-sudo cp ~/app-src/.docker/nginx/conf.d/* /etc/nginx/conf.d/
+sudo cp ~/app-src/.docker/nginx/conf.d/prod/* /etc/nginx/conf.d/
 
 pushd ~/app-src/
 
