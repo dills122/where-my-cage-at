@@ -6,7 +6,7 @@ import { Component, Input, isDevMode, OnInit } from '@angular/core';
 	styleUrls: ['./service-icon.component.scss']
 })
 export class ServiceIconComponent implements OnInit {
-	private apiURL = isDevMode() ? 'http://localhost:3000' : 'https://wheremycageat.com';
+	private apiURL = isDevMode() ? 'http://localhost:3000' : 'https://api.wheremycageat.com';
 	imageUrl: string = '';
 	@Input() serviceId: number = -1;
 	@Input() serviceName: string = '';
