@@ -8,3 +8,4 @@ COPY . .
 # WORKDIR /tmp/temp
 RUN rush update && rush build --to frontend \
     && rush deploy --project frontend --target-folder ./prod 
+COPY ./prod /
