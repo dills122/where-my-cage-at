@@ -28,11 +28,11 @@ users:
 runcmd:
   - sudo apt -y install certbot
   - sudo apt -y install python3-certbot-nginx
-  # - /usr/bin/git clone https://github.com/dills122/where-my-cage-at.git app-src
-  - /usr/bin/sh ./app-src/temp-git.sh
-  - /usr/bin/sh ./app-src/certbot.sh
+  - /usr/bin/git clone https://github.com/dills122/where-my-cage-at.git app-src
+  - pushd app-src && git checkout deployment-setup && popd
+  - /usr/bin/sh ./app-src/scripts/certbot.sh
   - ufw allow OpenSSH && ufw enable && sudo ufw allow "Nginx Full"
-  - /usr/bin/sh ./app-src/deploy.sh
+  - /usr/bin/sh ./app-src/scripts/deploy.sh
   - /usr/bin/docker update --restart unless-stopped $(docker ps -q)
 
 final_message: 'The system is finally up, after $UPTIME seconds'
