@@ -4,7 +4,8 @@ COPY . .
 
 RUN adduser -S app
 RUN rm -rf ./common/temp \
-    && rush update --purge \
+    && rush purge \
+    && rush install -f api \
     && rush build --to api
 RUN mkdir ./prod \
     && rush deploy --project api --target-folder ./prod \

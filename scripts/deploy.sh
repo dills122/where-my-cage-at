@@ -23,4 +23,6 @@ export REDIS_PORT=6379
 # Get all of the docker services running
 docker-compose up -d
 
+sudo systemctl restart nginx
+
 popd

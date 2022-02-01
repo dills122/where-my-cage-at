@@ -73,7 +73,7 @@ resource "digitalocean_record" "domain-www" {
 resource "digitalocean_record" "api-base" {
 
   # Get the domain from our data source
-  domain = "${var.subdomain}${data.digitalocean_domain.web.name}"
+  domain = "${var.subdomain}.${data.digitalocean_domain.web.name}"
 
   # An A record is an IPv4 name record. Like www.digitalocean.com
   type = "A"
