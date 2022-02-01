@@ -12,6 +12,26 @@
 	 */
 	"commands": [{
 			"commandKind": "bulk",
+			"name": "build",
+			"summary": "runs build for all packages",
+			"safeForSimultaneousRushProcesses": false,
+			"enableParallelism": true,
+			"ignoreDependencyOrder": false,
+			"ignoreMissingScript": false,
+			"allowWarningsInSuccessfulBuild": true
+		},
+		{
+			"commandKind": "bulk",
+			"name": "rebuild",
+			"summary": "runs a rebuild for all packages",
+			"safeForSimultaneousRushProcesses": false,
+			"enableParallelism": true,
+			"ignoreDependencyOrder": false,
+			"ignoreMissingScript": false,
+			"allowWarningsInSuccessfulBuild": true
+		},
+		{
+			"commandKind": "bulk",
 			"name": "lint",
 			"summary": "runs eslint aganist all packages",
 			"enableParallelism": true
