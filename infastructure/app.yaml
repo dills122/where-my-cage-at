@@ -20,17 +20,18 @@ users:
     shell: /bin/bash
     primary_group: wmca
     sudo: ALL=(ALL) NOPASSWD:ALL
-    groups: users, admin
+    groups: users, admin, docker
     lock_passwd: false
     ssh-authorized-keys:
       - ${pub_key}
 
 runcmd:
-  - sudo apt-get install certbot
-  - apt-get install python3-certbot-nginx
+  - sudo apt -y install certbot
+  - sudo apt -y install python3-certbot-nginx
+  # - /usr/bin/git clone https://github.com/dills122/where-my-cage-at.git app-src
+  - /usr/bin/sh ./app-src/temp-git.sh
   - /usr/bin/sh ./app-src/certbot.sh
   - ufw allow OpenSSH && ufw enable && sudo ufw allow "Nginx Full"
-  - /usr/bin/git clone https://github.com/dills122/where-my-cage-at.git app-src
   - /usr/bin/sh ./app-src/deploy.sh
   - /usr/bin/docker update --restart unless-stopped $(docker ps -q)
 

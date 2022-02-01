@@ -14,7 +14,7 @@ variable "droplet_image" {
 }
 variable "droplet_size" {
   description = "Droplet size for server"
-  default     = "s-1vcpu-2gb"
+  default     = "s-1vcpu-1gb"
 }
 variable "ssh_public_key_path" {
   description = "Local public ssh key path"
@@ -23,4 +23,13 @@ variable "ssh_public_key_path" {
 variable "ssh_public_key" {
   description = "Local public ssh key"
   default     = "default"
+}
+# The first part of my URL. Ex: the www in www.digitalocean.com
+variable "subdomain" {
+  type    = string
+  default = "www"
+}
+# Domain you have registered and DigitalOcean manages
+variable "domain_name" {
+  type = string
 }
