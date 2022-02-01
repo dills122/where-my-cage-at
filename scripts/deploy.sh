@@ -4,10 +4,6 @@
 
 sudo mkdir -p /var/www/prod
 
-sudo rm -rf /etc/nginx/conf.d/* && sudo rm -rf /etc/nginx/sites-enabled/default
-# Copy Nginx config files
-sudo cp ~/app-src/.docker/nginx/conf.d/prod/* /etc/nginx/conf.d/
-
 pushd ~/app-src/
 
 # Build and deploy the angular frontend
@@ -26,10 +22,5 @@ export REDIS_PORT=6379
 
 # Get all of the docker services running
 docker-compose up -d
-
-# Might be dup commands
-sudo systemctl restart nginx
-
-sudo nginx -t && sudo nginx -s reload
 
 popd
