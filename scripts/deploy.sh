@@ -5,9 +5,11 @@
 sudo mkdir -p /var/www/prod
 
 # Copy Nginx config files
-cp ~/app-src/.docker/nginx/conf.d/* /etc/nginx/conf.d/
+sudo cp ~/app-src/.docker/nginx/conf.d/* /etc/nginx/conf.d/
 
 pushd ~/app-src/
+
+docker build -t node-builder .
 
 docker run -d -v /var/www/prod:/tmp/prod .
 
