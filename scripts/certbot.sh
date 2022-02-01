@@ -6,4 +6,4 @@ ssl_email="dylansteele57@gmail.com"
 
 sudo mkdir -p /var/www/prod
 
-sudo certbot --nginx --non-interactive --agree-tos -d ${domain} -d www.${domain} -d ${api_sub_domain}.${domain} -m ${ssl_email}
+sudo certbot --nginx --non-interactive --agree-tos -d ${domain} -d www.${domain} -d ${api_sub_domain}.${domain} -d www.${api_sub_domain}.${domain} -m ${ssl_email}

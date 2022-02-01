@@ -24,10 +24,10 @@ variable "ssh_public_key" {
   description = "Local public ssh key"
   default     = "default"
 }
-# The first part of my URL. Ex: the www in www.digitalocean.com
+# sub domain for the api service
 variable "subdomain" {
   type    = string
-  default = "www"
+  default = "api"
 }
 # Domain you have registered and DigitalOcean manages
 variable "domain_name" {

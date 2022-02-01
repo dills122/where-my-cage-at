@@ -30,6 +30,7 @@ runcmd:
   - sudo apt -y install python3-certbot-nginx
   - /usr/bin/git clone https://github.com/dills122/where-my-cage-at.git app-src
   - pushd app-src && git checkout deployment-setup && popd
+  - sudo ufw allow 'Nginx Full'
   - /usr/bin/bash ./app-src/scripts/certbot.sh
   # - ufw allow OpenSSH && ufw enable && sudo ufw allow "Nginx Full"
   - /usr/bin/bash ./app-src/scripts/deploy.sh

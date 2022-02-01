@@ -1,6 +1,6 @@
 FROM ghcr.io/dills122/rushjs-base-img:edge
 WORKDIR /tmp
-COPY ../../ .
+COPY . .
 
 RUN adduser -S app
 RUN rm -rf ./common/temp \

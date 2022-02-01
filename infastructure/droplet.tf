@@ -34,8 +34,7 @@ resource "digitalocean_droplet" "wmca_server_1" {
 # }
 
 ################################################################################
-# Create a DNS A record for our loadbalancer. The name will be the region we   #
-# chose.                                                                       #
+# Create a DNS A records for all the services required                                                                     #
 ################################################################################
 resource "digitalocean_record" "domain-base" {
 
@@ -52,7 +51,7 @@ resource "digitalocean_record" "domain-base" {
   value = digitalocean_droplet.wmca_server_1.ipv4_address
 
   # The Time-to-Live for this record is 30 seconds. Then the cache invalidates
-  ttl = 300
+  ttl = 3600
 }
 resource "digitalocean_record" "domain-www" {
 
@@ -69,24 +68,41 @@ resource "digitalocean_record" "domain-www" {
   value = digitalocean_droplet.wmca_server_1.ipv4_address
 
   # The Time-to-Live for this record is 30 seconds. Then the cache invalidates
-  ttl = 300
+  ttl = 3600
 }
-resource "digitalocean_record" "subdomain-base" {
+resource "digitalocean_record" "api-base" {
 
   # Get the domain from our data source
-  domain = data.digitalocean_domain.web.name
+  domain = "${var.subdomain}${data.digitalocean_domain.web.name}"
 
   # An A record is an IPv4 name record. Like www.digitalocean.com
   type = "A"
 
   # Set the name to the region we chose. Can be anything
-  name = var.subdomain
+  name = "@"
 
   # Point the record at the IP address of our load balancer
   value = digitalocean_droplet.wmca_server_1.ipv4_address
 
   # The Time-to-Live for this record is 30 seconds. Then the cache invalidates
-  ttl = 300
+  ttl = 3600
+}
+resource "digitalocean_record" "api-www" {
+
+  # Get the domain from our data source
+  domain = "${var.subdomain}.${data.digitalocean_domain.web.name}"
+
+  # An A record is an IPv4 name record. Like www.digitalocean.com
+  type = "A"
+
+  # Set the name to the region we chose. Can be anything
+  name = "www"
+
+  # Point the record at the IP address of our load balancer
+  value = digitalocean_droplet.wmca_server_1.ipv4_address
+
+  # The Time-to-Live for this record is 30 seconds. Then the cache invalidates
+  ttl = 3600
 }
 
 # Output the public IP address of the new droplet
