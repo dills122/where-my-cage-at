@@ -4,8 +4,7 @@ COPY . .
 
 RUN adduser -S app
 RUN rm -rf ./common/temp \
-    && rush purge \
-    && rush install -f data-service \
+    && rush install -f data-service -p \
     && rush build --to data-service
 RUN mkdir ./prod \
     && rush deploy --project data-service --target-folder ./prod \

@@ -40,7 +40,7 @@ async function bootstrap() {
 	app.register(fastifyCompress);
 
 	const devIconPath = join(__dirname, '..', '..', '..', 'data', 'icons');
-	const prodIconPath = join(__dirname, '..', 'data', 'icons');
+	const prodIconPath = join(__dirname, '..', 'icons');
 
 	app.useStaticAssets({
 		root: ENV == 'prod' ? prodIconPath : devIconPath,

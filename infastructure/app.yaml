@@ -12,7 +12,6 @@ packages:
   - nginx
   - certbot
   - python3-certbot-nginx
-  # - python3 # Not sure if i need this
 
 # Add users to the system. Users are added after groups are added.
 users:
