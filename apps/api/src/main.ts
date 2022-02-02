@@ -14,6 +14,8 @@ dotenv.config({ path: __dirname + '/../.env' });
 
 const PORT = process.env.API_PORT || 3000;
 
+const ENV = process.env.NODE_ENV;
+
 async function bootstrap() {
 	const app = await NestFactory.create<NestFastifyApplication>(
 		AppModule,
@@ -36,9 +38,12 @@ async function bootstrap() {
 	});
 	app.useGlobalPipes(new ValidationPipe());
 	app.register(fastifyCompress);
-	//TODO update this with a way to handle envs
+
+	const devIconPath = join(__dirname, '..', '..', '..', 'data', 'icons');
+	const prodIconPath = join(__dirname, '..', 'icons');
+
 	app.useStaticAssets({
-		root: join(__dirname, '..', '..', '..', 'data', 'icons'),
+		root: ENV == 'prod' ? prodIconPath : devIconPath,
 		prefix: '/icons',
 		cacheControl: true,
 		maxAge: 15552000,

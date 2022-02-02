@@ -1,0 +1,37 @@
+#cloud-config
+package_update: true
+package_upgrade: true
+package_reboot_if_required: true
+
+groups:
+  - ubuntu: [root, sys]
+  - wmca
+
+packages:
+  - git
+  - nginx
+  - certbot
+  - python3-certbot-nginx
+
+# Add users to the system. Users are added after groups are added.
+users:
+  - default
+  - name: terraform
+    gecos: terraform
+    shell: /bin/bash
+    primary_group: wmca
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: users, admin, docker
+    lock_passwd: false
+    ssh-authorized-keys:
+      - ${pub_key}
+
+runcmd:
+  - sudo ufw allow 'Nginx Full'
+  - /usr/bin/git clone https://github.com/dills122/where-my-cage-at.git app-src
+  - pushd app-src && git checkout deployment-setup && popd
+  - /usr/bin/bash ./app-src/scripts/certbot.sh
+  - /usr/bin/bash ./app-src/scripts/deploy.sh
+  - /usr/bin/docker update --restart unless-stopped $(docker ps -q)
+
+final_message: 'The system is finally up, after $UPTIME seconds'
