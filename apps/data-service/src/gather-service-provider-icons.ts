@@ -43,6 +43,7 @@ function buildIconUrl(iconUrl: string) {
 	return `https://www.justwatch.com/images/icon/${iconId}/s100/icon.webp`;
 }
 
+//TODO this will need to be updated for if its running local or in container
 async function fetchAndDownloadIcon(url: string, serviceId: string) {
 	await pipeline(
 		got.stream(url),

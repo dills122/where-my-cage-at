@@ -3,6 +3,7 @@ import * as dotenv from 'dotenv';
 import { FullClient, MovieRecord, ServiceProvider } from 'redis-sdk';
 import FetchMovieData from './gathers/fetch-movie-details';
 import config from '../config';
+import { getRedisHostName } from './util';
 
 //TODO look into this, not working correctly
 dotenv.config({ path: __dirname + '/.env' });
@@ -66,8 +67,9 @@ export default async () => {
 };
 
 async function updateEntireRedisInstance(movies: MovieRecord[], serviceProviders: ServiceProvider[]) {
+	const redisHostName = getRedisHostName();
 	const client = new FullClient({
-		host: 'localhost',
+		host: redisHostName,
 		port: RedisPort
 	});
 	try {

@@ -8,10 +8,10 @@
 		"watch": "tsc -p . --watch",
 		"compile": "tsc",
 		"clean": "tsc --build --clean && rm -rf ./types",
-		"start": "node cron-runner.js",
+		"start": "NODE_ENV=dev node cron-runner.js",
 		"lint": "eslint . --ext .ts",
 		"lint:fix": "eslint . --ext .ts --fix",
-		"pm2": "pm2 start processes.json --no-daemon",
+		"pm2": "NODE_ENV=prod pm2 start processes.json --no-daemon",
 		"pm2:dev": "ts-node-dev --respawn --transpile-only ./cron-runner.ts"
 	},
 	"dependencies": {

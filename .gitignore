@@ -51,6 +51,9 @@ jspm_packages/
 
 # dotenv environment variables file
 .env
+!/.env
+!/apps/api/.env
+!/apps/data-service/.env
 
 # next.js build output
 .next
