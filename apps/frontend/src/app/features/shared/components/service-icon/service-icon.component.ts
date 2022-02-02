@@ -1,4 +1,5 @@
 import { Component, Input, isDevMode, OnInit } from '@angular/core';
+import { buildBaseApuUrlBasedOffEnv } from 'src/app/util/api-url-builder';
 
 @Component({
 	selector: 'app-service-icon',
@@ -6,7 +7,7 @@ import { Component, Input, isDevMode, OnInit } from '@angular/core';
 	styleUrls: ['./service-icon.component.scss']
 })
 export class ServiceIconComponent implements OnInit {
-	private apiURL = isDevMode() ? 'http://localhost:3000' : 'https://api.wheremycageat.com';
+	private apiURL = buildBaseApuUrlBasedOffEnv(isDevMode());
 	imageUrl: string = '';
 	@Input() serviceId: number = -1;
 	@Input() serviceName: string = '';

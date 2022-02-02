@@ -53,6 +53,7 @@ jspm_packages/
 .env
 !/.env
 !/apps/api/.env
+!/apps/data-service/.env
 
 # next.js build output
 .next

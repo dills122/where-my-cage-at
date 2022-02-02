@@ -11,14 +11,24 @@ const app = express();
 
 //Runs at 4:35 AM Everyday.
 cron.schedule('35 4 * * *', () => {
-  Promise.all([refresh()])
-    .then(() => {
-      console.log('Finished running service');
-    })
-    .catch((err) => {
-      console.error('Finished running with errors');
-      console.error(err);
-    });
+	Promise.all([refresh()])
+		.then(() => {
+			console.log('Finished running service');
+		})
+		.catch((err) => {
+			console.error('Finished running with errors');
+			console.error(err);
+		});
 });
 
 app.listen(Number(PORT));
+
+(async () => {
+	try {
+		console.log('Initial Pod Spin Up. Running Redis Refresher');
+		await refresh();
+	} catch (err) {
+		console.error('Finished running with errors');
+		console.error(err);
+	}
+})();
