@@ -8,6 +8,8 @@ services:
     build:
       context: .
       dockerfile: ./apps/data-service/Dockerfile
+    depends_on:
+      - redis
     ports:
       - '${CRON_PORT}:${CRON_PORT}'
     restart: always

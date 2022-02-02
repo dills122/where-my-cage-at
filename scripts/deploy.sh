@@ -15,7 +15,6 @@ sudo docker create -ti --name dummy ang-node-builder:latest bash
 sudo docker cp dummy:/tmp/apps/frontend/dist/frontend/. /var/www/prod
 sudo docker rm -f dummy
 
-# TODO probably should make this
 export API_PORT=3000
 export CRON_PORT=3001
 export REDIS_PORT=6379

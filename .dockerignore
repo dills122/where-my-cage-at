@@ -6,3 +6,4 @@ prod/
 .github/
 pnpm-local/
 pnpm-store/
+*.log
