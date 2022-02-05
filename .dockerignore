@@ -7,3 +7,5 @@ prod/
 pnpm-local/
 pnpm-store/
 *.log
+.vscode/
+infastructure/
