@@ -6,8 +6,13 @@ sudo mkdir -p /var/www/prod
 
 pushd ~/app-src/
 
+# If true do a fresh pull
+if [ "$1" = true ]; then
+    git pull
+fi
+
 # Build and deploy the angular frontend
-docker build -t ang-node-builder:latest .
+docker build -t ang-node-builder:latest -f AngBuildDockerfile .
 
 sudo docker create -ti --name dummy ang-node-builder:latest bash
 # This one can be used for local testing

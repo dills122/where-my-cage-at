@@ -27,9 +27,8 @@ users:
       - ${pub_key}
 
 runcmd:
-  - sudo ufw allow 'Nginx Full'
   - /usr/bin/git clone https://github.com/dills122/where-my-cage-at.git app-src
-  - pushd app-src && git checkout deployment-setup && popd
+  - sudo ufw allow 'Nginx Full'
   - /usr/bin/bash ./app-src/scripts/certbot.sh
   - /usr/bin/bash ./app-src/scripts/deploy.sh
   - /usr/bin/docker update --restart unless-stopped $(docker ps -q)

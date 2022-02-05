@@ -5,8 +5,7 @@ import FetchMovieData from './gathers/fetch-movie-details';
 import config from '../config';
 import { getRedisHostName } from './util';
 
-//TODO look into this, not working correctly
-dotenv.config({ path: __dirname + '/.env' });
+dotenv.config({ path: __dirname + '/../.env' });
 
 const JustWatchPersonId = Number(process.env.JW_PERSON_ID || config.JustWatchPersonId);
 const RedisPort = process.env.REDIS_PORT || '6379';

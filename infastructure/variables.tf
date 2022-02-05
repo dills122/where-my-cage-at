@@ -24,12 +24,10 @@ variable "ssh_public_key" {
   description = "Local public ssh key"
   default     = "default"
 }
-# sub domain for the api service
 variable "subdomain" {
   type    = string
   default = "api"
 }
-# Domain you have registered and DigitalOcean manages
 variable "domain_name" {
   type = string
 }
