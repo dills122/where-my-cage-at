@@ -174,7 +174,6 @@ export default class WTW {
 	}
 }
 
-//TODO probably needs updated to fix with better more accurate types
 export interface QuerySearchTerms {
 	content_types?: string;
 	presentation_types?: string;
@@ -237,7 +236,6 @@ export interface ObjectSearchResult {
 		[str: string]: string;
 	};
 	poster: string;
-	// backdrops TODO implement later
 	originalReleaseYear: number;
 	tmdbPopularity: number;
 	objectType: 'movie' | 'person';
