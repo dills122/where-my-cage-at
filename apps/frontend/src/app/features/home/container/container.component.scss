@@ -1,16 +1,16 @@
 .content-container {
-    > .row {
-        margin-bottom: 2rem;
-    }
+	> .row {
+		margin-bottom: 2rem;
+	}
 
-    .sub-header {
-        font-size: 1.5rem;
-        padding: 1rem 0;
-    }
+	.sub-header {
+		font-size: 1.5rem;
+		padding: 1rem 0;
+	}
 
-    nb-card-body {
-        > .row {
-            margin: 2.25rem auto;
-        }
-    }
+	nb-card-body {
+		> .row {
+			margin: 2.25rem auto;
+		}
+	}
 }

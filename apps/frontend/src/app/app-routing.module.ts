@@ -9,17 +9,17 @@ const routes: Routes = [
 	},
 	{
 		path: 'home',
-		loadChildren: () => import('./features/home/home.module').then((m) => m.HomeModule)
+		loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule)
 	},
 	{
 		path: 'service-overview/:serviceId',
 		loadChildren: () =>
-			import('./features/service-overview/service-overview.module').then((m) => m.ServiceOverviewModule)
+			import('./features/service-overview/service-overview.module').then(m => m.ServiceOverviewModule)
 	},
 	{
 		path: 'film-overview/:filmId',
 		loadChildren: () =>
-			import('./features/film-overview/film-overview.module').then((m) => m.FilmOverviewModule)
+			import('./features/film-overview/film-overview.module').then(m => m.FilmOverviewModule)
 	},
 	{
 		path: '**',

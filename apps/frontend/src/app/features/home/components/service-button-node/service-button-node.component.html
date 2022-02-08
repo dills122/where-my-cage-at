@@ -1,18 +1,19 @@
 <div class="flex align-items-center justify-content-center" (click)="openServicePage(serviceId)">
 	<div class="flex flex-column text-center" [class.min-box]="serviceId === 99999">
 		<div class="flex align-items-center justify-content-center m-3">
-			<div *ngIf="serviceId === 99999; else elseBlock"
-				class="flex align-content-center justify-content-center m-3" [class.min-box]="serviceId === 99999">
-				<i class="pi mb-3 flex align-items-center justify-content-center" [ngClass]="serviceIcon">
-				</i>
+			<div
+				*ngIf="serviceId === 99999; else elseBlock"
+				class="flex align-content-center justify-content-center m-3"
+				[class.min-box]="serviceId === 99999"
+			>
+				<i class="pi mb-3 flex align-items-center justify-content-center" [ngClass]="serviceIcon"> </i>
 			</div>
 			<ng-template #elseBlock>
 				<div>
 					<app-service-icon [serviceId]="serviceId"></app-service-icon>
 				</div>
 			</ng-template>
-
 		</div>
-		<div class="flex align-items-center justify-content-center font-bold">{{serviceName}}</div>
+		<div class="flex align-items-center justify-content-center font-bold">{{ serviceName }}</div>
 	</div>
 </div>

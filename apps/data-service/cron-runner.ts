@@ -15,7 +15,7 @@ cron.schedule('35 4 * * *', () => {
 		.then(() => {
 			console.log('Finished running service');
 		})
-		.catch((err) => {
+		.catch(err => {
 			console.error('Finished running with errors');
 			console.error(err);
 		});

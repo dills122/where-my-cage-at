@@ -19,3 +19,8 @@ types
 *.md
 
 lib/is-ticker-symbol/config.json
+
+.angular/
+.rush/
+
+*.log

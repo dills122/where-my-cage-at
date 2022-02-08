@@ -3,7 +3,7 @@ import { FilmographyService } from './service/filmography.service';
 import { FilmographyController } from './controller/filmography.controller';
 
 @Module({
-  controllers: [FilmographyController],
-  providers: [FilmographyService],
+	controllers: [FilmographyController],
+	providers: [FilmographyService],
 })
 export class FilmographyModule {}

@@ -3,7 +3,7 @@ import { ServiceProvidersController } from './controller/service-providers.contr
 import { ServiceProvidersService } from './service/service-providers.service';
 
 @Module({
-  controllers: [ServiceProvidersController],
-  providers: [ServiceProvidersService],
+	controllers: [ServiceProvidersController],
+	providers: [ServiceProvidersService],
 })
 export class ServiceProvidersModule {}

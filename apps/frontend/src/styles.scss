@@ -1,25 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
-@import "primeng/resources/primeng.min.css";
-@import "primeflex/primeflex.css";
-@import "primeicons/primeicons.css";
+@import 'primeng/resources/primeng.min.css';
+@import 'primeflex/primeflex.css';
+@import 'primeicons/primeicons.css';
 
 html {
-    font-size: 1rem;
-    font-family: 'Easy Print','Courier New', Courier, monospace;
-    height: 100%;
-    min-height: 100vh;
-    min-width: 100vw;
+	font-size: 1rem;
+	font-family: 'Easy Print', 'Courier New', Courier, monospace;
+	height: 100%;
+	min-height: 100vh;
+	min-width: 100vw;
 }
 
 body {
-    background-color: var(--surface-ground);
-    color: var(--text-color);
-    min-height: 100%;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+	background-color: var(--surface-ground);
+	color: var(--text-color);
+	min-height: 100%;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 body,
 body .p-component {
-    font-family: 'Special Elite','Easy Print','Courier New', Courier, monospace;
+	font-family: 'Special Elite', 'Easy Print', 'Courier New', Courier, monospace;
 }
