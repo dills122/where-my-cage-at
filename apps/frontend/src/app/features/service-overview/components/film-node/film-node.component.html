@@ -1,18 +1,20 @@
 <p-panel [toggleable]="true" [collapsed]="true">
-  <ng-template pTemplate="header">
-    <div class="flex justify-content-between flex-wrap w-full">
-      <div class="flex align-items-center justify-content-center m-2"> {{filmOverview.title}}:
-        ({{filmOverview.originalReleaseYear}})</div>
-      <div class="flex align-items-center justify-content-center m-2">
-        tmdb avg. score {{filmOverview.tmdbPopularity}}</div>
-    </div>
-  </ng-template>
-  <div>
-    <div class="flex">
-      <div class="flex-initial flex align-items-center justify-content-center">More on this Film:</div>
-      <div class="flex-initial flex align-items-center justify-content-center">
-        <p-button label="TMDB" styleClass="p-button-link" (onClick)="openTmdb()"></p-button>
-      </div>
-    </div>
-  </div>
+	<ng-template pTemplate="header">
+		<div class="flex justify-content-between flex-wrap w-full">
+			<div class="flex align-items-center justify-content-center m-2">
+				{{ filmOverview.title }}: ({{ filmOverview.originalReleaseYear }})
+			</div>
+			<div class="flex align-items-center justify-content-center m-2">
+				tmdb avg. score {{ filmOverview.tmdbPopularity }}
+			</div>
+		</div>
+	</ng-template>
+	<div>
+		<div class="flex">
+			<div class="flex-initial flex align-items-center justify-content-center">More on this Film:</div>
+			<div class="flex-initial flex align-items-center justify-content-center">
+				<p-button label="TMDB" styleClass="p-button-link" (onClick)="openTmdb()"></p-button>
+			</div>
+		</div>
+	</div>
 </p-panel>

@@ -26,7 +26,7 @@ export class ContainerComponent implements OnInit, OnDestroy {
 			.getCredit(this.filmId)
 			.pipe(
 				takeUntil(this.notifier),
-				tap((record) => {
+				tap(record => {
 					this.filmRecord = record;
 				})
 			)

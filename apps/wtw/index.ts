@@ -88,7 +88,7 @@ export default class WTW {
 			map(({ body }) => {
 				return camelCaseObject(JSON.parse(body), { deep: true }) as T;
 			}),
-			catchError((err) => throwError(() => new Error(err)))
+			catchError(err => throwError(() => new Error(err)))
 		);
 	}
 
@@ -125,7 +125,7 @@ export default class WTW {
 				}
 			}).pipe(
 				takeUntil(endNotifier),
-				expand((data) => {
+				expand(data => {
 					const { totalPages, page, pageSize } = data;
 					const hasHitMaxUserReqPageCount = page >= (pages || totalPages);
 					const hasHitMaxServerPageCount = page >= totalPages;
@@ -155,11 +155,11 @@ export default class WTW {
 						}
 					});
 				}),
-				map((data) => [...data.items]),
+				map(data => [...data.items]),
 				reduce((acc, data) => {
 					return acc.concat(...data);
 				}),
-				map((movies) => movies.filter((movie) => movie.objectType === 'movie'))
+				map(movies => movies.filter(movie => movie.objectType === 'movie'))
 			)
 		);
 	}
