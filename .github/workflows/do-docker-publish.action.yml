@@ -90,8 +90,7 @@ jobs:
             # Stop running container
             pushd app-src/ 
             git checkout master && git pull
-            docker-compose down --rmi all
-            # TODO update this if its not needed
+            GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | head -c7) REGISTRY_HOST=$(echo $REGISTRY_HOST) docker-compose down --rmi all
             GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | head -c7) REGISTRY_HOST=$(echo $REGISTRY_HOST) docker-compose pull
             # Start up cluster
             GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | head -c7) REGISTRY_HOST=$(echo $REGISTRY_HOST) docker-compose up -d
