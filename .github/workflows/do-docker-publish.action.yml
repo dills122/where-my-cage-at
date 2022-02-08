@@ -19,7 +19,7 @@ on:
 
 #2
 env:
-  REGISTRY: 'registry.digitalocean.com/wmca'
+  REGISTRY_HOST: 'registry.digitalocean.com/wmca'
   FRONTEND_IMAGE_NAME: 'ang-frontend-builder'
   CLUSTER_IMAGE_NAME: 'cluster-services'
 
@@ -35,7 +35,7 @@ jobs:
         run: echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | head -c7)" >> $GITHUB_ENV
 
       - name: Build frontend build image
-        run: docker build -t $(echo $REGISTRY)/$(echo $FRONTEND_IMAGE_NAME):$(echo $GITHUB_SHA | head -c7) -f AngBuildDockerfile .
+        run: docker build -t $(echo $REGISTRY_HOST)/$(echo $FRONTEND_IMAGE_NAME):$(echo $GITHUB_SHA | head -c7) -f AngBuildDockerfile .
 
       - name: Build service images
         run: docker-compose build
@@ -56,7 +56,7 @@ jobs:
         run: docker-compose push
 
       - name: Push frontend build image to DigitalOcean Container Registry
-        run: docker push $(echo $REGISTRY)/$(echo $FRONTEND_IMAGE_NAME):$(echo $GITHUB_SHA | head -c7)
+        run: docker push $(echo $REGISTRY_HOST)/$(echo $FRONTEND_IMAGE_NAME):$(echo $GITHUB_SHA | head -c7)
 
   # TODO needs to still be worked on
   deploy:
@@ -70,7 +70,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSHKEY }}
-          envs: FRONTEND_IMAGE_NAME,CLUSTER_IMAGE_NAME,REGISTRY,{{ secrets.DIGITALOCEAN_ACCESS_TOKEN }},GITHUB_SHA
+          envs: FRONTEND_IMAGE_NAME,CLUSTER_IMAGE_NAME,REGISTRY_HOST,{{ secrets.DIGITALOCEAN_ACCESS_TOKEN }},GITHUB_SHA
           script: |
             # Login to registry
             docker login -u ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} -p ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} registry.digitalocean.com
