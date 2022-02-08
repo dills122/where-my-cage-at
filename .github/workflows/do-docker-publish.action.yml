@@ -22,6 +22,8 @@ env:
   REGISTRY_HOST: 'registry.digitalocean.com/wmca'
   FRONTEND_IMAGE_NAME: 'ang-frontend-builder'
   CLUSTER_IMAGE_NAME: 'cluster-services'
+  API_SERVICE_IMAGE_NAME: 'wmca/api'
+  DATA_SERVICE_IMAGE_NAME: 'wmca/data-service'
 
 #3
 jobs:
@@ -48,9 +50,14 @@ jobs:
       - name: Log in to DigitalOcean Container Registry with short-lived credentials
         run: doctl registry login --expiry-seconds 600
 
-      # Make sure to cleanup the services containers, frontend build should get cleaned up during deployment
-      - name: Remove all old images
-        run: if [ ! -z "$(doctl registry repository list | grep "$(echo $CLUSTER_IMAGE_NAME)")" ]; then doctl registry repository delete-manifest $(echo $CLUSTER_IMAGE_NAME) $(doctl registry repository list-tags $(echo $CLUSTER_IMAGE_NAME) | grep -o "sha.*") --force; else echo "No repository"; fi
+      - name: Remove all old images for frontend build
+        run: if [ ! -z "$(doctl registry repository list | grep "$(echo $FRONTEND_IMAGE_NAME)")" ]; then doctl registry repository delete-manifest $(echo $FRONTEND_IMAGE_NAME) $(doctl registry repository list-tags $(echo $FRONTEND_IMAGE_NAME) | grep -o "sha.*") --force; else echo "No repository"; fi
+
+      - name: Remove all old images for cluster api
+        run: if [ ! -z "$(doctl registry repository list | grep "$(echo $API_SERVICE_IMAGE_NAME)")" ]; then doctl registry repository delete-manifest $(echo $API_SERVICE_IMAGE_NAME) $(doctl registry repository list-tags $(echo $API_SERVICE_IMAGE_NAME) | grep -o "sha.*") --force; else echo "No repository"; fi
+
+      - name: Remove all old images for data-service api
+        run: if [ ! -z "$(doctl registry repository list | grep "$(echo $DATA_SERVICE_IMAGE_NAME)")" ]; then doctl registry repository delete-manifest $(echo $DATA_SERVICE_IMAGE_NAME) $(doctl registry repository list-tags $(echo $DATA_SERVICE_IMAGE_NAME) | grep -o "sha.*") --force; else echo "No repository"; fi
 
       - name: Push cluster service images to DigitalOcean Container Registry
         run: docker-compose push
@@ -85,7 +92,7 @@ jobs:
             git checkout master && git pull
             docker-compose down --rmi all
             # TODO update this if its not needed
-            GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | head -c7) docker-compose pull
+            GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | head -c7) REGISTRY_HOST=$(echo $REGISTRY_HOST) docker-compose pull
             # Start up cluster
-            GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | head -c7) docker-compose up -d
+            GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | head -c7) REGISTRY_HOST=$(echo $REGISTRY_HOST) docker-compose up -d
             popd
