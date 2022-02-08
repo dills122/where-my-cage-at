@@ -41,3 +41,4 @@ jobs:
             cspell:fonts/fonts.txt
             cspell:software-terms/software-terms.txt
             cspell:typescript/typescript.txt
+            cspell:html-symbol-entities/html-symbol-entities.txt
