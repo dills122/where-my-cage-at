@@ -36,3 +36,8 @@ jobs:
             cspell:fullstack/fullstack.txt
             cspell:css/css.txt
             cspell:node/node.txt
+            cspell:bash/bash.txt
+            cspell:companies/companies.txt
+            cspell:fonts/fonts.txt
+            cspell:software-terms/software-terms.txt
+            cspell:typescript/typescript.txt
