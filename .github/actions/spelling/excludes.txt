@@ -1,8 +1,13 @@
 # See https://github.com/check-spelling/check-spelling/wiki/Configuration-Examples:-excludes
+(?:^|/)(?i)CHANGELOG
+(?:^|/)(?i)HISTORY
 (?:^|/)(?i)COPYRIGHT
 (?:^|/)(?i)LICEN[CS]E
 (?:^|/)package(?:-lock|)\.json$
 (?:^|/)vendor/
+(?:^|/)common/
+(?:^|/)\.rush/
+(?:^|/)\.angular/
 ignore$
 \.avi$
 \.ico$
@@ -14,8 +19,7 @@ ignore$
 \.mp[34]$
 \.png$
 \.wav$
+\.log$
 ^\.docker/
 ^\.github/
 ^\.vscode/
-^\common/
-^\data/
