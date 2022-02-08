@@ -9,6 +9,10 @@
 (?:^|/)vendor/
 (?:^|/)common/
 (?:^|/)infastructure/
+(?:^|/)Dockerfile$
+(?:^|/)AngBuildDockerfile$
+(?:^|/)docker-compose.yml$
+(?:^|/)common-services.yml$
 (?:^|/)\rush.json$
 (?:^|/)\.rush/
 (?:^|/)\.angular/
