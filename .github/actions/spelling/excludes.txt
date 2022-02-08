@@ -14,4 +14,8 @@ ignore$
 \.mp[34]$
 \.png$
 \.wav$
+^\.docker/
 ^\.github/
+^\.vscode/
+^\common/
+^\data/
