@@ -40,7 +40,7 @@ export default async () => {
 		for (const record of creditRecords) {
 			const { scoring = [], title, offers, objectType } = record;
 			const { value: tmdbId = 0 } =
-				scoring.find((obj) => {
+				scoring.find(obj => {
 					return obj.providerType === 'tmdb:id';
 				}) || {};
 			console.log(`Movie: ${title}: ${objectType}, tmdb: ${tmdbId}`);

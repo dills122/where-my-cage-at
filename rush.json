@@ -1,48 +1,49 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
-  "rushVersion": "5.59.2",
-  "pnpmVersion": "6.25.0",
-  "pnpmOptions": {
-    "useWorkspaces": true
-  },
-  "nodeSupportedVersionRange": ">=14.0.0",
-  "gitPolicy": {},
-  "repository": {
-    "url": "https://github.com/dills122/where-my-cage-at",
-    "defaultBranch": "master",
-    "defaultRemote": "origin"
-  },
-  "eventHooks": {
-    "preRushInstall": [],
-    "postRushInstall": [],
-    "preRushBuild": [],
-    "postRushBuild": []
-  },
-  "variants": [],
-  "projects": [{
-      "packageName": "frontend",
-      "projectFolder": "apps/frontend",
-      "versionPolicyName": "versionPolicy"
-    },
-    {
-      "packageName": "api",
-      "projectFolder": "apps/api",
-      "versionPolicyName": "versionPolicy"
-    },
-    {
-      "packageName": "data-service",
-      "projectFolder": "apps/data-service",
-      "versionPolicyName": "versionPolicy"
-    },
-    {
-      "packageName": "redis-sdk",
-      "projectFolder": "apps/redis-sdk",
-      "versionPolicyName": "versionPolicy"
-    },
-    {
-      "packageName": "@dills1220/wtw",
-      "projectFolder": "apps/wtw",
-      "versionPolicyName": "wtw"
-    }
-  ]
+	"$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
+	"rushVersion": "5.59.2",
+	"pnpmVersion": "6.25.0",
+	"pnpmOptions": {
+		"useWorkspaces": true
+	},
+	"nodeSupportedVersionRange": ">=14.0.0",
+	"gitPolicy": {},
+	"repository": {
+		"url": "https://github.com/dills122/where-my-cage-at",
+		"defaultBranch": "master",
+		"defaultRemote": "origin"
+	},
+	"eventHooks": {
+		"preRushInstall": [],
+		"postRushInstall": [],
+		"preRushBuild": [],
+		"postRushBuild": []
+	},
+	"variants": [],
+	"projects": [
+		{
+			"packageName": "frontend",
+			"projectFolder": "apps/frontend",
+			"versionPolicyName": "versionPolicy"
+		},
+		{
+			"packageName": "api",
+			"projectFolder": "apps/api",
+			"versionPolicyName": "versionPolicy"
+		},
+		{
+			"packageName": "data-service",
+			"projectFolder": "apps/data-service",
+			"versionPolicyName": "versionPolicy"
+		},
+		{
+			"packageName": "redis-sdk",
+			"projectFolder": "apps/redis-sdk",
+			"versionPolicyName": "versionPolicy"
+		},
+		{
+			"packageName": "@dills1220/wtw",
+			"projectFolder": "apps/wtw",
+			"versionPolicyName": "wtw"
+		}
+	]
 }

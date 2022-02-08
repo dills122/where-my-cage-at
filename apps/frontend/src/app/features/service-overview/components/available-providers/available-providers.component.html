@@ -1,4 +1,7 @@
 <div class="flex justify-content-around flex-wrap">
-	<app-service-icon *ngFor="let serviceProvider of serviceProviders$ | async" [serviceId]="serviceProvider.id"
-		[serviceName]="serviceProvider.clearName"></app-service-icon>
+	<app-service-icon
+		*ngFor="let serviceProvider of serviceProviders$ | async"
+		[serviceId]="serviceProvider.id"
+		[serviceName]="serviceProvider.clearName"
+	></app-service-icon>
 </div>

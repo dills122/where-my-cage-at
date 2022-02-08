@@ -10,11 +10,11 @@ import WTW from '@dills1220/wtw';
 		personId: 6747
 	});
 	creditRecords
-		.filter((record) => record.objectType === 'movie')
-		.forEach((record) => {
+		.filter(record => record.objectType === 'movie')
+		.forEach(record => {
 			const { title, id, scoring } = record;
 			const { value: tmdbId = 0 } =
-				scoring.find((obj) => {
+				scoring.find(obj => {
 					return obj.providerType === 'tmdb:id';
 				}) || {};
 
@@ -22,7 +22,7 @@ import WTW from '@dills1220/wtw';
 				console.warn(`Can not find tmdbId for Movie: ${id}; ${title}`);
 			}
 		});
-	const uniqueCreditRecords = new Set(creditRecords.map((v) => v.title));
+	const uniqueCreditRecords = new Set(creditRecords.map(v => v.title));
 	if (uniqueCreditRecords.size < creditRecords.length) {
 		console.warn(`Credit Records contained duplicates: ${creditRecords.length - uniqueCreditRecords.size}`);
 	}

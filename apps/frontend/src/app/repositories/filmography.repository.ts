@@ -39,7 +39,7 @@ export class FilmographyRepository {
 	getCredit(creditId: number) {
 		return filmographyStore.pipe(
 			selectEntity(creditId),
-			switchMap((credit) => {
+			switchMap(credit => {
 				if (credit === undefined) {
 					return EMPTY;
 				}
@@ -49,11 +49,11 @@ export class FilmographyRepository {
 	}
 	getAllCreditsByProviderId(providerId: number) {
 		return filmographyStore.pipe(
-			selectManyByPredicate((credit) => {
+			selectManyByPredicate(credit => {
 				if (!credit.offers) {
 					return false;
 				}
-				return credit.offers.some((offer) => offer.providerId === providerId);
+				return credit.offers.some(offer => offer.providerId === providerId);
 			})
 		);
 	}

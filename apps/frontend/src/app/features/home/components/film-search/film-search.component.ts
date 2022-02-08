@@ -21,10 +21,10 @@ export class FilmSearchComponent implements OnInit, OnDestroy {
 	notifier = new Subject();
 	searchResults$ = this.filmographyRepository.credits$.pipe(
 		takeUntil(this.notifier),
-		switchMap((records) => {
+		switchMap(records => {
 			return of(records).pipe(
-				mergeMap((records) => records),
-				map((record) => {
+				mergeMap(records => records),
+				map(record => {
 					const { id, title } = record;
 					return {
 						id,
@@ -34,7 +34,7 @@ export class FilmSearchComponent implements OnInit, OnDestroy {
 				toArray()
 			);
 		}),
-		tap((records) => {
+		tap(records => {
 			this.searchDictonary = records;
 		}),
 		tap(() => {
@@ -63,7 +63,7 @@ export class FilmSearchComponent implements OnInit, OnDestroy {
 			keys: ['title']
 		});
 		const searchResults = searcher.search(query);
-		this.results = searchResults.map((item) => {
+		this.results = searchResults.map(item => {
 			return item.item;
 		});
 	}
