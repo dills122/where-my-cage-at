@@ -8,6 +8,7 @@
 (?:^|/)\.npmrc$
 (?:^|/)vendor/
 (?:^|/)common/
+(?:^|/)infastructure/
 (?:^|/)\rush.json$
 (?:^|/)\.rush/
 (?:^|/)\.angular/
