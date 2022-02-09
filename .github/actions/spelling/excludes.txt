@@ -5,6 +5,10 @@
 (?:^|/)(?i)LICEN[CS]E
 (?:^|/)package(?:-lock|)\.json$
 (?:^|/)pnpm-lock.yaml$
+(?:^|/)tsconfig.build.json$
+(?:^|/)tsconfig.app.json$
+(?:^|/)tsconfig.spec.json$
+(?:^|/)tsconfig.json$
 (?:^|/)\.npmrc$
 (?:^|/)vendor/
 (?:^|/)common/
@@ -31,6 +35,11 @@
 (?:^|/)cypress.json$
 (?:^|/)karma.conf.js$
 ignore$
+\.sh$
+\.tf$
+\.tfstate$
+\.tfvars$
+\.hcl$
 \.avi$
 \.ico$
 \.jpe?g$
