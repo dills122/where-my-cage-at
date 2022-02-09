@@ -37,7 +37,7 @@ jobs:
         run: docker build -t $(echo $REGISTRY_HOST)/$(echo $FRONTEND_IMAGE_NAME):$(echo $GITHUB_SHA | head -c7) -f AngBuildDockerfile .
 
       - name: Build service images
-        run: docker-compose build
+        run: docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
 
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
@@ -57,7 +57,7 @@ jobs:
         run: if [ ! -z "$(doctl registry repository list | grep "$(echo $DATA_SERVICE_IMAGE_NAME)")" ]; then doctl registry repository delete-manifest $(echo $DATA_SERVICE_IMAGE_NAME) $(doctl registry repository list-tags $(echo $DATA_SERVICE_IMAGE_NAME) | grep -o "sha.*") --force; else echo "No repository"; fi
 
       - name: Push cluster service images to DigitalOcean Container Registry
-        run: docker-compose push
+        run: docker-compose -f docker-compose.yml -f docker-compose.prod.yml push
 
       - name: Push frontend build image to DigitalOcean Container Registry
         run: docker push $(echo $REGISTRY_HOST)/$(echo $FRONTEND_IMAGE_NAME):$(echo $GITHUB_SHA | head -c7)
@@ -88,23 +88,22 @@ jobs:
             pushd app-src/ 
             git checkout master && git pull
             GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | head -c7) REGISTRY_HOST=$(echo $REGISTRY_HOST) docker-compose down --rmi all
-            GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | head -c7) REGISTRY_HOST=$(echo $REGISTRY_HOST) docker-compose pull
+            GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | head -c7) REGISTRY_HOST=$(echo $REGISTRY_HOST) docker-compose -f docker-compose.yml -f docker-compose.prod.yml pull
             # Start up cluster
-            GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | head -c7) REGISTRY_HOST=$(echo $REGISTRY_HOST) docker-compose up -d
+            GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | head -c7) REGISTRY_HOST=$(echo $REGISTRY_HOST) docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
             popd
-  # Disabled for now, GC is not working correctly on DO
-  # gc:
-  #   runs-on: ubuntu-latest
-  #   needs: deploy
+  gc:
+    runs-on: ubuntu-latest
+    needs: deploy
 
-  #   steps:
-  #     - name: Install doctl
-  #       uses: digitalocean/action-doctl@v2
-  #       with:
-  #         token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+    steps:
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-  #     - name: Log in to DigitalOcean Container Registry with short-lived credentials
-  #       run: doctl registry login --expiry-seconds 600
+      - name: Log in to DigitalOcean Container Registry with short-lived credentials
+        run: doctl registry login --expiry-seconds 600
 
-  #     - name: Run Garbage Collection on the Repo
-  #       run: doctl registry gc start
+      - name: Run Garbage Collection on the Repo
+        run: doctl registry gc start
