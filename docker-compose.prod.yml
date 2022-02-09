@@ -1,0 +1,10 @@
+version: '3.7'
+services:
+  data-service:
+    image: ${REGISTRY_HOST}/wmca/data-service:${GITHUB_SHA_SHORT}
+    environment:
+        NODE_ENV: 'prod'
+  api:
+    image: ${REGISTRY_HOST}/wmca/api:${GITHUB_SHA_SHORT}
+    environment:
+        NODE_ENV: 'prod'
