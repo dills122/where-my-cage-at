@@ -4,10 +4,12 @@ on:
   push:
     branches:
       - master
+      - 'releases/**'
+      - 'release/**'
     tags:
-      - 'v*'
-    paths:
-      - apps/**
+      - '**'
+  release:
+    types: [published]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -106,4 +108,4 @@ jobs:
         run: doctl registry login --expiry-seconds 600
 
       - name: Run Garbage Collection on the Repo
-        run: doctl registry gc start --force true
+        run: doctl registry gc start --force
