@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { MovieRecord, ServiceProvider } from 'src/app/models';
 import { FilmographyRepository, ServiceProviderRepository } from 'src/app/repositories';
+import { mapToFriendlyName } from '../service-providers-monetization-types-mapping';
 
 @Component({
 	selector: 'app-service-overview-container',
@@ -22,9 +23,12 @@ export class ContainerComponent implements OnInit {
 	ngOnInit(): void {
 		this.route.paramMap.subscribe(paramMap => {
 			this.serviceId = Number(paramMap.get('serviceId') || '');
-			//TODO dont think this is the best way, think it might leave Observables open
 			this.serviceProviderData$ = this.serviceProviderRepository.getServiceProviderById(this.serviceId);
 			this.filmsAvailable$ = this.filmographyRepository.getAllCreditsByProviderId(this.serviceId);
 		});
+	}
+
+	mapMonetizationType(monetizationType: string) {
+		return mapToFriendlyName(monetizationType);
 	}
 }

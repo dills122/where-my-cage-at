@@ -5,9 +5,9 @@ import { Component, OnInit } from '@angular/core';
 	templateUrl: './container.component.html',
 	styleUrls: ['./container.component.scss']
 })
-export class ContainerComponent implements OnInit {
+export class ContainerComponent {
 	readonly serviceProvidersOverviewCardHeader: string = 'All Available Providers:';
 	constructor() {}
 
-	ngOnInit(): void {}
+	// ngOnInit(): void {}
 }

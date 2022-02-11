@@ -6,11 +6,20 @@ import { ContainerComponent } from './container/container.component';
 import { CardModule } from 'primeng/card';
 import { PanelModule } from 'primeng/panel';
 import { ButtonModule } from 'primeng/button';
+import { ChipModule } from 'primeng/chip';
 import { FilmNodeComponent } from './components/film-node/film-node.component';
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
 	declarations: [ContainerComponent, FilmNodeComponent],
-	imports: [CommonModule, ServiceOverviewRoutingModule, CardModule, PanelModule, ButtonModule, SharedModule]
+	imports: [
+		CommonModule,
+		ChipModule,
+		ServiceOverviewRoutingModule,
+		CardModule,
+		PanelModule,
+		ButtonModule,
+		SharedModule
+	]
 })
 export class ServiceProviderOverviewModule {}
