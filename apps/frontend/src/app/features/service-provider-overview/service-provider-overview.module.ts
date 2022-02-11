@@ -1,17 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ServiceOverviewRoutingModule } from './service-overview-routing.module';
+import { ServiceOverviewRoutingModule } from './service-provider-overview-routing.module';
 import { ContainerComponent } from './container/container.component';
 import { CardModule } from 'primeng/card';
 import { PanelModule } from 'primeng/panel';
 import { ButtonModule } from 'primeng/button';
 import { FilmNodeComponent } from './components/film-node/film-node.component';
 import { SharedModule } from '../shared/shared.module';
-import { AvailableProvidersComponent } from './components/available-providers/available-providers.component';
 
 @NgModule({
-	declarations: [ContainerComponent, FilmNodeComponent, AvailableProvidersComponent],
+	declarations: [ContainerComponent, FilmNodeComponent],
 	imports: [CommonModule, ServiceOverviewRoutingModule, CardModule, PanelModule, ButtonModule, SharedModule]
 })
-export class ServiceOverviewModule {}
+export class ServiceProviderOverviewModule {}

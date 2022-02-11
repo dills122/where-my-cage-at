@@ -12,9 +12,18 @@ const routes: Routes = [
 		loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule)
 	},
 	{
-		path: 'service-overview/:serviceId',
+		path: 'available-service-providers',
 		loadChildren: () =>
-			import('./features/service-overview/service-overview.module').then(m => m.ServiceOverviewModule)
+			import('./features/available-service-providers/available-service-providers.module').then(
+				m => m.AvailableServiceProvidersModule
+			)
+	},
+	{
+		path: 'service-provider-overview/:serviceId',
+		loadChildren: () =>
+			import('./features/service-provider-overview/service-provider-overview.module').then(
+				m => m.ServiceProviderOverviewModule
+			)
 	},
 	{
 		path: 'film-overview/:filmId',

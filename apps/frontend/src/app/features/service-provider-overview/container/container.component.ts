@@ -9,19 +9,22 @@ import { FilmographyRepository, ServiceProviderRepository } from 'src/app/reposi
 	templateUrl: './container.component.html',
 	styleUrls: ['./container.component.scss']
 })
-export class ContainerComponent {
+export class ContainerComponent implements OnInit {
 	readonly serviceProviderCardHeader: string = 'Service Provider Overview:';
-	readonly serviceProvidersOverviewCardHeader: string = 'All Available Providers:';
-	serviceId: number;
-	serviceProviderData$: Observable<ServiceProvider>;
-	filmsAvailable$: Observable<MovieRecord[]>;
+	serviceId!: number;
+	serviceProviderData$!: Observable<ServiceProvider>;
+	filmsAvailable$!: Observable<MovieRecord[]>;
 	constructor(
 		private serviceProviderRepository: ServiceProviderRepository,
 		private filmographyRepository: FilmographyRepository,
 		private route: ActivatedRoute
-	) {
-		this.serviceId = Number(this.route.snapshot.paramMap.get('serviceId') || '');
-		this.serviceProviderData$ = this.serviceProviderRepository.getServiceProviderById(this.serviceId);
-		this.filmsAvailable$ = this.filmographyRepository.getAllCreditsByProviderId(this.serviceId);
+	) {}
+	ngOnInit(): void {
+		this.route.paramMap.subscribe(paramMap => {
+			this.serviceId = Number(paramMap.get('serviceId') || '');
+			//TODO dont think this is the best way, think it might leave Observables open
+			this.serviceProviderData$ = this.serviceProviderRepository.getServiceProviderById(this.serviceId);
+			this.filmsAvailable$ = this.filmographyRepository.getAllCreditsByProviderId(this.serviceId);
+		});
 	}
 }

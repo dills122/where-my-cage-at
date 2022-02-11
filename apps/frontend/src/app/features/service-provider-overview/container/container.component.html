@@ -4,7 +4,7 @@
 			<div class="col-12">
 				<h1>{{ (serviceProviderData$ | async)?.clearName }}</h1>
 			</div>
-			<div *ngIf="serviceId !== 99999" class="col-12">
+			<div class="col-12">
 				<p-card [header]="serviceProviderCardHeader" id="whats-streaming-platform-card" class="text-center">
 					<div class="flex justify-content-around flex-wrap m-2">
 						<!-- Not sure what to put here? -->
@@ -12,21 +12,10 @@
 				</p-card>
 			</div>
 
-			<div class="col-12" *ngIf="serviceId !== 99999; else elseBlock">
+			<div class="col-12">
 				<app-film-node *ngFor="let filmCredit of this.filmsAvailable$ | async" [filmOverview]="filmCredit">
 				</app-film-node>
 			</div>
-			<ng-template #elseBlock>
-				<div class="col-12">
-					<p-card
-						[header]="serviceProvidersOverviewCardHeader"
-						id="whats-streaming-platform-card"
-						class="text-center"
-					>
-						<app-available-providers></app-available-providers>
-					</p-card>
-				</div>
-			</ng-template>
 		</div>
 	</div>
 </div>
