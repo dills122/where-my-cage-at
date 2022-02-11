@@ -108,4 +108,4 @@ jobs:
         run: doctl registry login --expiry-seconds 600
 
       - name: Run Garbage Collection on the Repo
-        run: doctl registry gc start --force true
+        run: doctl registry gc start --force
