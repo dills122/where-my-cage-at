@@ -1,6 +1,7 @@
 import { Component, Input, isDevMode, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { buildBaseApuUrlBasedOffEnv } from 'src/app/util/api-url-builder';
+import { SEE_MORE_SERVICE_ID } from '../../services';
 
 @Component({
 	selector: 'app-service-button-node',
@@ -13,12 +14,17 @@ export class ServiceButtonNodeComponent implements OnInit {
 	@Input() serviceId: number = -1;
 	private apiURL = buildBaseApuUrlBasedOffEnv(isDevMode());
 	imageUrl: string = '';
+	SEE_MORE_SERVICE_ID = SEE_MORE_SERVICE_ID;
 	constructor(private router: Router) {}
 	ngOnInit(): void {
 		this.imageUrl = `${this.apiURL}/icons/${this.serviceId}.webp`;
 	}
 
 	openServicePage(serviceId: number) {
-		this.router.navigate([`/service-overview/${serviceId}`]);
+		if (this.serviceId === this.SEE_MORE_SERVICE_ID) {
+			this.router.navigate(['/available-service-providers']);
+		} else {
+			this.router.navigate([`/service-provider-overview/${serviceId}`]);
+		}
 	}
 }

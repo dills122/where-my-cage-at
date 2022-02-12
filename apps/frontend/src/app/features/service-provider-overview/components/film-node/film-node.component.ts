@@ -10,6 +10,8 @@ import { tmdbUrlBuilders } from '../../../../util';
 export class FilmNodeComponent implements OnInit {
 	@Input()
 	filmOverview!: MovieRecord;
+	@Input()
+	providerId!: number;
 	tmdbUrl: string = '';
 	constructor() {}
 	ngOnInit(): void {
