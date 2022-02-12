@@ -11,9 +11,15 @@
 	</ng-template>
 	<div>
 		<div class="flex">
-			<div class="flex-initial flex align-items-center justify-content-center">More on this Film:</div>
-			<div class="flex-initial flex align-items-center justify-content-center">
-				<p-button label="TMDB" styleClass="p-button-link" (onClick)="openTmdb()"></p-button>
+			<!-- <div class="flex-initial flex align-items-center justify-content-center">
+				<span>
+					TMDB
+				</span>
+				<p-button label="Link" styleClass="p-button-link" (onClick)="openTmdb()"></p-button>
+			</div> -->
+			<div class="flex-initial flex align-items-center justify-content-center p-1"
+				*ngFor="let genre of filmOverview.genres">
+				<p-chip [label]="genre.name"></p-chip>
 			</div>
 		</div>
 	</div>

@@ -6,28 +6,37 @@ export interface ServiceProvider {
 	monetizationTypes: string[];
 }
 
-export interface MovieRecord extends Record {
-	objectType: 'movie';
-}
-
-export interface Record {
+export interface MovieRecord {
 	id: number;
+	imdbId: string;
 	title: string;
-	fullPath: string;
-	fullPaths: {
-		[str: string]: string;
-	};
 	poster: string;
 	originalReleaseYear: number;
 	tmdbPopularity: number;
-	objectType: 'movie' | 'person';
+	runtime: number;
+	originalLanguage: string;
+	ageCertification: string;
+	cinemaReleaseDate: string;
+	shortDescription: string;
+	objectType: 'movie';
 	localizedReleaseDate: string;
 	offers: Offers[];
-	productionCountries: string[];
-	scoring: {
+	genres: Array<{
+		name: string;
+	}>;
+	fullPath?: string;
+	fullPaths?: {
+		[str: string]: string;
+	};
+	productionCountries?: string[];
+	scoring?: {
 		providerType: string;
 		value: number;
 	}[];
+	externalIds?: Array<{
+		provider: string;
+		externalId: string;
+	}>;
 }
 
 export interface Offers {
