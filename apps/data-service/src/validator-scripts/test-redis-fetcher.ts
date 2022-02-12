@@ -10,7 +10,7 @@ import { getRedisHostName } from '../util';
 	});
 	try {
 		await client.connect();
-		console.log('Updating Movie Catalog');
+		console.log('Retrieving Movie Catalog');
 		const movies = await client.getMovieCatalog();
 		if (movies != null) {
 			console.log(JSON.stringify(movies, null, 4));

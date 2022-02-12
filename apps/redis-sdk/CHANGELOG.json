@@ -2,6 +2,12 @@
   "name": "redis-sdk",
   "entries": [
     {
+      "version": "0.1.5",
+      "tag": "redis-sdk_v0.1.5",
+      "date": "Sat, 12 Feb 2022 21:53:48 GMT",
+      "comments": {}
+    },
+    {
       "version": "0.1.4",
       "tag": "redis-sdk_v0.1.4",
       "date": "Sat, 29 Jan 2022 01:38:51 GMT",

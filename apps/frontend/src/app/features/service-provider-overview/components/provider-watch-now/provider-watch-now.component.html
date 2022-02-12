@@ -1,0 +1,6 @@
+<div class="flex flex-wrap">
+	<div class="flex align-items-center justify-content-center p-1" *ngFor="let offer of offersForProvider">
+		<p-chip [label]="createLabelName(offer.monetizationType, offer.presentationType)" class="watch-action-node"
+			(click)="openExternalLink(offer.urls)" styleClass="text-xs"></p-chip>
+	</div>
+</div>

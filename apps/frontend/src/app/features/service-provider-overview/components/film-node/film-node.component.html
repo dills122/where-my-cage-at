@@ -1,0 +1,67 @@
+<p-panel [toggleable]="true" [collapsed]="true">
+	<ng-template pTemplate="header">
+		<div class="flex justify-content-between flex-wrap w-full">
+			<div class="flex align-items-center justify-content-center m-2">
+				{{ filmOverview.title }}: ({{ filmOverview.originalReleaseYear }})
+			</div>
+			<div class="flex align-items-center justify-content-center m-2">
+				<span class="text-xs">
+					tmdb avg. score
+				</span>
+				&nbsp;
+				&nbsp;
+				<span>
+					{{ filmOverview.tmdbPopularity }}
+				</span>
+			</div>
+		</div>
+	</ng-template>
+	<ng-template pTemplate="content">
+		<div class="flex mb-2">
+			<div class="flex-initial flex align-items-center justify-content-center m-2">
+				{{filmOverview.shortDescription}}
+			</div>
+		</div>
+		<div class="flex mb-2">
+			<div class="flex-initial flex align-items-center justify-content-center">
+				<div class="flex flex-wrap">
+					<div class="flex-initial flex align-items-center justify-content-center p-1"
+						*ngFor="let genre of filmOverview.genres">
+						<p-chip [label]="genre.name" styleClass="text-xs"></p-chip>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="flex w-full">
+			<p-divider class="w-full"></p-divider>
+		</div>
+		<div class="mb-2">
+			<h5 class="mt-0 mb-3">Quick Data Points:</h5>
+			<div class="flex">
+				<div class="flex-1">
+					<div class="flex-initial flex align-items-center mb-2">
+						<span>
+							TMDB
+						</span>
+						<p-button label="Link" styleClass="p-button-link" (onClick)="openTmdb()"></p-button>
+					</div>
+					<div class="mb-4">
+						<span> Runtime: </span>
+						{{filmOverview.runtime}}
+						<span class="text-xs">min.</span>
+					</div>
+					<div class="mb-4">
+						<span> Release Date: </span>
+						{{filmOverview.localizedReleaseDate}}
+					</div>
+				</div>
+				<p-divider layout="vertical"></p-divider>
+				<div class="flex-1">
+					<app-provider-watch-now [offers]="filmOverview.offers" [providerId]="providerId">
+					</app-provider-watch-now>
+				</div>
+			</div>
+
+		</div>
+	</ng-template>
+</p-panel>
