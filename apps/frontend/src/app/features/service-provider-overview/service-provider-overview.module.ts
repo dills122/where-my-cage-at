@@ -7,6 +7,7 @@ import { CardModule } from 'primeng/card';
 import { PanelModule } from 'primeng/panel';
 import { ButtonModule } from 'primeng/button';
 import { ChipModule } from 'primeng/chip';
+import { DividerModule } from 'primeng/divider';
 import { FilmNodeComponent } from './components/film-node/film-node.component';
 import { SharedModule } from '../shared/shared.module';
 
@@ -17,6 +18,7 @@ import { SharedModule } from '../shared/shared.module';
 		ChipModule,
 		ServiceOverviewRoutingModule,
 		CardModule,
+		DividerModule,
 		PanelModule,
 		ButtonModule,
 		SharedModule

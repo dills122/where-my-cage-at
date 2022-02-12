@@ -5,22 +5,64 @@
 				{{ filmOverview.title }}: ({{ filmOverview.originalReleaseYear }})
 			</div>
 			<div class="flex align-items-center justify-content-center m-2">
-				tmdb avg. score {{ filmOverview.tmdbPopularity }}
+				<span class="text-xs">
+					tmdb avg. score
+				</span>
+				&nbsp;
+				&nbsp;
+				<span>
+					{{ filmOverview.tmdbPopularity }}
+				</span>
 			</div>
 		</div>
 	</ng-template>
-	<div>
-		<div class="flex">
-			<!-- <div class="flex-initial flex align-items-center justify-content-center">
-				<span>
-					TMDB
-				</span>
-				<p-button label="Link" styleClass="p-button-link" (onClick)="openTmdb()"></p-button>
-			</div> -->
-			<div class="flex-initial flex align-items-center justify-content-center p-1"
-				*ngFor="let genre of filmOverview.genres">
-				<p-chip [label]="genre.name"></p-chip>
+	<ng-template pTemplate="content">
+		<div class="flex mb-2">
+			<div class="flex-initial flex align-items-center justify-content-center m-2">
+				{{filmOverview.shortDescription}}
 			</div>
 		</div>
-	</div>
+		<div class="flex mb-2">
+			<div class="flex-initial flex align-items-center justify-content-center">
+				<div class="flex">
+					<div class="flex-initial flex align-items-center justify-content-center p-1"
+						*ngFor="let genre of filmOverview.genres">
+						<p-chip [label]="genre.name" styleClass="text-xs"></p-chip>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="flex w-full">
+			<p-divider class="w-full"></p-divider>
+		</div>
+		<div class="mb-2">
+			<h5 class="mt-0 mb-3">Quick Data Points:</h5>
+			<div class="flex">
+				<div class="flex-1">
+					<div class="flex-initial flex align-items-center mb-2">
+						<span>
+							TMDB
+						</span>
+						<p-button label="Link" styleClass="p-button-link" (onClick)="openTmdb()"></p-button>
+					</div>
+					<div class="mb-4">
+						<span> Runtime: </span>
+						{{filmOverview.runtime}}
+						<span class="text-xs">min.</span>
+					</div>
+					<div class="mb-4">
+						<span> Release Date: </span>
+						{{filmOverview.localizedReleaseDate}}
+					</div>
+				</div>
+				<p-divider layout="vertical"></p-divider>
+				<div class="flex-1">
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam explicabo voluptatum suscipit modi,
+					officia nobis culpa perferendis. Quibusdam itaque cumque nesciunt vel repellat voluptas in culpa,
+					sapiente officia enim excepturi?
+				</div>
+			</div>
+
+		</div>
+	</ng-template>
 </p-panel>
