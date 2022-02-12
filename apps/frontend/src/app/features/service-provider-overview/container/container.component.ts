@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { MovieRecord, ServiceProvider } from 'src/app/models';
 import { FilmographyRepository, ServiceProviderRepository } from 'src/app/repositories';
-import { mapToFriendlyName } from '../service-providers-monetization-types-mapping';
+import { mapToFriendlyVerbousName } from '../service-providers-monetization-types-mapping';
 
 @Component({
 	selector: 'app-service-overview-container',
@@ -29,6 +29,6 @@ export class ContainerComponent implements OnInit {
 	}
 
 	mapMonetizationType(monetizationType: string) {
-		return mapToFriendlyName(monetizationType);
+		return mapToFriendlyVerbousName(monetizationType);
 	}
 }

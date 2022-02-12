@@ -10,9 +10,10 @@ import { ChipModule } from 'primeng/chip';
 import { DividerModule } from 'primeng/divider';
 import { FilmNodeComponent } from './components/film-node/film-node.component';
 import { SharedModule } from '../shared/shared.module';
+import { ProviderWatchNowComponent } from './components/provider-watch-now/provider-watch-now.component';
 
 @NgModule({
-	declarations: [ContainerComponent, FilmNodeComponent],
+	declarations: [ContainerComponent, FilmNodeComponent, ProviderWatchNowComponent],
 	imports: [
 		CommonModule,
 		ChipModule,

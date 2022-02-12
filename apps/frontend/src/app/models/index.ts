@@ -20,7 +20,7 @@ export interface MovieRecord {
 	shortDescription: string;
 	objectType: 'movie';
 	localizedReleaseDate: string;
-	offers: Offers[];
+	offers: Offer[];
 	genres: Array<{
 		name: string;
 	}>;
@@ -39,15 +39,17 @@ export interface MovieRecord {
 	}>;
 }
 
-export interface Offers {
+export interface Offer {
 	providerId: number;
 	monetizationType: string;
 	packageShortName: string;
 	retailPrice: number;
 	currency: string;
-	urls: {
-		[str: string]: string; //standard_web looks to be most used
-	};
+	urls: WatchUrlsMap;
 	presentationType: string;
 	country: string;
+}
+
+export interface WatchUrlsMap {
+	[str: string]: string; //standard_web looks to be most used
 }

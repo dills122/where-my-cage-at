@@ -6,7 +6,7 @@ export enum MonetizationTypes {
 	BUY = 'buy'
 }
 
-export const mapToFriendlyName = (monetizationType: string) => {
+export const mapToFriendlyVerbousName = (monetizationType: string) => {
 	switch (monetizationType) {
 		case 'free':
 			return 'Free Streaming';
@@ -18,6 +18,23 @@ export const mapToFriendlyName = (monetizationType: string) => {
 			return 'Retnal';
 		case 'buy':
 			return 'Purchase';
+		default:
+			return '';
+	}
+};
+
+export const mapToActionName = (monetizationType: string) => {
+	switch (monetizationType) {
+		case 'ads':
+			return 'Stream Now (ads)';
+		case 'free':
+			return 'Stream Now Free';
+		case 'flatrate':
+			return 'Stream Now';
+		case 'rent':
+			return 'Rent Now';
+		case 'buy':
+			return 'Buy Now';
 		default:
 			return '';
 	}

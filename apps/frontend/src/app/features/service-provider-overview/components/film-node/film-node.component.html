@@ -24,7 +24,7 @@
 		</div>
 		<div class="flex mb-2">
 			<div class="flex-initial flex align-items-center justify-content-center">
-				<div class="flex">
+				<div class="flex flex-wrap">
 					<div class="flex-initial flex align-items-center justify-content-center p-1"
 						*ngFor="let genre of filmOverview.genres">
 						<p-chip [label]="genre.name" styleClass="text-xs"></p-chip>
@@ -57,9 +57,8 @@
 				</div>
 				<p-divider layout="vertical"></p-divider>
 				<div class="flex-1">
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam explicabo voluptatum suscipit modi,
-					officia nobis culpa perferendis. Quibusdam itaque cumque nesciunt vel repellat voluptas in culpa,
-					sapiente officia enim excepturi?
+					<app-provider-watch-now [offers]="filmOverview.offers" [providerId]="providerId">
+					</app-provider-watch-now>
 				</div>
 			</div>
 
