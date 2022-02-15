@@ -232,12 +232,12 @@ importers:
       '@typescript-eslint/parser': 5.12.0
       eslint: ^8.2.0
       redis: ~4.0.2
-      redis-modules-sdk: ~1.1.7
+      redis-modules-sdk: ~1.2.0
       ts-node-dev: ^1.1.8
       typescript: ~4.5.4
     dependencies:
       redis: 4.0.2
-      redis-modules-sdk: 1.1.9
+      redis-modules-sdk: 1.2.0
     devDependencies:
       '@typescript-eslint/eslint-plugin': 5.3.0_61419adad7a4926eddb361a35551d3c8
       '@typescript-eslint/parser': 5.12.0_eslint@8.7.0+typescript@4.5.5
@@ -2626,9 +2626,9 @@ packages:
   /@ngneat/effects/1.0.0:
     resolution: {integrity: sha512-wVLbgVvqKX5L4qWtATAkf1XAoqq50S8a9LsZGiBpw/GpytK4ou3xo7fH+uSAXFlCjn6hLxAozIzqE6/JIXXa4Q==}
     dependencies:
-      rxjs: 7.4.0
+      rxjs: 7.5.4
       ts-action: 11.0.0
-      ts-action-operators: 9.1.2_rxjs@7.4.0+ts-action@11.0.0
+      ts-action-operators: 9.1.2_rxjs@7.5.4+ts-action@11.0.0
     dev: false
 
   /@ngneat/elf-cli-ng/1.0.0:
@@ -10613,8 +10613,8 @@ packages:
     engines: {node: '>=4'}
     dev: false
 
-  /redis-modules-sdk/1.1.9:
-    resolution: {integrity: sha512-Spu1t/6tx0bvV0hmRhX4XAWaYms63phSKRYJfuwZ6sWw0q+Z2JLIxKH2Zr8pzguaElofUH6S2RnB+dFIrOwwFg==}
+  /redis-modules-sdk/1.2.0:
+    resolution: {integrity: sha512-8y7nIyVp2ZYH569cxIeFKiYyzFRGwu/r2LYegtS2+XYw1EcmYwdLRL28+BGuYt75Qp1oVdeTozsEKNk29bd3cg==}
     dependencies:
       ioredis: 4.27.4
     transitivePeerDependencies:
@@ -11878,6 +11878,16 @@ packages:
       ts-action: ^11.0.0 || ^10.0.0 || ^9.0.0
     dependencies:
       rxjs: 7.4.0
+      ts-action: 11.0.0
+    dev: false
+
+  /ts-action-operators/9.1.2_rxjs@7.5.4+ts-action@11.0.0:
+    resolution: {integrity: sha512-DZ+sJvBdOluThwCBcCdDnz0NiVeQxEwveL+cmkJGLO1ps+x/D0xwSefmOIa1S7p2nXFHH52ZPr/8VEvxZHaNgg==}
+    peerDependencies:
+      rxjs: '>=6.0.0'
+      ts-action: ^11.0.0 || ^10.0.0 || ^9.0.0
+    dependencies:
+      rxjs: 7.5.4
       ts-action: 11.0.0
     dev: false
 
