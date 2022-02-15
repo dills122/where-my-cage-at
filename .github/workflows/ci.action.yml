@@ -35,11 +35,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
-      - uses: EndBug/add-and-commit@v8
         with:
           node-version: 14
-      - run: node common/scripts/install-run-rush.js install
+      - name: Update Lock File
+        run: node common/scripts/install-run-rush.js install
       - name: Commit changes
+        uses: EndBug/add-and-commit@v8
         with:
           author_name: dependabot
           author_email: dependabot@dsteele.dev
