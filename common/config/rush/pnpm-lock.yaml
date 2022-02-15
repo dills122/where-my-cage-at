@@ -124,7 +124,7 @@ importers:
   ../../apps/frontend:
     specifiers:
       '@angular-devkit/build-angular': ~13.2.3
-      '@angular-eslint/builder': 13.0.1
+      '@angular-eslint/builder': 13.1.0
       '@angular-eslint/eslint-plugin': 13.0.1
       '@angular-eslint/eslint-plugin-template': 13.0.1
       '@angular-eslint/schematics': 13.0.1
@@ -202,7 +202,7 @@ importers:
       zone.js: 0.11.4
     devDependencies:
       '@angular-devkit/build-angular': 13.2.3_0641eede00b9582b2f038e77ff4f6551
-      '@angular-eslint/builder': 13.0.1_eslint@8.7.0+typescript@4.5.5
+      '@angular-eslint/builder': 13.1.0_eslint@8.7.0+typescript@4.5.5
       '@angular-eslint/eslint-plugin': 13.0.1_eslint@8.7.0+typescript@4.5.5
       '@angular-eslint/eslint-plugin-template': 13.0.1_eslint@8.7.0+typescript@4.5.5
       '@angular-eslint/schematics': 13.0.1_1a3478f3fbcac19cc1f415cd48daa7d5
@@ -646,8 +646,8 @@ packages:
       - chokidar
     dev: true
 
-  /@angular-eslint/builder/13.0.1_eslint@8.7.0+typescript@4.5.5:
-    resolution: {integrity: sha512-z43jUpA4xm767ze/yWwvoy5PdvSe57DAvXHlHywv0iYxXl1OhytPIA0CdOA3ZWkbSWWVmWmFzELeYfGnE3+igg==}
+  /@angular-eslint/builder/13.1.0_eslint@8.7.0+typescript@4.5.5:
+    resolution: {integrity: sha512-RdyeetctnipVdCBrU/mipJ2XKiLC1yGmK1Sfbbgwu0s49CAdOArY/b+b8OU3yyy4EO1EGKQMlzs6F3wTYgiZCA==}
     peerDependencies:
       eslint: ^7.0.0 || ^8.0.0
       typescript: '*'
