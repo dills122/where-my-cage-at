@@ -86,7 +86,7 @@ importers:
 
   ../../apps/data-service:
     specifiers:
-      '@dills1220/tmdb': 2.7.1
+      '@dills1220/tmdb': 2.7.2
       '@dills1220/wtw': workspace:*
       '@types/express': ^4.17.13
       '@types/node': ^17.0.18
@@ -103,7 +103,7 @@ importers:
       ts-node-dev: ^1.1.8
       typescript: ~4.5.4
     dependencies:
-      '@dills1220/tmdb': 2.7.1
+      '@dills1220/tmdb': 2.7.2
       '@dills1220/wtw': link:../wtw
       dotenv: 14.2.0
       express: 4.17.2
@@ -2150,8 +2150,8 @@ packages:
       lodash.once: 4.1.1
     dev: true
 
-  /@dills1220/tmdb/2.7.1:
-    resolution: {integrity: sha512-Z/fPlVvhdoBNn6TtvUQ2WALGHOnfQpohWmbPaQEgBTjJrjxbh8OgQJcwAujp0n97PqmGVyxdL7AMXSEWuTaMNg==}
+  /@dills1220/tmdb/2.7.2:
+    resolution: {integrity: sha512-badPgwF3LTV/KtWD6bR8p5m1l/OQErYRrIIP/rtrzlq7M6gIob0MYqPWTlUOwySxrHvSpaHMkknRkl8J62BWsg==}
     engines: {node: '>=10.0'}
     dependencies:
       bluefeather: 2.9.0
