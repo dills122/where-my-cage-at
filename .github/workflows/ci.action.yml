@@ -1,5 +1,10 @@
 name: CI Job
 
+permissions:
+  pull-requests: write
+  issues: write
+  repository-projects: write
+
 on:
   pull_request:
     types: [synchronize, opened, reopened]
