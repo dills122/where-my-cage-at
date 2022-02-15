@@ -262,7 +262,7 @@ importers:
       lodash: ^4.17.21
       mocha: ~9.1.1
       rxjs: 7.5.4
-      sinon: ~12.0.0
+      sinon: ~13.0.1
       ts-node: ~10.5.0
       typescript: ~4.5.4
     dependencies:
@@ -282,7 +282,7 @@ importers:
       eslint: 8.7.0
       lint-staged: 12.3.2
       mocha: 9.1.4
-      sinon: 12.0.1
+      sinon: 13.0.1
       ts-node: 10.5.0_06de4b00c69b73d094e2c5b522a6ad57
       typescript: 4.5.5
 
@@ -3027,8 +3027,14 @@ packages:
       '@sinonjs/commons': 1.8.3
     dev: true
 
-  /@sinonjs/samsam/6.0.2:
-    resolution: {integrity: sha512-jxPRPp9n93ci7b8hMfJOFDPRLFYadN6FSpeROFTR4UNF4i5b+EK6m4QXPO46BDhFgRy1JuS87zAnFOzCUwMJcQ==}
+  /@sinonjs/fake-timers/9.1.0:
+    resolution: {integrity: sha512-M8vapsv9qQupMdzrVzkn5rb9jG7aUTEPAZdMtME2PuBaefksFZVE2C1g4LBRTkF/k3nRDNbDc5tp5NFC1PEYxA==}
+    dependencies:
+      '@sinonjs/commons': 1.8.3
+    dev: true
+
+  /@sinonjs/samsam/6.1.1:
+    resolution: {integrity: sha512-cZ7rKJTLiE7u7Wi/v9Hc2fs3Ucc3jrWeMgPHbbTCeVAB2S0wOBbYlkJVeNSL04i7fdhT8wIbDq1zhC/PXTD2SA==}
     dependencies:
       '@sinonjs/commons': 1.8.3
       lodash.get: 4.4.2
@@ -9180,11 +9186,11 @@ packages:
     dev: true
     optional: true
 
-  /nise/5.1.0:
-    resolution: {integrity: sha512-W5WlHu+wvo3PaKLsJJkgPup2LrsXCcm7AWwyNZkUnn5rwPkuPBi3Iwk5SQtN0mv+K65k7nKKjwNQ30wg3wLAQQ==}
+  /nise/5.1.1:
+    resolution: {integrity: sha512-yr5kW2THW1AkxVmCnKEh4nbYkJdB3I7LUkiUgOvEkOp414mc2UMaHMA7pjq1nYowhdoJZGwEKGaQVbxfpWj10A==}
     dependencies:
       '@sinonjs/commons': 1.8.3
-      '@sinonjs/fake-timers': 7.1.2
+      '@sinonjs/fake-timers': 9.1.0
       '@sinonjs/text-encoding': 0.7.1
       just-extend: 4.2.1
       path-to-regexp: 1.8.0
@@ -11141,14 +11147,14 @@ packages:
   /signal-exit/3.0.6:
     resolution: {integrity: sha512-sDl4qMFpijcGw22U5w63KmD3cZJfBuFlVNbVMKje2keoKML7X2UzWbc4XrmEbDwg0NXJc3yv4/ox7b+JWb57kQ==}
 
-  /sinon/12.0.1:
-    resolution: {integrity: sha512-iGu29Xhym33ydkAT+aNQFBINakjq69kKO6ByPvTsm3yyIACfyQttRTP03aBP/I8GfhFmLzrnKwNNkr0ORb1udg==}
+  /sinon/13.0.1:
+    resolution: {integrity: sha512-8yx2wIvkBjIq/MGY1D9h1LMraYW+z1X0mb648KZnKSdvLasvDu7maa0dFaNYdTDczFgbjNw2tOmWdTk9saVfwQ==}
     dependencies:
       '@sinonjs/commons': 1.8.3
-      '@sinonjs/fake-timers': 8.1.0
-      '@sinonjs/samsam': 6.0.2
+      '@sinonjs/fake-timers': 9.1.0
+      '@sinonjs/samsam': 6.1.1
       diff: 5.0.0
-      nise: 5.1.0
+      nise: 5.1.1
       supports-color: 7.2.0
     dev: true
 
