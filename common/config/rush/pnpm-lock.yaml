@@ -93,7 +93,7 @@ importers:
       '@types/node-cron': ~3.0.1
       '@typescript-eslint/eslint-plugin': 5.3.0
       '@typescript-eslint/parser': 5.3.0
-      dotenv: ~14.2.0
+      dotenv: ~16.0.0
       eslint: ^8.2.0
       express: ^4.17.2
       got: 11.8.3
@@ -105,7 +105,7 @@ importers:
     dependencies:
       '@dills1220/tmdb': 2.7.1
       '@dills1220/wtw': link:../wtw
-      dotenv: 14.2.0
+      dotenv: 16.0.0
       express: 4.17.2
       got: 11.8.3
       node-cron: 3.0.0
@@ -5664,6 +5664,11 @@ packages:
 
   /dotenv/14.2.0:
     resolution: {integrity: sha512-05POuPJyPpO6jqzTNweQFfAyMSD4qa4lvsMOWyTRTdpHKy6nnnN+IYWaXF+lHivhBH/ufDKlR4IWCAN3oPnHuw==}
+    engines: {node: '>=12'}
+    dev: false
+
+  /dotenv/16.0.0:
+    resolution: {integrity: sha512-qD9WU0MPM4SWLPJy/r2Be+2WgQj8plChsyrCNQzW/0WjvcJQiKQJ9mH3ZgB3fxbUUxgc/11ZJ0Fi5KiimWGz2Q==}
     engines: {node: '>=12'}
     dev: false
 
