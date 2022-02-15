@@ -5,7 +5,23 @@
 
 version: 2
 updates:
-  - package-ecosystem: 'npm' # See documentation for possible values
-    directory: '/' # Location of package manifests
+  - package-ecosystem: 'npm'
+    directory: '/apps/api'
+    schedule:
+      interval: 'daily'
+  - package-ecosystem: 'npm'
+    directory: '/apps/data-service'
+    schedule:
+      interval: 'daily'
+  - package-ecosystem: 'npm'
+    directory: '/apps/frontend'
+    schedule:
+      interval: 'daily'
+  - package-ecosystem: 'npm'
+    directory: '/apps/redis-sdk'
+    schedule:
+      interval: 'daily'
+  - package-ecosystem: 'npm'
+    directory: '/apps/wtw'
     schedule:
       interval: 'daily'
