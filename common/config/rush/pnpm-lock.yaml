@@ -145,7 +145,7 @@ importers:
       '@ngneat/elf': ^1.0.2
       '@ngneat/elf-cli-ng': ^1.0.0
       '@ngneat/elf-devtools': ^1.2.0
-      '@ngneat/elf-entities': ^2.1.0
+      '@ngneat/elf-entities': ^3.2.1
       '@ngneat/elf-pagination': ^1.0.0
       '@ngneat/elf-persist-state': ^1.0.0
       '@ngneat/elf-requests': ^1.1.1
@@ -187,8 +187,8 @@ importers:
       '@ngneat/elf': 1.0.2_typescript@4.5.5
       '@ngneat/elf-cli-ng': 1.0.0
       '@ngneat/elf-devtools': 1.2.0
-      '@ngneat/elf-entities': 2.1.0
-      '@ngneat/elf-pagination': 1.0.0_@ngneat+elf-entities@2.1.0
+      '@ngneat/elf-entities': 3.2.1
+      '@ngneat/elf-pagination': 1.0.0_@ngneat+elf-entities@3.2.1
       '@ngneat/elf-persist-state': 1.0.0
       '@ngneat/elf-requests': 1.1.1
       '@ngneat/elf-state-history': 1.0.1
@@ -2639,16 +2639,16 @@ packages:
     resolution: {integrity: sha512-0mnW7O9qP6qs45abzTCkk5jI9tBsxtQlMizMJCD+HvHHfQk1l5Z7w9PyBhX7hrD5pw0xYc3XE5fuEzQSzP6Jjg==}
     dev: false
 
-  /@ngneat/elf-entities/2.1.0:
-    resolution: {integrity: sha512-9zzd8CUYEdLjTZWpigw2uRdUidYe+ouvladatdFij1vibKmsF7RBkSbwe8YyTDv34+BLGwJ6B99KnWqn5kypTA==}
+  /@ngneat/elf-entities/3.2.1:
+    resolution: {integrity: sha512-vjQGQZUW5ylBhXKg0IBRs+r6Sf23hGev1ZlPDWKsvLqceLTnHCIm/2gdT9zpxXC9WmPbdCtdVS6TZ9uX2UIhlg==}
     dev: false
 
-  /@ngneat/elf-pagination/1.0.0_@ngneat+elf-entities@2.1.0:
+  /@ngneat/elf-pagination/1.0.0_@ngneat+elf-entities@3.2.1:
     resolution: {integrity: sha512-AbUih9Ji6Hp+j1g2mxy94LPF9uhPGGaYR8nyz8ddeD1XGHxlxweGDbhfCZT0XNnKc5OpvH1oh3W+okFFptWcfg==}
     peerDependencies:
       '@ngneat/elf-entities': '*'
     dependencies:
-      '@ngneat/elf-entities': 2.1.0
+      '@ngneat/elf-entities': 3.2.1
     dev: false
 
   /@ngneat/elf-persist-state/1.0.0:
