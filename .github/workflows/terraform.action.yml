@@ -1,10 +1,10 @@
-name: Infastructure Checks
+name: Infrastructure Checks
 
 on:
   pull_request:
     types: [synchronize, opened, reopened]
     paths:
-      - 'infastructure/**'
+      - 'infrastructure/**'
 
 jobs:
   check_format:
@@ -17,7 +17,7 @@ jobs:
       - name: terraform fmt
         uses: dflook/terraform-fmt-check@v1
         with:
-          path: infastructure/
+          path: infrastructure/
   validate:
     runs-on: ubuntu-latest
     name: Validate terraform
@@ -28,4 +28,4 @@ jobs:
       - name: terraform validate
         uses: dflook/terraform-validate@v1
         with:
-          path: infastructure/
+          path: infrastructure/
