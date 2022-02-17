@@ -10,7 +10,7 @@ importers:
       '@nestjs/cli': ^8.1.6
       '@nestjs/common': ^8.2.5
       '@nestjs/core': ^8.2.5
-      '@nestjs/platform-fastify': ~8.2.5
+      '@nestjs/platform-fastify': ~8.3.1
       '@nestjs/schematics': ^8.0.5
       '@nestjs/serve-static': ~2.2.2
       '@nestjs/testing': ^8.2.4
@@ -47,7 +47,7 @@ importers:
     dependencies:
       '@nestjs/common': 8.2.6_41a73a83cecc93a04fa529b9098e66bd
       '@nestjs/core': 8.2.6_b1c87d49cb3cb6bde37bc22ce42ae20e
-      '@nestjs/platform-fastify': 8.2.6_732a54a2558f64827b8cc4f9baac4f1f
+      '@nestjs/platform-fastify': 8.3.1_732a54a2558f64827b8cc4f9baac4f1f
       '@nestjs/serve-static': 2.2.2_732a54a2558f64827b8cc4f9baac4f1f
       '@nestjs/throttler': 2.0.0_d86dd164971a98d71cc003a4f36ff106
       class-transformer: 0.5.1
@@ -2495,19 +2495,19 @@ packages:
       - encoding
     dev: false
 
-  /@nestjs/platform-fastify/8.2.6_732a54a2558f64827b8cc4f9baac4f1f:
-    resolution: {integrity: sha512-ZvMzqvOm2yEDymw/v1qgrNWGLr429lqOTYc777SnDleK4m1XGItdRAm7Y9as0fiztOWvBpaeF7Bq04hbuZeebA==}
+  /@nestjs/platform-fastify/8.3.1_732a54a2558f64827b8cc4f9baac4f1f:
+    resolution: {integrity: sha512-JGqi7H62l1yglrvDG0g+QaJiVkMsozXxLZyPjCEY+kgyMNXCtvhi9ZkPGwkttl1RLnG0XQ7b5vgJyH5DqeIMDA==}
     peerDependencies:
       '@nestjs/common': ^8.0.0
       '@nestjs/core': ^8.0.0
     dependencies:
       '@nestjs/common': 8.2.6_41a73a83cecc93a04fa529b9098e66bd
       '@nestjs/core': 8.2.6_b1c87d49cb3cb6bde37bc22ce42ae20e
-      fastify: 3.27.0
+      fastify: 3.27.1
       fastify-cors: 6.0.2
       fastify-formbody: 5.2.0
-      light-my-request: 4.7.0
-      middie: 5.3.0
+      light-my-request: 4.7.1
+      middie: 6.0.0
       path-to-regexp: 3.2.0
       tslib: 2.3.1
     transitivePeerDependencies:
@@ -3795,7 +3795,7 @@ packages:
       ajv:
         optional: true
     dependencies:
-      ajv: 8.8.2
+      ajv: 8.9.0
     dev: true
 
   /ajv-keywords/3.5.2_ajv@6.12.6:
@@ -6399,10 +6399,11 @@ packages:
 
   /fastify-warning/0.2.0:
     resolution: {integrity: sha512-s1EQguBw/9qtc1p/WTY4eq9WMRIACkj+HTcOIK1in4MV5aFaQC9ZCIt0dJ7pr5bIf4lPpHvAtP2ywpTNgs7hqw==}
+    deprecated: This module renamed to process-warning
     dev: false
 
-  /fastify/3.27.0:
-    resolution: {integrity: sha512-p99Fd7xt4DFew39U5Wnp/Soy7jkpxpaqToekwQ3XWv+ECUPXd6bSF9l79EiwkutWALtEU/JiRlzS9qjP2gLHFg==}
+  /fastify/3.27.1:
+    resolution: {integrity: sha512-GLn3ow5BGqg/m+ztXvztp8Xp7SuH99vAm4zfbN7407Qzi4mB055SG/lWH/gYolz5Oq2K8LtUpZqt1Ccf/YkVmA==}
     dependencies:
       '@fastify/ajv-compiler': 1.1.0
       abstract-logging: 2.0.1
@@ -6411,7 +6412,7 @@ packages:
       fastify-error: 0.3.1
       find-my-way: 4.5.1
       flatstr: 1.0.12
-      light-my-request: 4.7.0
+      light-my-request: 4.7.1
       pino: 6.13.4
       process-warning: 1.0.0
       proxy-addr: 2.0.7
@@ -8443,8 +8444,8 @@ packages:
       webpack-sources: 3.2.3
     dev: true
 
-  /light-my-request/4.7.0:
-    resolution: {integrity: sha512-LTa8YZp3K2AUpqUnwwKajoIHcsKOBnzwJNQSrk7unziPwo6CjOYjyO0F9wfkxFvP+nBsCGe3eMPnedVgIIgdAw==}
+  /light-my-request/4.7.1:
+    resolution: {integrity: sha512-7/bT6M+iHY90L9/rW7aboVYt0o0uOqzIx4yofC67d6WE9uLksecGf3mxPuZfVjMONG+i6hCq6z5NZCxqzpA2yw==}
     dependencies:
       ajv: 8.9.0
       cookie: 0.4.1
@@ -8798,8 +8799,8 @@ packages:
       picomatch: 2.3.1
     dev: true
 
-  /middie/5.3.0:
-    resolution: {integrity: sha512-uq6Ob4dmmHeT6rJpBDWVwSxBzxzKlBvnrZdLSRJeuhHzljvZ6ccgLP/HaShgfiYrQvekRH0KUe/G1WTu/IrXsQ==}
+  /middie/6.0.0:
+    resolution: {integrity: sha512-Z1DnAjhtr7xQmOdjUUtGVP4NLaR5422AwhIT6TvzLu2jP8cWK6Mik92Py/xyuyBeM0P+d+Zhuaw0Q6WKTH9Kjw==}
     engines: {node: '>=10.0.0'}
     dependencies:
       fastify-plugin: 3.0.1
