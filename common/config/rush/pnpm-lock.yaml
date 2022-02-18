@@ -168,7 +168,7 @@ importers:
       ng-lazyload-image: ~9.1.2
       primeflex: ~3.1.2
       primeicons: ~5.0.0
-      primeng: ~13.1.1
+      primeng: ~13.2.0
       rxjs: 7.5.4
       tslib: ^2.2.0
       typescript: ~4.5.4
@@ -196,7 +196,7 @@ importers:
       ng-lazyload-image: 9.1.2_4e8b4d58f9c2f4d434ae7fb66521d787
       primeflex: 3.1.2
       primeicons: 5.0.0
-      primeng: 13.1.1_b380bf657a62acfb063383b662155a52
+      primeng: 13.2.0_b380bf657a62acfb063383b662155a52
       rxjs: 7.5.4
       tslib: 2.3.1
       zone.js: 0.11.4
@@ -10379,8 +10379,8 @@ packages:
     resolution: {integrity: sha512-heygWF0X5HFI1otlZE62pp6ye7sZ8om78J9au2BRkg8O7Y8AHTZ9qKMRzchZUHLe8zUAvdi6hZzzm9XxgwIExw==}
     dev: false
 
-  /primeng/13.1.1_b380bf657a62acfb063383b662155a52:
-    resolution: {integrity: sha512-gqSuKbPq8x8ITpv2r7Ne96S3htt0aa0ZxJgHPyj/MNDNdfmrXk1Phm1EzkAbIy66t0RdJjc4RUWqLfAgsKEAYw==}
+  /primeng/13.2.0_b380bf657a62acfb063383b662155a52:
+    resolution: {integrity: sha512-6rnjfXu91B1bVAFoJdbGTD7e3EXeTabPLvAJlVOg7/YFPbvzvOKjdFKa+8zomSun7TJgDLJTEa1ijgjc9b+uiA==}
     peerDependencies:
       '@angular/common': ^13.0.0
       '@angular/core': ^13.0.0
