@@ -13,6 +13,8 @@ updates:
     directory: '/apps/data-service'
     schedule:
       interval: 'daily'
+    ignore:
+      - dependency-name: 'got'
   - package-ecosystem: 'npm'
     directory: '/apps/frontend'
     schedule:
@@ -25,3 +27,5 @@ updates:
     directory: '/apps/wtw'
     schedule:
       interval: 'daily'
+    ignore:
+      - dependency-name: 'got'
