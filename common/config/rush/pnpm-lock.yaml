@@ -263,7 +263,7 @@ importers:
       mocha: ~9.2.1
       rxjs: 7.5.4
       sinon: ~13.0.1
-      ts-node: ~10.6.0
+      ts-node: ~10.7.0
       typescript: ~4.5.4
     dependencies:
       camelcase-keys: 7.0.2
@@ -283,7 +283,7 @@ importers:
       lint-staged: 12.3.4
       mocha: 9.2.1
       sinon: 13.0.1
-      ts-node: 10.6.0_99a448058f874aec2a353d0e974167cc
+      ts-node: 10.7.0_99a448058f874aec2a353d0e974167cc
       typescript: 4.5.5
 
 packages:
@@ -12405,8 +12405,8 @@ packages:
       typescript: 4.6.2
     dev: true
 
-  /ts-node/10.5.0_99a448058f874aec2a353d0e974167cc:
-    resolution: {integrity: sha512-6kEJKwVxAJ35W4akuiysfKwKmjkbYxwQMTBaAxo9KKAx/Yd26mPUyhGz3ji+EsJoAgrLqVsYHNuuYwQe22lbtw==}
+  /ts-node/10.6.0_99a448058f874aec2a353d0e974167cc:
+    resolution: {integrity: sha512-CJen6+dfOXolxudBQXnVjRVvYTmTWbyz7cn+xq2XTsvnaXbHqr4gXSCNbS2Jj8yTZMuGwUoBESLaOkLascVVvg==}
     hasBin: true
     peerDependencies:
       '@swc/core': '>=1.2.50'
@@ -12436,8 +12436,8 @@ packages:
       yn: 3.1.1
     dev: true
 
-  /ts-node/10.6.0_99a448058f874aec2a353d0e974167cc:
-    resolution: {integrity: sha512-CJen6+dfOXolxudBQXnVjRVvYTmTWbyz7cn+xq2XTsvnaXbHqr4gXSCNbS2Jj8yTZMuGwUoBESLaOkLascVVvg==}
+  /ts-node/10.7.0_99a448058f874aec2a353d0e974167cc:
+    resolution: {integrity: sha512-TbIGS4xgJoX2i3do417KSaep1uRAW/Lu+WAL2doDHC0D6ummjirVOXU5/7aiZotbQ5p1Zp9tP7U6cYhA0O7M8A==}
     hasBin: true
     peerDependencies:
       '@swc/core': '>=1.2.50'
