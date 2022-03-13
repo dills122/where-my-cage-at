@@ -67,6 +67,7 @@ export class FullClient {
 			await this._client.clear(key, '$');
 		} catch (err) {
 			console.error(err);
+			return;
 		}
 	}
 
