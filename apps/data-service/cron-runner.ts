@@ -21,8 +21,6 @@ cron.schedule('35 4 * * *', () => {
 		});
 });
 
-app.listen(Number(PORT));
-
 (async () => {
 	try {
 		console.log('Initial Pod Spin Up. Running Redis Refresher');
@@ -32,3 +30,5 @@ app.listen(Number(PORT));
 		console.error(err);
 	}
 })();
+
+app.listen(Number(PORT));

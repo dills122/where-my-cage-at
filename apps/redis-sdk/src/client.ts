@@ -17,12 +17,14 @@ export class FullClient {
 	}
 
 	async updateServiceProviders(serviceProviders: ServiceProvider[]) {
+		const key = 'serviceproviders:jsondata';
 		try {
 			if (!this._connected) {
 				await this.connect();
 			}
+			await this.clearEntry(key);
 			await this._client.set(
-				'serviceproviders:jsondata',
+				key,
 				'$',
 				JSON.stringify({
 					records: serviceProviders
@@ -36,12 +38,14 @@ export class FullClient {
 	}
 
 	async updateMovieCatalog(movieRecords: MovieRecord[]) {
+		const key = 'moviecatalog:jsondata';
 		try {
 			if (!this._connected) {
 				await this.connect();
 			}
+			await this.clearEntry(key);
 			await this._client.set(
-				'moviecatalog:jsondata',
+				key,
 				'$',
 				JSON.stringify({
 					records: movieRecords
@@ -52,6 +56,10 @@ export class FullClient {
 			await this.disconnect();
 			throw err;
 		}
+	}
+
+	async clearEntry(key: string) {
+		await this._client.clear(key);
 	}
 
 	async disconnect() {
