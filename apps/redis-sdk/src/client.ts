@@ -59,7 +59,11 @@ export class FullClient {
 	}
 
 	async clearEntry(key: string) {
-		await this._client.clear(key);
+		try {
+			await this._client.clear(key);
+		} catch (err) {
+			console.error(err);
+		}
 	}
 
 	async disconnect() {
