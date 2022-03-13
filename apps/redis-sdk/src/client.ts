@@ -22,7 +22,7 @@ export class FullClient {
 			if (!this._connected) {
 				await this.connect();
 			}
-			await this.clearEntry(key);
+			await this.clearEntryIfExistsAlready(key);
 			await this._client.set(
 				key,
 				'$',
@@ -43,7 +43,7 @@ export class FullClient {
 			if (!this._connected) {
 				await this.connect();
 			}
-			await this.clearEntry(key);
+			await this.clearEntryIfExistsAlready(key);
 			await this._client.set(
 				key,
 				'$',
@@ -58,9 +58,13 @@ export class FullClient {
 		}
 	}
 
-	async clearEntry(key: string) {
+	async clearEntryIfExistsAlready(key: string) {
 		try {
-			await this._client.clear(key);
+			const entry = await this._client.get(key, '$');
+			if (entry == null || entry === '') {
+				return;
+			}
+			await this._client.clear(key, '$');
 		} catch (err) {
 			console.error(err);
 		}

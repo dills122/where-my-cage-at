@@ -33,6 +33,9 @@ export class ReadOnlyClient {
 				await this.connect();
 			}
 			const providers = await this._client.get(config.serviceProvidersPath);
+			if (providers == null || providers === '') {
+				throw Error('No records found');
+			}
 			const { records } = JSON.parse(providers) as {
 				records: ServiceProvider[];
 			};
@@ -49,8 +52,11 @@ export class ReadOnlyClient {
 			if (!this._connected) {
 				await this.connect();
 			}
-			const providers = await this._client.get(config.movieCatalogPath);
-			const { records } = JSON.parse(providers) as {
+			const movies = await this._client.get(config.movieCatalogPath);
+			if (movies == null || movies === '') {
+				throw Error('No records found');
+			}
+			const { records } = JSON.parse(movies) as {
 				records: MovieRecord[];
 			};
 			return records;
