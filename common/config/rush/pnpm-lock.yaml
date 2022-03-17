@@ -231,13 +231,11 @@ importers:
       '@typescript-eslint/eslint-plugin': 5.12.1
       '@typescript-eslint/parser': 5.12.1
       eslint: ~8.11.0
-      redis: ~4.0.2
-      redis-modules-sdk: ~1.2.0
+      redis: ^4.0.4
       ts-node-dev: ^1.1.8
       typescript: ~4.5.5
     dependencies:
       redis: 4.0.4
-      redis-modules-sdk: 1.2.0
     devDependencies:
       '@typescript-eslint/eslint-plugin': 5.12.1_25d62846ab9725500b11cab6c6e0c004
       '@typescript-eslint/parser': 5.12.1_eslint@8.11.0+typescript@4.5.5
@@ -5738,11 +5736,6 @@ packages:
     resolution: {integrity: sha1-hMbhWbgZBP3KWaDvRM2HDTElD5o=}
     dev: true
 
-  /denque/1.5.1:
-    resolution: {integrity: sha512-XwE+iZ4D6ZUB7mfYRMb5wByE8L74HCn30FBN7sWnXksWc1LO1bPDl67pBR9o/kC4z/xSNAwkMYcGgqDV3BE3Hw==}
-    engines: {node: '>=0.10'}
-    dev: false
-
   /depd/1.1.2:
     resolution: {integrity: sha1-m81S4UwJd2PnSbJ0xDRu0uVgtak=}
     engines: {node: '>= 0.6'}
@@ -7682,24 +7675,6 @@ packages:
       p-is-promise: 3.0.0
     dev: false
 
-  /ioredis/4.27.4:
-    resolution: {integrity: sha512-1n91WZ+L1tHL4hEN9pT16s3f0+Dg82GfvyJGaD47BhEvQb63gIsmDkt/dmzDFBTYfwwlQn8TsT/QSPcjHiT3CQ==}
-    engines: {node: '>=6'}
-    dependencies:
-      cluster-key-slot: 1.1.0
-      debug: 4.3.3
-      denque: 1.5.1
-      lodash.defaults: 4.2.0
-      lodash.flatten: 4.4.0
-      p-map: 2.1.0
-      redis-commands: 1.7.0
-      redis-errors: 1.2.0
-      redis-parser: 3.0.0
-      standard-as-callback: 2.1.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /ip/1.1.5:
     resolution: {integrity: sha1-vd7XARQpCCjAoDnnLvJfWq7ENUo=}
 
@@ -8916,14 +8891,6 @@ packages:
     resolution: {integrity: sha1-gteb/zCmfEAF/9XiUVMArZyk168=}
     dev: true
 
-  /lodash.defaults/4.2.0:
-    resolution: {integrity: sha1-0JF4cW/+pN3p5ft7N/bwgCJ0WAw=}
-    dev: false
-
-  /lodash.flatten/4.4.0:
-    resolution: {integrity: sha1-8xwiIlqWMtK7+OSt2+8kCqdlph8=}
-    dev: false
-
   /lodash.get/4.4.2:
     resolution: {integrity: sha1-LRd/ZS+jHpObRDjVNBSZ36OCXpk=}
     dev: true
@@ -9854,11 +9821,6 @@ packages:
     dependencies:
       p-limit: 3.1.0
     dev: true
-
-  /p-map/2.1.0:
-    resolution: {integrity: sha512-y3b8Kpd8OAN444hxfBbFfj1FY/RjtTd8tzYwhUqNYXx0fXx2iX4maP4Qr6qhIKbQXI02wTLAda4fYUbDagTUFw==}
-    engines: {node: '>=6'}
-    dev: false
 
   /p-map/4.0.0:
     resolution: {integrity: sha512-/bjOqmgETBYB5BoEeGVea8dmvHb2m9GLy1E9W43yeyfP6QQCZGFNa+XRceJEuDB6zqr+gKpIAmlLebMpykw/MQ==}
@@ -10904,21 +10866,9 @@ packages:
       resolve: 1.22.0
     dev: true
 
-  /redis-commands/1.7.0:
-    resolution: {integrity: sha512-nJWqw3bTFy21hX/CPKHth6sfhZbdiHP6bTawSgQBlKOVRG7EZkfHbbHwQJnrE4vsQf0CMNE+3gJ4Fmm16vdVlQ==}
-    dev: false
-
   /redis-errors/1.2.0:
     resolution: {integrity: sha1-62LSrbFeTq9GEMBK/hUpOEJQq60=}
     engines: {node: '>=4'}
-    dev: false
-
-  /redis-modules-sdk/1.2.0:
-    resolution: {integrity: sha512-8y7nIyVp2ZYH569cxIeFKiYyzFRGwu/r2LYegtS2+XYw1EcmYwdLRL28+BGuYt75Qp1oVdeTozsEKNk29bd3cg==}
-    dependencies:
-      ioredis: 4.27.4
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /redis-parser/3.0.0:
@@ -11668,10 +11618,6 @@ packages:
     dependencies:
       escape-string-regexp: 2.0.0
     dev: true
-
-  /standard-as-callback/2.1.0:
-    resolution: {integrity: sha512-qoRRSyROncaz1z0mvYqIE4lCd9p2R90i6GxW3uZv5ucSu8tU7B5HXUP1gG8pVZsYNVaXjk8ClXHPttLyxAL48A==}
-    dev: false
 
   /statuses/1.5.0:
     resolution: {integrity: sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow=}
