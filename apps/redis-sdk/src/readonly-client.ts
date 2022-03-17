@@ -1,15 +1,17 @@
-import { ReJSON } from 'redis-modules-sdk';
+import { createClient } from 'redis';
 import { MovieRecord } from '..';
 import { ServiceProvider } from './data-types';
 import config from './shared';
 
 export class ReadOnlyClient {
-	private _client: ReJSON;
+	private _client;
 	private _connected: boolean;
 	constructor({ host, port }: { host: string; port: string }) {
-		this._client = new ReJSON({
-			host,
-			port
+		this._client = createClient({
+			socket: {
+				port: Number(port),
+				host
+			}
 		});
 	}
 
@@ -32,11 +34,11 @@ export class ReadOnlyClient {
 			if (!this._connected) {
 				await this.connect();
 			}
-			const providers = await this._client.get(config.serviceProvidersPath);
+			const providers = await this._client.json.get(config.serviceProvidersPath);
 			if (providers == null || providers === '') {
 				throw Error('No records found');
 			}
-			const { records } = JSON.parse(providers) as {
+			const { records } = providers as {
 				records: ServiceProvider[];
 			};
 			return records;
@@ -52,11 +54,11 @@ export class ReadOnlyClient {
 			if (!this._connected) {
 				await this.connect();
 			}
-			const movies = await this._client.get(config.movieCatalogPath);
+			const movies = await this._client.json.get(config.movieCatalogPath);
 			if (movies == null || movies === '') {
 				throw Error('No records found');
 			}
-			const { records } = JSON.parse(movies) as {
+			const { records } = movies as {
 				records: MovieRecord[];
 			};
 			return records;
