@@ -1,13 +1,15 @@
-import { ReJSON } from 'redis-modules-sdk';
+import { createClient } from 'redis';
 import { MovieRecord, ServiceProvider } from './data-types';
 
 export class FullClient {
-	private _client: ReJSON;
+	private _client;
 	private _connected: boolean;
 	constructor({ host, port }: { host: string; port: string }) {
-		this._client = new ReJSON({
-			host,
-			port
+		this._client = createClient({
+			socket: {
+				port: Number(port),
+				host
+			}
 		});
 	}
 
@@ -23,13 +25,9 @@ export class FullClient {
 				await this.connect();
 			}
 			await this.clearEntryIfExistsAlready(key);
-			await this._client.set(
-				key,
-				'$',
-				JSON.stringify({
-					records: serviceProviders
-				})
-			);
+			await this._client.json.set(key, '$', {
+				records: serviceProviders
+			});
 		} catch (err) {
 			console.error(err);
 			await this.disconnect();
@@ -44,13 +42,9 @@ export class FullClient {
 				await this.connect();
 			}
 			await this.clearEntryIfExistsAlready(key);
-			await this._client.set(
-				key,
-				'$',
-				JSON.stringify({
-					records: movieRecords
-				})
-			);
+			await this._client.json.set(key, '$', {
+				records: movieRecords
+			});
 		} catch (err) {
 			console.error(err);
 			await this.disconnect();
@@ -60,11 +54,11 @@ export class FullClient {
 
 	async clearEntryIfExistsAlready(key: string) {
 		try {
-			const entry = await this._client.get(key, '$');
+			const entry = await this._client.json.get(key, '$');
 			if (entry == null || entry === '') {
 				return;
 			}
-			await this._client.clear(key, '$');
+			await this._client.json.del(key, '$');
 		} catch (err) {
 			console.error(err);
 			return;
