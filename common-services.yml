@@ -3,6 +3,9 @@ services:
   redis-base:
     image: redislabs/rejson
     hostname: redis-redisjson
+    command: ['redis-server', '/etc/redis/redis.conf']
+    volumes:
+      - ./redis.conf:/etc/redis/redis.conf
     ports:
       - '${REDIS_PORT}:${REDIS_PORT}'
     restart: always
