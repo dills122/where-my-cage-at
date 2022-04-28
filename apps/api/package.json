@@ -37,7 +37,7 @@
 		"@nestjs/throttler": "~2.0.0",
 		"@nestjs/serve-static": "~2.2.2",
 		"fastify-static": "~4.6.0",
-		"fastify-compress": "~4.0.1"
+		"fastify-compress": "~4.1.0"
 	},
 	"devDependencies": {
 		"@nestjs/cli": "^8.1.6",
