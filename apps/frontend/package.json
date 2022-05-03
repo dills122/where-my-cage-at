@@ -39,7 +39,7 @@
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4",
     "ng-lazyload-image": "~9.1.2",
-    "fuse.js": "~6.5.3"
+    "fuse.js": "~6.6.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~13.3.0",
