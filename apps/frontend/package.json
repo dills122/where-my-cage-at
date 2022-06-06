@@ -22,7 +22,7 @@
     "@angular/forms": "~13.3.0",
     "@angular/platform-browser": "~14.0.0",
     "@angular/platform-browser-dynamic": "~13.3.0",
-    "@angular/router": "~13.3.0",
+    "@angular/router": "~14.0.0",
     "@ngneat/effects-ng": "^2.0.0",
     "@ngneat/elf": "^2.0.0",
     "@ngneat/elf-cli-ng": "^1.0.0",
