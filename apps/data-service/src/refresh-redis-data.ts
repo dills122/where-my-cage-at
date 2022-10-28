@@ -33,10 +33,10 @@ export default async () => {
 		const creditRecords = await wtw.getPersonsFilmography({
 			personId: JustWatchPersonId
 		});
-		console.log('Retrieved Credit Records');
+		console.log('Retrieved Acting Credit Records');
 
 		const serviceProviders = await wtw.getProviders();
-		console.log('Retrieved Service Providers');
+		console.log('Retrieved Streaming Service Providers');
 
 		console.log('Beginning iteration over movie credits', creditRecords.length);
 		await iterateThroughCredits(creditRecords);

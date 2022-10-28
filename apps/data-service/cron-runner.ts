@@ -21,7 +21,8 @@ cron.schedule('35 4 * * *', () => {
 		});
 });
 
-(async () => {
+app.listen(Number(PORT), async () => {
+	console.log('Data Service Server Started');
 	try {
 		console.log('Initial Pod Spin Up. Running Redis Refresher');
 		await refresh();
@@ -29,6 +30,4 @@ cron.schedule('35 4 * * *', () => {
 		console.error('Finished running with errors');
 		console.error(err);
 	}
-})();
-
-app.listen(Number(PORT));
+});
