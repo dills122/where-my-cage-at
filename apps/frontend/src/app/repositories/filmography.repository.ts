@@ -1,6 +1,6 @@
 import { createState, Store } from '@ngneat/elf';
 import {
-	selectAll,
+	selectAllEntities,
 	selectEntity,
 	selectManyByPredicate,
 	setEntities,
@@ -27,7 +27,7 @@ export const skipFilmographyWhileCached = createRequestsCacheOperator(filmograph
 
 export class FilmographyRepository {
 	initialized$ = filmographyPersist.initialized$;
-	credits$ = filmographyStore.pipe(selectAll());
+	credits$ = filmographyStore.pipe(selectAllEntities());
 	set(entities: MovieRecord[]) {
 		filmographyStore.update(
 			updateRequestCache(storeName, {

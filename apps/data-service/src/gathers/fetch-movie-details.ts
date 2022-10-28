@@ -1,11 +1,7 @@
 import { NotFoundError, Tmdb } from '@dills1220/tmdb';
-import * as dotenv from 'dotenv';
 import { Movie } from '../types';
 import config from '../../config';
 
-dotenv.config({ path: __dirname + '/.env' });
-
-// const apiKey = process.env.TMDB_KEY;
 const apiKey = config.tmdb.apiKey;
 
 export default async (movieId: number) => {

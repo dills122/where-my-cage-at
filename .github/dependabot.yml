@@ -29,3 +29,4 @@ updates:
       interval: 'daily'
     ignore:
       - dependency-name: 'got'
+      - dependency-name: 'camelcase-keys'
