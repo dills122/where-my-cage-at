@@ -2,6 +2,7 @@ import refresh from './src/refresh-redis-data';
 import cron from 'node-cron';
 import express from 'express';
 import * as dotenv from 'dotenv';
+import { file } from './src/logger';
 
 dotenv.config({ path: __dirname + '/.env' });
 
@@ -11,7 +12,7 @@ const app = express();
 
 //Runs at 4:35 AM Everyday.
 cron.schedule('35 4 * * *', () => {
-	Promise.all([refresh()])
+	Promise.all([file.writeLogMessage('Data Services for the 4:35 AM time block started'), refresh()])
 		.then(() => {
 			console.log('Finished running service');
 		})
@@ -22,12 +23,18 @@ cron.schedule('35 4 * * *', () => {
 });
 
 app.listen(Number(PORT), async () => {
-	console.log('Data Service Server Started');
+	let logMessage = 'Data Service Server Started';
+	console.log(logMessage);
+	await file.writeLogMessage(logMessage);
 	try {
-		console.log('Initial Pod Spin Up. Running Redis Refresher');
+		logMessage = 'Initial Pod Spin Up. Running Redis Refresher';
+		console.log(logMessage);
+		await file.writeLogMessage(logMessage);
 		await refresh();
 	} catch (err) {
-		console.error('Finished running with errors');
+		logMessage = 'Finished running with errors';
+		await file.writeLogMessage(logMessage);
+		console.error(logMessage);
 		console.error(err);
 	}
 });

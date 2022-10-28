@@ -1,11 +1,8 @@
-import * as dotenv from 'dotenv';
-
 import { Tmdb, NotFoundError } from '@dills1220/tmdb';
 import { CastCredit, MovieCreditsListsByRole } from '../types';
+import config from '../../config';
 
-dotenv.config({ path: __dirname + '/.env' });
-
-const apiKey = process.env.TMDB_KEY;
+const apiKey = config.tmdb.apiKey;
 
 const personId = 2963;
 

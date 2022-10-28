@@ -1,6 +1,6 @@
 import { createState, Store } from '@ngneat/elf';
 import {
-	selectAll,
+	selectAllEntities,
 	selectEntity,
 	selectEntityByPredicate,
 	selectMany,
@@ -30,7 +30,7 @@ export const skipServiceProviderWhileCached = createRequestsCacheOperator(servic
 
 export class ServiceProviderRepository {
 	initialized$ = serviceProviderPersist.initialized$;
-	serviceProviders$ = serviceProviderStore.pipe(selectAll());
+	serviceProviders$ = serviceProviderStore.pipe(selectAllEntities());
 
 	set(entities: ServiceProvider[]) {
 		serviceProviderStore.update(
