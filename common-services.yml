@@ -8,4 +8,5 @@ services:
     command: redis-server /usr/local/etc/redis/redis.conf
     volumes:
       - $PWD/.docker/redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - cache:/data
     restart: always
