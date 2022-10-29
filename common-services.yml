@@ -5,8 +5,9 @@ services:
     hostname: redis-redisjson
     ports:
       - '${REDIS_PORT}:${REDIS_PORT}'
-    command: redis-server /usr/local/etc/redis/redis.conf
+    command: >
+      redis-server /usr/local/etc/redis/redis.conf 
+      --loadmodule /usr/lib/redis/modules/rejson.so
     volumes:
       - $PWD/.docker/redis/redis.conf:/usr/local/etc/redis/redis.conf
-      - cache:/data
     restart: always
