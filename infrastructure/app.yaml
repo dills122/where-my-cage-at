@@ -30,6 +30,10 @@ runcmd:
   - /usr/bin/git clone https://github.com/dills122/where-my-cage-at.git app-src
   - sudo ufw allow 'Nginx Full'
   - sudo ufw deny 6379 # Lockdown redis port from the outside world
+  - sudo wget -O /usr/local/bin/ufw-docker https://github.com/chaifeng/ufw-docker/raw/master/ufw-docker
+  - sudo chmod +x /usr/local/bin/ufw-docker
+  - sudo ufw-docker install
+  - sudo systemctl restart ufw
   - /usr/bin/bash ./app-src/scripts/certbot.sh
   - /usr/bin/bash ./app-src/scripts/deploy.sh
   - /usr/bin/docker update --restart unless-stopped $(docker ps -q)
