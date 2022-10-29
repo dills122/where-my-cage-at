@@ -5,7 +5,6 @@
 		"merge_logs": true,
 		"max_restarts": 5,
 		"instances": "1",
-		"max_memory_restart": "200M",
 		"env_production": {
 			"NODE_ENV": "prod"
 		},
