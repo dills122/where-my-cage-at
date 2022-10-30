@@ -5,6 +5,7 @@ import config from '../config';
 import FetchMovieData from './gathers/fetch-movie-details';
 import { Movie } from './types';
 import { getRedisHostName } from './util';
+import { LogToAllInterfaces } from './logger';
 
 dotenv.config({ path: __dirname + '/../.env' });
 
@@ -19,14 +20,13 @@ interface UpdateFailures {
 	}[];
 }
 
-const failures: UpdateFailures = {
-	totalFailed: 0,
-	failedMovies: []
-};
-
-const movies: MovieRecord[] = [];
-
 export default async () => {
+	const failures: UpdateFailures = {
+		totalFailed: 0,
+		failedMovies: []
+	};
+	const movies: MovieRecord[] = [];
+
 	try {
 		console.log(`Starting Redis data refresh at: ${new Date().toISOString()}`);
 		const wtw = new WTW();
@@ -39,7 +39,7 @@ export default async () => {
 		console.log('Retrieved Streaming Service Providers');
 
 		console.log('Beginning iteration over movie credits', creditRecords.length);
-		await iterateThroughCredits(creditRecords);
+		await iterateThroughCredits(creditRecords, movies, failures);
 
 		console.log('Finished movie data construction, ready to update Redis');
 
@@ -65,7 +65,11 @@ function getTmdbIdFromObjectSearchResult(record: ObjectSearchResult) {
 	return tmdbId;
 }
 
-async function iterateThroughCredits(creditRecords: ObjectSearchResult[]) {
+async function iterateThroughCredits(
+	creditRecords: ObjectSearchResult[],
+	movieRecords: MovieRecord[],
+	failures: UpdateFailures
+) {
 	for (const record of creditRecords) {
 		const { title, objectType } = record;
 		const tmdbId = getTmdbIdFromObjectSearchResult(record);
@@ -74,13 +78,16 @@ async function iterateThroughCredits(creditRecords: ObjectSearchResult[]) {
 			const movieObject = await getAdditionalMovieData(tmdbId);
 			console.log(`Adding Movie to list to update: ${tmdbId}`);
 			const movieRecord = mergeMovieData(record, movieObject);
-			movies.push(movieRecord);
+			movieRecords.push(movieRecord);
 		} catch (err) {
-			addFailedRecord({
-				movieId: tmdbId,
-				title,
-				err
-			});
+			addFailedRecord(
+				{
+					movieId: tmdbId,
+					title,
+					err
+				},
+				failures
+			);
 			continue;
 		}
 	}
@@ -94,13 +101,16 @@ async function updateEntireRedisInstance(movies: MovieRecord[], serviceProviders
 	});
 	try {
 		await client.connect();
+		await LogToAllInterfaces('Successfully connected to Redis instance');
 		console.log('Updating Movie Catalog');
 		await client.updateMovieCatalog(movies);
 		console.log('Updating Service Providers');
 		await client.updateServiceProviders(serviceProviders);
 		await client.disconnect();
+		await LogToAllInterfaces('Successfully updated data & disconnected from Redis instance');
 	} catch (err) {
 		await client.disconnect();
+		await LogToAllInterfaces('Issue encountered with Redis update', true);
 		throw err;
 	}
 }
@@ -145,7 +155,7 @@ function mergeMovieData(record: ObjectSearchResult, additionalMovieData: Movie):
 	} as MovieRecord;
 }
 
-function addFailedRecord({ movieId, err, title }) {
+function addFailedRecord({ movieId, err, title }, failures: UpdateFailures) {
 	console.log(`Failed getting data for movie: ${movieId}`);
 	console.warn(err);
 	failures.totalFailed++;

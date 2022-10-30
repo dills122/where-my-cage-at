@@ -1,11 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
-import { fastifyHelmet } from 'fastify-helmet';
+import { fastifyHelmet } from '@fastify/helmet';
 import {
 	FastifyAdapter,
 	NestFastifyApplication,
 } from '@nestjs/platform-fastify';
-import fastifyCompress from 'fastify-compress';
+import fastifyCompress from '@fastify/compress';
 import { AppModule } from './app.module';
 import * as dotenv from 'dotenv';
 import { join } from 'path';

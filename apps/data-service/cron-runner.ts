@@ -2,7 +2,7 @@ import refresh from './src/refresh-redis-data';
 import cron from 'node-cron';
 import express from 'express';
 import * as dotenv from 'dotenv';
-import { file } from './src/logger';
+import { LogToAllInterfaces } from './src/logger';
 
 dotenv.config({ path: __dirname + '/.env' });
 
@@ -10,31 +10,27 @@ const PORT = process.env.CRON_PORT || 3001;
 
 const app = express();
 
-//Runs at 4:35 AM Everyday.
-cron.schedule('35 4 * * *', () => {
-	Promise.all([file.writeLogMessage('Data Services for the 4:35 AM time block started'), refresh()])
-		.then(() => {
-			console.log('Finished running service');
-		})
-		.catch(err => {
-			console.error('Finished running with errors');
-			console.error(err);
-		});
+//Runs every 12 hours
+cron.schedule('0 */12 * * *', async () => {
+	try {
+		await LogToAllInterfaces('CRON for every 12th hour has started executing its services');
+		await refresh();
+		await LogToAllInterfaces('Finished running data refresh service');
+	} catch (err) {
+		await LogToAllInterfaces('CRON for every 12th hour has finished executing its services with ERRORS');
+		console.error(err);
+	} finally {
+		await LogToAllInterfaces('CRON for every 12th hour has finished executing its services');
+	}
 });
 
 app.listen(Number(PORT), async () => {
-	let logMessage = 'Data Service Server Started';
-	console.log(logMessage);
-	await file.writeLogMessage(logMessage);
+	await LogToAllInterfaces('Data Service Server Started');
 	try {
-		logMessage = 'Initial Pod Spin Up. Running Redis Refresher';
-		console.log(logMessage);
-		await file.writeLogMessage(logMessage);
+		await LogToAllInterfaces('Initial Pod Spin Up. Running Redis Refresher');
 		await refresh();
 	} catch (err) {
-		logMessage = 'Finished running with errors';
-		await file.writeLogMessage(logMessage);
-		console.error(logMessage);
+		await LogToAllInterfaces('Finished running with errors', true);
 		console.error(err);
 	}
 });
