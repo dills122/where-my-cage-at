@@ -35,7 +35,8 @@ export class ServiceProviderRepository {
 	set(entities: ServiceProvider[]) {
 		serviceProviderStore.update(
 			updateRequestCache(storeName, {
-				value: 'full'
+				value: 'full',
+				ttl: 43200000 //12 hours
 			}),
 			setEntities(entities)
 		);
