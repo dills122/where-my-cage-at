@@ -5,6 +5,7 @@ import config from '../config';
 import FetchMovieData from './gathers/fetch-movie-details';
 import { Movie } from './types';
 import { getRedisHostName } from './util';
+import { LogToAllInterfaces } from './logger';
 
 dotenv.config({ path: __dirname + '/../.env' });
 
@@ -94,13 +95,16 @@ async function updateEntireRedisInstance(movies: MovieRecord[], serviceProviders
 	});
 	try {
 		await client.connect();
+		await LogToAllInterfaces('Successfully connected to Redis instance');
 		console.log('Updating Movie Catalog');
 		await client.updateMovieCatalog(movies);
 		console.log('Updating Service Providers');
 		await client.updateServiceProviders(serviceProviders);
 		await client.disconnect();
+		await LogToAllInterfaces('Successfully updated data & disconnected from Redis instance');
 	} catch (err) {
 		await client.disconnect();
+		await LogToAllInterfaces('Issue encountered with Redis update', true);
 		throw err;
 	}
 }
