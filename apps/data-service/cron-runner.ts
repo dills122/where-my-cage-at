@@ -10,30 +10,17 @@ const PORT = process.env.CRON_PORT || 3001;
 
 const app = express();
 
-// //Runs at 4:35 AM Everyday.
-// cron.schedule('35 4 * * *', async () => {
-// 	try {
-// 		await LogToAllInterfaces('Data Services for the 4:35 AM timeslot started');
-// 		await refresh();
-// 		await LogToAllInterfaces('Finished running data refresh service');
-// 	} catch (err) {
-// 		await LogToAllInterfaces('Data Services for the 4:35 AM timeslot finished with ERRORS');
-// 		console.error(err);
-// 	} finally {
-// 		await LogToAllInterfaces('Finished running all CRON services for 4:35 AM UTC timeslot');
-// 	}
-// });
-
-cron.schedule('*/5 * * * *', async () => {
+//Runs every 12 hours
+cron.schedule('0 */12 * * *', async () => {
 	try {
-		await LogToAllInterfaces('Data Services for every 5th minute timeslot has started');
+		await LogToAllInterfaces('CRON for every 12th hour has started executing its services');
 		await refresh();
 		await LogToAllInterfaces('Finished running data refresh service');
 	} catch (err) {
-		await LogToAllInterfaces('Data Services for for every 5th minute timeslot finished with ERRORS');
+		await LogToAllInterfaces('CRON for every 12th hour has finished executing its services with ERRORS');
 		console.error(err);
 	} finally {
-		await LogToAllInterfaces('Finished running all CRON services for for every 5th minute timeslot');
+		await LogToAllInterfaces('CRON for every 12th hour has finished executing its services');
 	}
 });
 
