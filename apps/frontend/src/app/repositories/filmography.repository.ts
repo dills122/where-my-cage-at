@@ -31,7 +31,8 @@ export class FilmographyRepository {
 	set(entities: MovieRecord[]) {
 		filmographyStore.update(
 			updateRequestCache(storeName, {
-				value: 'full'
+				value: 'full',
+				ttl: 43200000 //12 hours
 			}),
 			setEntities(entities)
 		);
