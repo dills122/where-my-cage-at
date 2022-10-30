@@ -20,14 +20,13 @@ interface UpdateFailures {
 	}[];
 }
 
-const failures: UpdateFailures = {
-	totalFailed: 0,
-	failedMovies: []
-};
-
-const movies: MovieRecord[] = [];
-
 export default async () => {
+	const failures: UpdateFailures = {
+		totalFailed: 0,
+		failedMovies: []
+	};
+	const movies: MovieRecord[] = [];
+
 	try {
 		console.log(`Starting Redis data refresh at: ${new Date().toISOString()}`);
 		const wtw = new WTW();
@@ -40,7 +39,7 @@ export default async () => {
 		console.log('Retrieved Streaming Service Providers');
 
 		console.log('Beginning iteration over movie credits', creditRecords.length);
-		await iterateThroughCredits(creditRecords);
+		await iterateThroughCredits(creditRecords, movies, failures);
 
 		console.log('Finished movie data construction, ready to update Redis');
 
@@ -66,7 +65,11 @@ function getTmdbIdFromObjectSearchResult(record: ObjectSearchResult) {
 	return tmdbId;
 }
 
-async function iterateThroughCredits(creditRecords: ObjectSearchResult[]) {
+async function iterateThroughCredits(
+	creditRecords: ObjectSearchResult[],
+	movieRecords: MovieRecord[],
+	failures: UpdateFailures
+) {
 	for (const record of creditRecords) {
 		const { title, objectType } = record;
 		const tmdbId = getTmdbIdFromObjectSearchResult(record);
@@ -75,13 +78,16 @@ async function iterateThroughCredits(creditRecords: ObjectSearchResult[]) {
 			const movieObject = await getAdditionalMovieData(tmdbId);
 			console.log(`Adding Movie to list to update: ${tmdbId}`);
 			const movieRecord = mergeMovieData(record, movieObject);
-			movies.push(movieRecord);
+			movieRecords.push(movieRecord);
 		} catch (err) {
-			addFailedRecord({
-				movieId: tmdbId,
-				title,
-				err
-			});
+			addFailedRecord(
+				{
+					movieId: tmdbId,
+					title,
+					err
+				},
+				failures
+			);
 			continue;
 		}
 	}
@@ -149,7 +155,7 @@ function mergeMovieData(record: ObjectSearchResult, additionalMovieData: Movie):
 	} as MovieRecord;
 }
 
-function addFailedRecord({ movieId, err, title }) {
+function addFailedRecord({ movieId, err, title }, failures: UpdateFailures) {
 	console.log(`Failed getting data for movie: ${movieId}`);
 	console.warn(err);
 	failures.totalFailed++;
