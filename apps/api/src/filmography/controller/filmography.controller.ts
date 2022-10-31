@@ -25,4 +25,13 @@ export class FilmographyController {
 		}
 		return this.filmographyService.getRecord(id as number);
 	}
+
+	@Get('service-provider/:providerId')
+	async getFilmographyRecordsByProvider(@Param() params) {
+		const { providerId } = params;
+		if (!providerId || Number(providerId) <= 0) {
+			throw new HttpException('No providerId given', HttpStatus.BAD_REQUEST);
+		}
+		return this.filmographyService.getRecordsByProviderId(providerId as number);
+	}
 }

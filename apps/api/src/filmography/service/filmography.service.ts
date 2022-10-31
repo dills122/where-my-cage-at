@@ -19,4 +19,17 @@ export class FilmographyService extends RedisServiceBase {
 			return record.id === tmdbId;
 		});
 	}
+
+	async getRecordsByProviderId(providerId: number) {
+		if (!this.isConnected) {
+			await this.connect();
+		}
+		const records = await this.getAll();
+		return records.find((record) => {
+			if (!record.offers) {
+				return false;
+			}
+			return record.offers.some((offer) => offer.providerId === providerId);
+		});
+	}
 }
