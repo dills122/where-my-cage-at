@@ -4,7 +4,8 @@ import {
 	selectEntity,
 	selectManyByPredicate,
 	setEntities,
-	withEntities
+	withEntities,
+	upsertEntities
 } from '@ngneat/elf-entities';
 import { localStorageStrategy, persistState } from '@ngneat/elf-persist-state';
 import { createRequestsCacheOperator, updateRequestCache, withRequestsCache } from '@ngneat/elf-requests';
@@ -35,6 +36,15 @@ export class FilmographyRepository {
 				ttl: 43200000 //12 hours
 			}),
 			setEntities(entities)
+		);
+	}
+	update(entities: MovieRecord[]) {
+		filmographyStore.update(
+			updateRequestCache(storeName, {
+				value: 'partial',
+				ttl: 43200000 //12 hours
+			}),
+			upsertEntities(entities)
 		);
 	}
 	getCredit(creditId: number) {

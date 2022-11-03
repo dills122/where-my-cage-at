@@ -20,4 +20,15 @@ export class FilmographyService {
 			})
 		);
 	}
+
+	getFilmgraphyCreditsByServiceProvider(serviceProviderId: number | string) {
+		return this.http
+			.get<MovieRecord[]>(`${this.apiURL}/filmography/service-provider/${serviceProviderId}`)
+			.pipe(
+				tap(this.filmographyRepository.update),
+				skipFilmographyWhileCached('filmography', {
+					value: 'partial'
+				})
+			);
+	}
 }
