@@ -1,5 +1,87 @@
 <div class="grid-nogutter">
 	<div class="col-8 col-offset-2">
-		{{ filmRecord?.title }}
+		<h1>
+			{{ filmRecord?.title }}
+		</h1>
+	</div>
+	<div class="col-8 col-offset-2">
+		<p class="py-4">
+			{{ filmRecord?.shortDescription}}
+		</p>
+		<div class="flex-initial flex align-items-center justify-content-center">
+			<div class="flex flex-wrap">
+				<div class="flex-initial flex align-items-center justify-content-center p-1"
+					*ngFor="let genre of getGenres()">
+					<p-chip [label]="genre" styleClass="text-xs"></p-chip>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-8 col-offset-2">
+		<div class="py-2">
+			<h2>Viewing Options:</h2>
+			<p-divider></p-divider>
+		</div>
+		<!-- TODO update to its own component -->
+		<div *ngIf="checkForProvidersWithDesiredMonitizationModel(MonetizationTypes.BUY)" class="py-1">
+			<h2>Purchase:</h2>
+			<p-card>
+				<div class="flex justify-content-around flex-wrap">
+					<app-service-icon
+						*ngFor="let serviceProvider of getViewingOptionsBasedOnViewingPreference(MonetizationTypes.BUY) | async"
+						[serviceId]="serviceProvider.id" [serviceName]="serviceProvider.clearName"
+						[externalUrl]="getFirstUrlForServiceProvider(serviceProvider.id, MonetizationTypes.BUY)">
+					</app-service-icon>
+				</div>
+			</p-card>
+		</div>
+		<div *ngIf="checkForProvidersWithDesiredMonitizationModel(MonetizationTypes.ADS)" class="py-1">
+			<h2>Streaming (Ads):</h2>
+			<p-card>
+				<div class="flex justify-content-around flex-wrap">
+					<app-service-icon
+						*ngFor="let serviceProvider of getViewingOptionsBasedOnViewingPreference(MonetizationTypes.ADS) | async"
+						[serviceId]="serviceProvider.id" [serviceName]="serviceProvider.clearName"
+						[externalUrl]="getFirstUrlForServiceProvider(serviceProvider.id, MonetizationTypes.ADS)">
+					</app-service-icon>
+				</div>
+			</p-card>
+		</div>
+		<div *ngIf="checkForProvidersWithDesiredMonitizationModel(MonetizationTypes.FREE)" class="py-1">
+			<h2>Streaming (Free):</h2>
+			<p-card>
+				<div class="flex justify-content-around flex-wrap">
+					<app-service-icon
+						*ngFor="let serviceProvider of getViewingOptionsBasedOnViewingPreference(MonetizationTypes.FREE) | async"
+						[serviceId]="serviceProvider.id" [serviceName]="serviceProvider.clearName"
+						[externalUrl]="getFirstUrlForServiceProvider(serviceProvider.id, MonetizationTypes.FREE)">
+					</app-service-icon>
+				</div>
+			</p-card>
+		</div>
+		<div *ngIf="checkForProvidersWithDesiredMonitizationModel(MonetizationTypes.RENT)" class="py-1">
+			<h2>Rental:</h2>
+			<p-card>
+				<div class="flex justify-content-around flex-wrap">
+					<app-service-icon
+						*ngFor="let serviceProvider of getViewingOptionsBasedOnViewingPreference(MonetizationTypes.RENT) | async"
+						[serviceId]="serviceProvider.id" [serviceName]="serviceProvider.clearName"
+						[externalUrl]="getFirstUrlForServiceProvider(serviceProvider.id, MonetizationTypes.RENT)">
+					</app-service-icon>
+				</div>
+			</p-card>
+		</div>
+		<div *ngIf="checkForProvidersWithDesiredMonitizationModel(MonetizationTypes.SUBSCRIPTION)" class="py-1">
+			<h2>Streaming (Subscription):</h2>
+			<p-card>
+				<div class="flex justify-content-around flex-wrap">
+					<app-service-icon
+						*ngFor="let serviceProvider of getViewingOptionsBasedOnViewingPreference(MonetizationTypes.SUBSCRIPTION) | async"
+						[serviceId]="serviceProvider.id" [serviceName]="serviceProvider.clearName"
+						[externalUrl]="getFirstUrlForServiceProvider(serviceProvider.id, MonetizationTypes.SUBSCRIPTION)">
+					</app-service-icon>
+				</div>
+			</p-card>
+		</div>
 	</div>
 </div>
