@@ -16,11 +16,7 @@ export class ContainerComponent implements OnInit, OnDestroy {
 	private notifier = new Subject();
 	MonetizationTypes = MonetizationTypes;
 
-	constructor(
-		private filmographyRepository: FilmographyRepository,
-		private serviceProviderRepository: ServiceProviderRepository,
-		private route: ActivatedRoute
-	) {
+	constructor(private filmographyRepository: FilmographyRepository, private route: ActivatedRoute) {
 		this.filmId = Number(this.route.snapshot.paramMap.get('filmId') || '');
 	}
 	ngOnDestroy(): void {
@@ -42,31 +38,5 @@ export class ContainerComponent implements OnInit, OnDestroy {
 
 	getGenres() {
 		return this.filmRecord?.genres;
-	}
-
-	getViewingOptionsBasedOnViewingPreference(viewingPreference: MonetizationTypes) {
-		const providerIds = this.filmRecord?.offers
-			.filter(offer => offer.monetizationType === viewingPreference)
-			.map(offer => offer.providerId);
-		const providerIdsSet = new Set(providerIds || []);
-		return this.serviceProviderRepository.getSubsetOfProviders([...providerIdsSet]);
-	}
-
-	//TODO need to make this so each type/resolution link is available somehow
-	getFirstUrlForServiceProvider(serviceProviderId: number, monetizationType: MonetizationTypes) {
-		const [first] =
-			this.filmRecord?.offers
-				.filter(
-					offer => offer.providerId === serviceProviderId && offer.monetizationType === monetizationType
-				)
-				.map(offer => offer.urls?.standardWeb) || [];
-		return first;
-	}
-
-	checkForProvidersWithDesiredMonitizationModel(monetizationType: MonetizationTypes) {
-		if (!this.filmRecord?.offers) {
-			return false;
-		}
-		return this.filmRecord?.offers.filter(offer => offer.monetizationType === monetizationType).length > 0;
 	}
 }
