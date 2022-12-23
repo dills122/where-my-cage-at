@@ -30,7 +30,7 @@
 		"rxjs": "7.5.7",
 		"pm2": "^5.2.2",
 		"dotenv": "~16.0.3",
-		"class-validator": "~0.13.2",
+		"class-validator": "~0.14.0",
 		"class-transformer": "~0.5.1",
 		"redis-sdk": "workspace:*",
 		"@fastify/helmet": "~10.0.2",
