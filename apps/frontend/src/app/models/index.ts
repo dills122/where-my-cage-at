@@ -21,9 +21,7 @@ export interface MovieRecord {
 	objectType: 'movie';
 	localizedReleaseDate: string;
 	offers: Offer[];
-	genres: Array<{
-		name: string;
-	}>;
+	genres: Array<string>;
 	fullPath?: string;
 	fullPaths?: {
 		[str: string]: string;

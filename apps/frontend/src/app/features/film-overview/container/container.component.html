@@ -1,5 +1,46 @@
 <div class="grid-nogutter">
 	<div class="col-8 col-offset-2">
-		{{ filmRecord?.title }}
+		<h1>
+			{{ filmRecord?.title }}
+		</h1>
+	</div>
+	<div class="col-8 col-offset-2">
+		<p class="py-4">
+			{{ filmRecord?.shortDescription}}
+		</p>
+		<div class="flex-initial flex align-items-center justify-content-center">
+			<div class="flex flex-wrap">
+				<div class="flex-initial flex align-items-center justify-content-center p-1"
+					*ngFor="let genre of getGenres()">
+					<p-chip [label]="genre" styleClass="text-xs"></p-chip>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-8 col-offset-2">
+		<div class="py-2">
+			<h2>Viewing Options:</h2>
+			<p-divider></p-divider>
+		</div>
+		<app-available-providers-by-monitization-type [offers]="this.filmRecord?.offers || []"
+			[monitizationType]="MonetizationTypes.BUY">
+
+		</app-available-providers-by-monitization-type>
+		<app-available-providers-by-monitization-type [offers]="this.filmRecord?.offers || []"
+			[monitizationType]="MonetizationTypes.ADS">
+
+		</app-available-providers-by-monitization-type>
+		<app-available-providers-by-monitization-type [offers]="this.filmRecord?.offers || []"
+			[monitizationType]="MonetizationTypes.FREE">
+
+		</app-available-providers-by-monitization-type>
+		<app-available-providers-by-monitization-type [offers]="this.filmRecord?.offers || []"
+			[monitizationType]="MonetizationTypes.RENT">
+
+		</app-available-providers-by-monitization-type>
+		<app-available-providers-by-monitization-type [offers]="this.filmRecord?.offers || []"
+			[monitizationType]="MonetizationTypes.SUBSCRIPTION">
+
+		</app-available-providers-by-monitization-type>
 	</div>
 </div>

@@ -1,0 +1,12 @@
+<div *ngIf="checkForProvidersWithDesiredMonitizationModel(this.monitizationType)" class="py-1">
+	<h2>{{title}}:</h2>
+	<p-card>
+		<div class="flex justify-content-around flex-wrap">
+			<app-service-icon
+				*ngFor="let serviceProvider of getViewingOptionsBasedOnViewingPreference(this.monitizationType) | async"
+				[serviceId]="serviceProvider.id" [serviceName]="serviceProvider.clearName"
+				[externalUrl]="getFirstUrlForServiceProvider(serviceProvider.id, this.monitizationType)">
+			</app-service-icon>
+		</div>
+	</p-card>
+</div>
