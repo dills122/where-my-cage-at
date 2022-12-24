@@ -12,9 +12,18 @@ export class ServiceIconComponent implements OnInit {
 	imageUrl: string = '';
 	@Input() serviceId: number = -1;
 	@Input() serviceName: string = '';
+	@Input() externalUrl?: string;
+
 	constructor(private router: Router) {}
 	ngOnInit(): void {
 		this.imageUrl = `${this.apiURL}/icons/${this.serviceId}.webp`;
+	}
+
+	openUrl() {
+		if (!this.externalUrl) {
+			return this.openServicePage(this.serviceId);
+		}
+		window.open(this.externalUrl, '_blank');
 	}
 
 	openServicePage(serviceId: number) {
