@@ -1,4 +1,4 @@
-import WTW, { ObjectSearchResult } from '@dills1220/wtw';
+import WTW, { ObjectSearchResult } from '@dills1220/wtw/index';
 import * as dotenv from 'dotenv';
 import { FullClient, MovieRecord, ServiceProvider } from 'redis-sdk';
 import config from '../config';
@@ -11,6 +11,19 @@ dotenv.config({ path: __dirname + '/../.env' });
 
 const JustWatchPersonId = Number(process.env.JW_PERSON_ID || config.JustWatchPersonId);
 const RedisPort = process.env.REDIS_PORT || '6379';
+const MajorProjectsOnly = process.env.MAJOR_PROJECTS_ONLY !== 'false';
+
+const NON_MAJOR_TITLE_PATTERNS: RegExp[] = [
+	/\bbehind\s+the\s+scenes?\b/i,
+	/\bmaking\s+of\b/i,
+	/\bdeleted\s+scenes?\b/i,
+	/\bfeaturette\b/i,
+	/\binterview\b/i,
+	/\bspecial\b/i,
+	/\bshort\b/i,
+	/\bpresents\b/i,
+	/\binvestigates?\b/i
+];
 
 interface UpdateFailures {
 	totalFailed: number;
@@ -31,15 +44,18 @@ export default async () => {
 		console.log(`Starting Redis data refresh at: ${new Date().toISOString()}`);
 		const wtw = new WTW();
 		const creditRecords = await wtw.getPersonsFilmography({
-			personId: JustWatchPersonId
+			personId: JustWatchPersonId,
+			majorProjectsOnly: MajorProjectsOnly
 		});
 		console.log('Retrieved Acting Credit Records');
+		const filteredCredits = filterMajorProjects(creditRecords);
+		console.log(`Filtered credit records. before=${creditRecords.length}, after=${filteredCredits.length}`);
 
 		const serviceProviders = await wtw.getProviders();
 		console.log('Retrieved Streaming Service Providers');
 
-		console.log('Beginning iteration over movie credits', creditRecords.length);
-		await iterateThroughCredits(creditRecords, movies, failures);
+		console.log('Beginning iteration over movie credits', filteredCredits.length);
+		await iterateThroughCredits(filteredCredits, movies, failures);
 
 		console.log('Finished movie data construction, ready to update Redis');
 
@@ -56,6 +72,21 @@ export default async () => {
 	}
 };
 
+function filterMajorProjects(records: ObjectSearchResult[]) {
+	if (!MajorProjectsOnly) {
+		return records;
+	}
+	return records.filter(record => {
+		const title = record.title || '';
+		for (const pattern of NON_MAJOR_TITLE_PATTERNS) {
+			if (pattern.test(title)) {
+				return false;
+			}
+		}
+		return true;
+	});
+}
+
 function getTmdbIdFromObjectSearchResult(record: ObjectSearchResult) {
 	const { scoring = [] } = record;
 	const { value: tmdbId = 0 } =
@@ -65,17 +96,29 @@ function getTmdbIdFromObjectSearchResult(record: ObjectSearchResult) {
 	return tmdbId;
 }
 
+function getImdbIdFromObjectSearchResult(record: ObjectSearchResult) {
+	const { externalIds = [] } = record;
+	const imdbRecord = externalIds.find(externalId => externalId.provider === 'imdb');
+	return imdbRecord?.externalId;
+}
+
 async function iterateThroughCredits(
 	creditRecords: ObjectSearchResult[],
 	movieRecords: MovieRecord[],
 	failures: UpdateFailures
 ) {
 	for (const record of creditRecords) {
-		const { title, objectType } = record;
+		const { title, objectType, originalReleaseYear } = record;
 		const tmdbId = getTmdbIdFromObjectSearchResult(record);
+		const imdbId = getImdbIdFromObjectSearchResult(record);
 		try {
 			console.log(`Movie: ${title}: ${objectType}, tmdb: ${tmdbId}`);
-			const movieObject = await getAdditionalMovieData(tmdbId);
+			const movieObject = await getAdditionalMovieData({
+				movieId: tmdbId,
+				imdbId,
+				title,
+				releaseYear: originalReleaseYear
+			});
 			console.log(`Adding Movie to list to update: ${tmdbId}`);
 			const movieRecord = mergeMovieData(record, movieObject);
 			movieRecords.push(movieRecord);
@@ -115,11 +158,26 @@ async function updateEntireRedisInstance(movies: MovieRecord[], serviceProviders
 	}
 }
 
-async function getAdditionalMovieData(movieId: number) {
-	if (movieId === 0) {
+async function getAdditionalMovieData({
+	movieId,
+	imdbId,
+	title,
+	releaseYear
+}: {
+	movieId: number;
+	imdbId?: string;
+	title?: string;
+	releaseYear?: number;
+}) {
+	if (movieId === 0 && !imdbId && !title) {
 		throw Error('Error with data being pulled, id should always be defined');
 	}
-	return await FetchMovieData(movieId);
+	return await FetchMovieData({
+		movieId,
+		imdbId,
+		title,
+		releaseYear
+	});
 }
 
 function mergeMovieData(record: ObjectSearchResult, additionalMovieData: Movie): MovieRecord {
