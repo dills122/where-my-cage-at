@@ -1,11 +1,8 @@
 {
 	"$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
-	"rushVersion": "5.62.4",
-	"pnpmVersion": "6.31.0",
-	"pnpmOptions": {
-		"useWorkspaces": true
-	},
-	"nodeSupportedVersionRange": ">=14.0.0",
+	"rushVersion": "5.177.1",
+	"pnpmVersion": "11.10.0",
+	"nodeSupportedVersionRange": ">=22.13.0",
 	"gitPolicy": {},
 	"repository": {
 		"url": "https://github.com/dills122/where-my-cage-at",
@@ -19,7 +16,8 @@
 		"postRushBuild": []
 	},
 	"variants": [],
-	"projects": [{
+	"projects": [
+		{
 			"packageName": "frontend",
 			"projectFolder": "apps/frontend",
 			"versionPolicyName": "versionPolicy"

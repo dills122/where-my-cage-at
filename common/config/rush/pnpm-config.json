@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/pnpm-config.schema.json",
+  "useWorkspaces": true,
+  "globalAllowBuilds": {
+    "@nestjs/core": true,
+    "cypress": true,
+    "es5-ext": true,
+    "esbuild": true,
+    "nice-napi": true
+  }
+}
