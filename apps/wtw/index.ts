@@ -2,20 +2,77 @@ import got, { OptionsOfJSONResponseBody } from 'got';
 import camelCaseObject from 'camelcase-keys';
 import {
 	catchError,
-	EMPTY,
-	expand,
 	firstValueFrom,
 	from,
 	map,
 	Observable,
-	reduce,
-	Subject,
-	takeUntil,
 	throwError
 } from 'rxjs';
 import _ from 'lodash';
 
 const API_DOMAIN = 'https://apis.justwatch.com/content';
+const GRAPHQL_ENDPOINT = 'https://apis.justwatch.com/graphql';
+const GRAPHQL_PERSON_PREFIX = 'tp';
+const DEFAULT_GRAPHQL_PAGE_SIZE = 50;
+
+const SEARCH_TITLES_QUERY = `
+	query CageMovies(
+		$country: Country!,
+		$language: Language!,
+		$first: Int!,
+		$after: String,
+		$filter: TitleFilter!,
+		$location: String!
+	) {
+		searchTitles(
+			country: $country
+			first: $first
+			after: $after
+			filter: $filter
+			sortBy: POPULAR
+			source: $location
+		) {
+			pageInfo {
+				hasNextPage
+				endCursor
+			}
+			edges {
+				node {
+					id
+					objectType
+					content(country: $country, language: $language) {
+						title
+						originalReleaseYear
+						fullPath
+						shortDescription
+						ageCertification
+						externalIds {
+							imdbId
+							tmdbId
+						}
+					}
+					offers(country: $country, platform: WEB) {
+						monetizationType
+						presentationType
+						standardWebURL
+						deeplinkURL(platform: WEB)
+						retailPriceValue
+						currency
+						package {
+							id
+							shortName
+							clearName
+							technicalName
+							icon
+							iconWide
+							monetizationTypes
+						}
+					}
+				}
+			}
+		}
+	}
+`;
 
 export interface RequestArgs {
 	url: string;
@@ -92,6 +149,104 @@ export default class WTW {
 		);
 	}
 
+	private async graphqlRequest<T>({
+		query,
+		variables
+	}: {
+		query: string;
+		variables: Record<string, unknown>;
+	}): Promise<T> {
+		const response = await got.post(GRAPHQL_ENDPOINT, {
+			headers: {
+				['Content-Type']: 'application/json',
+				['User-Agent']: 'JustWatch client (https://github.com/dills122/where-my-cage-at/apps/wtw)'
+			},
+			json: {
+				query,
+				variables
+			},
+			responseType: 'json'
+		});
+		const payload = response.body as {
+			data?: T;
+			errors?: Array<{ message: string }>;
+		};
+
+		if (payload.errors && payload.errors.length > 0) {
+			throw new Error(payload.errors.map(err => err.message).join('; '));
+		}
+		if (!payload.data) {
+			throw new Error('JustWatch GraphQL returned no data');
+		}
+		return payload.data;
+	}
+
+	private mapLocaleToCountryAndLanguage() {
+		const [language = 'en', country = 'US'] = this._locale.split('_');
+		return {
+			country: country.toUpperCase(),
+			language: language.toLowerCase()
+		};
+	}
+
+	private toPersonGraphqlId(personId: number | string) {
+		if (typeof personId === 'string' && personId.startsWith(GRAPHQL_PERSON_PREFIX)) {
+			return personId;
+		}
+		return `${GRAPHQL_PERSON_PREFIX}${personId}`;
+	}
+
+	private decodeProviderId(encodedProviderId: string) {
+		try {
+			const decoded = Buffer.from(encodedProviderId, 'base64').toString('utf8');
+			const value = Number(decoded.split('|').pop());
+			return Number.isFinite(value) ? value : 0;
+		} catch (err) {
+			return 0;
+		}
+	}
+
+	private parseTmdbIdFromGraphqlNodeId(nodeId: string) {
+		if (!nodeId.startsWith('tm')) {
+			return 0;
+		}
+		const parsed = Number(nodeId.slice(2));
+		return Number.isFinite(parsed) ? parsed : 0;
+	}
+
+	private parseTmdbId(value?: string | null) {
+		if (!value) {
+			return 0;
+		}
+		const parsed = Number(value);
+		return Number.isFinite(parsed) ? parsed : 0;
+	}
+
+	private buildTitleFilter({ personId, majorProjectsOnly }: { personId: number | string; majorProjectsOnly: boolean }) {
+		const filter: GraphqlTitleFilter = {
+			personId: this.toPersonGraphqlId(personId),
+			includeTitlesWithoutUrl: true,
+			isUpcoming: false
+		};
+		if (!majorProjectsOnly) {
+			return filter;
+		}
+		return {
+			...filter,
+			objectTypes: ['MOVIE'],
+			releaseYear: {
+				min: 1970,
+				max: 2035
+			},
+			runtime: {
+				min: 70
+			},
+			excludeGenres: ['doc'],
+			monetizationTypes: ['FLATRATE', 'RENT', 'BUY'],
+			presentationTypes: ['HD']
+		};
+	}
+
 	search(querySearchTerms: QuerySearchTerms) {
 		return firstValueFrom(
 			this.request<ServiceProvider[]>({
@@ -102,66 +257,104 @@ export default class WTW {
 		);
 	}
 
-	getPersonsFilmography(args: { personId: number; query?: string; pageSize?: number; pages?: number }) {
-		const { personId, query, pageSize, pages } = args;
-		const endNotifier = new Subject<boolean>();
-		return firstValueFrom(
-			this.request<SearchResults>({
-				url: `titles/${this._locale}/popular`,
-				method: 'GET',
-				querySearchTerms: {
-					body: JSON.stringify({
-						person_id: personId,
-						enable_provider_filter: false,
-						is_upcoming: false,
-						package_intersection: false,
-						monitization_types: [],
-						matching_offers_only: false,
-						page: 1,
-						page_size: pageSize || this.defaults.pageSize,
-						query,
-						...this.setupDefaultQuerySearchTerms()
-					})
-				}
-			}).pipe(
-				takeUntil(endNotifier),
-				expand(data => {
-					const { totalPages, page, pageSize } = data;
-					const hasHitMaxUserReqPageCount = page >= (pages || totalPages);
-					const hasHitMaxServerPageCount = page >= totalPages;
+	async getPersonsFilmography(args: {
+		personId: number;
+		query?: string;
+		pageSize?: number;
+		pages?: number;
+		majorProjectsOnly?: boolean;
+	}) {
+		const { personId, query, pageSize, pages, majorProjectsOnly = true } = args;
+		const { country, language } = this.mapLocaleToCountryAndLanguage();
+		const allMovies: ObjectSearchResult[] = [];
+		const maxPages = pages ?? Number.MAX_SAFE_INTEGER;
+		let cursor: string | null = null;
+		let pageCounter = 0;
+		const filter = this.buildTitleFilter({ personId, majorProjectsOnly });
 
-					if (hasHitMaxServerPageCount || hasHitMaxUserReqPageCount) {
-						endNotifier.next(true);
-						endNotifier.complete();
-						return EMPTY;
-					}
-					const nextPage = page + 1;
-					return this.request<SearchResults>({
-						url: `titles/${this._locale}/popular`,
-						method: 'GET',
-						querySearchTerms: {
-							body: JSON.stringify({
-								person_id: personId,
-								enable_provider_filter: false,
-								is_upcoming: false,
-								package_intersection: false,
-								monitization_types: [],
-								matching_offers_only: false,
-								page: nextPage,
-								page_size: pageSize,
-								query,
-								...this.setupDefaultQuerySearchTerms()
-							})
-						}
-					});
-				}),
-				map(data => [...data.items]),
-				reduce((acc, data) => {
-					return acc.concat(...data);
-				}),
-				map(movies => movies.filter(movie => movie.objectType === 'movie'))
-			)
-		);
+		while (pageCounter < maxPages) {
+			pageCounter++;
+			const response = await this.graphqlRequest<GraphqlSearchTitlesResponse>({
+				query: SEARCH_TITLES_QUERY,
+				variables: {
+					country,
+					language,
+					first: pageSize || DEFAULT_GRAPHQL_PAGE_SIZE,
+					after: cursor,
+					filter,
+					location: 'SearchPage'
+				}
+			});
+
+			const edges = response.searchTitles?.edges ?? [];
+			const mappedMovies = edges
+				.map(edge => edge.node)
+				.filter(node => node.objectType === 'MOVIE')
+				.map(node => {
+					const tmdbId =
+						this.parseTmdbId(node.content?.externalIds?.tmdbId) || this.parseTmdbIdFromGraphqlNodeId(node.id);
+					const imdbId = node.content?.externalIds?.imdbId || '';
+					const content = node.content;
+					return {
+						id: tmdbId,
+						title: content?.title || '',
+						fullPath: content?.fullPath || '',
+						fullPaths: {},
+						poster: '',
+						originalReleaseYear: content?.originalReleaseYear || 0,
+						tmdbPopularity: 0,
+						objectType: 'movie' as const,
+						localizedReleaseDate: '',
+						offers: (node.offers || []).map(offer => ({
+							providerId: this.decodeProviderId(offer.package.id),
+							monetizationType: offer.monetizationType.toLowerCase(),
+							packageShortName: offer.package.shortName || '',
+							retailPrice: offer.retailPriceValue || 0,
+							currency: offer.currency || '',
+							urls: {
+								standardWeb: offer.standardWebURL,
+								standard_web: offer.standardWebURL,
+								deeplink: offer.deeplinkURL
+							},
+							presentationType: offer.presentationType.toLowerCase(),
+							country
+						})),
+						productionCountries: [],
+						scoring: [
+							{
+								providerType: 'tmdb:id',
+								value: tmdbId
+							}
+						],
+						ageCertification: content?.ageCertification || '',
+						cinemaReleaseDate: '',
+						shortDescription: content?.shortDescription || '',
+						externalIds: imdbId
+							? [
+									{
+										provider: 'imdb',
+										externalId: imdbId
+									}
+								]
+							: []
+					};
+				});
+
+			allMovies.push(...mappedMovies);
+
+			const { hasNextPage, endCursor } = response.searchTitles?.pageInfo || {};
+			if (!hasNextPage || !endCursor) {
+				break;
+			}
+			cursor = endCursor;
+		}
+
+		if (query && query.trim() !== '') {
+			const q = query.toLocaleLowerCase();
+			return allMovies.filter(movie => movie.title.toLocaleLowerCase().includes(q));
+		}
+
+		return allMovies;
 	}
 
 	getProviders() {
@@ -226,6 +419,67 @@ export interface PaginatedResults {
 
 export interface SearchResults extends PaginatedResults {
 	items: ObjectSearchResult[];
+}
+
+interface GraphqlSearchTitlesResponse {
+	searchTitles: {
+		pageInfo: {
+			hasNextPage: boolean;
+			endCursor: string | null;
+		};
+		edges: Array<{
+			node: {
+				id: string;
+				objectType: 'MOVIE' | 'SHOW' | 'SEASON' | 'EPISODE' | 'PERSON';
+					content: {
+						title: string;
+						originalReleaseYear: number;
+						fullPath: string;
+						shortDescription: string;
+						ageCertification: string;
+						externalIds: {
+							imdbId: string | null;
+							tmdbId: string | null;
+						};
+					} | null;
+					offers: Array<{
+						monetizationType: string;
+						presentationType: string;
+						standardWebURL: string;
+						deeplinkURL: string;
+						retailPriceValue: number | null;
+						currency: string;
+						package: {
+							id: string;
+							shortName: string;
+							clearName: string;
+							technicalName: string;
+							icon: string;
+							iconWide: string;
+							monetizationTypes: string[];
+						};
+					}>;
+			};
+		}>;
+	};
+}
+
+interface GraphqlIntFilter {
+	min?: number;
+	max?: number;
+}
+
+interface GraphqlTitleFilter {
+	personId: string;
+	includeTitlesWithoutUrl: boolean;
+	objectTypes?: string[];
+	releaseYear?: GraphqlIntFilter;
+	runtime?: GraphqlIntFilter;
+	excludeGenres?: string[];
+	monetizationTypes?: string[];
+	presentationTypes?: string[];
+	isUpcoming?: boolean;
+	packages?: string[];
 }
 
 export interface ObjectSearchResult {

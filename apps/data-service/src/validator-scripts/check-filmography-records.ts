@@ -1,4 +1,4 @@
-import WTW from '@dills1220/wtw';
+import WTW from '@dills1220/wtw/index';
 
 // dotenv.config({ path: __dirname + '/.env' });
 
