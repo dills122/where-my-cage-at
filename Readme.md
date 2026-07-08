@@ -19,7 +19,7 @@ Next you'll need to create a `config.secret.ts` in `apps/data-service`. You'll n
 Next you'll need to get a `redis reJSON` container running.
 
 ```bash
-docker compose run redis-base
+docker compose run -d redis
 ```
 
 Build the dependency libraries (you can also run `rushx watch` on each to rebuild on change)
