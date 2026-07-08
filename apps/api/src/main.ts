@@ -23,9 +23,7 @@ async function bootstrap() {
 			logger: true,
 		}),
 	);
-	await app.register(fastifyHelmet, {
-		crossOriginResourcePolicy: false,
-	});
+	await app.register(fastifyHelmet);
 	app.enableCors({
 		origin: [
 			'http://localhost:4200',
