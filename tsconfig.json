@@ -14,6 +14,7 @@
 		"noUnusedParameters": true,
 		"noImplicitReturns": true,
 		"noFallthroughCasesInSwitch": false,
+		"skipLibCheck": true,
 		"inlineSourceMap": true,
 		"inlineSources": true,
 		"experimentalDecorators": true,

@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set GH_SHA for versioning images, Required by docker-compose
         run: echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | head -c7)" >> $GITHUB_ENV
@@ -31,7 +31,7 @@ jobs:
         run: docker build -t $(echo $REGISTRY_HOST)/$(echo $FRONTEND_IMAGE_NAME):$(echo $GITHUB_SHA | head -c7) -f AngBuildDockerfile .
 
       - name: Build service images
-        run: docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
+        run: docker compose -f docker-compose.yml -f docker-compose.prod.yml build
 
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
@@ -51,7 +51,7 @@ jobs:
         run: if [ ! -z "$(doctl registry repository list | grep "$(echo $DATA_SERVICE_IMAGE_NAME)")" ]; then doctl registry repository delete-manifest $(echo $DATA_SERVICE_IMAGE_NAME) $(doctl registry repository list-tags $(echo $DATA_SERVICE_IMAGE_NAME) | grep -o "sha.*") --force; else echo "No repository"; fi
 
       - name: Push cluster service images to DigitalOcean Container Registry
-        run: docker-compose -f docker-compose.yml -f docker-compose.prod.yml push
+        run: docker compose -f docker-compose.yml -f docker-compose.prod.yml push
 
       - name: Push frontend build image to DigitalOcean Container Registry
         run: docker push $(echo $REGISTRY_HOST)/$(echo $FRONTEND_IMAGE_NAME):$(echo $GITHUB_SHA | head -c7)
@@ -62,7 +62,7 @@ jobs:
 
     steps:
       - name: Deploy to Digital Ocean droplet via SSH action
-        uses: appleboy/ssh-action@v0.1.3
+        uses: appleboy/ssh-action@v1.2.2
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
@@ -81,10 +81,10 @@ jobs:
             # Stop running container
             pushd app-src/ 
             git checkout master && git pull
-            GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | head -c7) REGISTRY_HOST=$(echo $REGISTRY_HOST) docker-compose down --rmi all
-            GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | head -c7) REGISTRY_HOST=$(echo $REGISTRY_HOST) docker-compose -f docker-compose.yml -f docker-compose.prod.yml pull
+            GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | head -c7) REGISTRY_HOST=$(echo $REGISTRY_HOST) docker compose down --rmi all
+            GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | head -c7) REGISTRY_HOST=$(echo $REGISTRY_HOST) docker compose -f docker-compose.yml -f docker-compose.prod.yml pull
             # Start up cluster
-            GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | head -c7) REGISTRY_HOST=$(echo $REGISTRY_HOST) docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+            GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | head -c7) REGISTRY_HOST=$(echo $REGISTRY_HOST) docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
             popd
   gc:
     runs-on: ubuntu-latest
