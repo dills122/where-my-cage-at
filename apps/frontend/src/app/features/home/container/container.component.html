@@ -1,35 +1,30 @@
-<div class="grid-nogutter content-container">
-	<div class="col-12">
-		<div class="flex justify-content-center flex-wrap">
-			<div
-				class="flex align-items-center justify-content-center sm:text-7xl text-5xl text-center sm:my-8 my-4 mx-3 sm:mx-0"
-			>
-				<div>This Movie Night Make it a Nick-casion..</div>
+<div class="home-page">
+	<section class="hero" aria-labelledby="home-title">
+		<h1 id="home-title" class="hero__title">This movie night, make it a Nick-casion.</h1>
+		<div class="hero__search">
+			<app-film-search></app-film-search>
+		</div>
+	</section>
+
+	<section class="providers" aria-labelledby="providers-title">
+		<div class="providers__inner">
+			<h2 id="providers-title" class="providers__title">{{ cardHeader }}</h2>
+			<div class="providers__grid">
+				<app-service-button-node
+					*ngFor="let service of highlightedServices"
+					[serviceName]="service.serviceName"
+					[serviceIcon]="service.serviceIcon"
+					[serviceId]="service.serviceId"
+				></app-service-button-node>
 			</div>
 		</div>
-	</div>
-	<div class="col-12">
-		<div class="grid-nogutter">
-			<div class="col-6 col-offset-3">
-				<app-film-search></app-film-search>
-			</div>
+	</section>
+
+	<footer class="cage-marquee" aria-label="Nicolas Cage movie night" tabindex="0">
+		<div class="cage-marquee__track" aria-hidden="true">
+			<span>Nicolas Cage · Movie night · No bad options ·</span>
+			<span>Nicolas Cage · Movie night · No bad options ·</span>
 		</div>
-	</div>
-	<div class="col-12">
-		<div class="grid-nogutter">
-			<div class="col-8 col-offset-2">
-				<p-card [header]="cardHeader" id="whats-streaming-platform-card" class="text-center">
-					<div class="flex justify-content-around flex-wrap">
-						<app-service-button-node
-							*ngFor="let service of highlightedServices"
-							[serviceName]="service.serviceName"
-							[serviceIcon]="service.serviceIcon"
-							[serviceId]="service.serviceId"
-						>
-						</app-service-button-node>
-					</div>
-				</p-card>
-			</div>
-		</div>
-	</div>
+		<p class="visually-hidden">Nicolas Cage movie night. No bad options.</p>
+	</footer>
 </div>

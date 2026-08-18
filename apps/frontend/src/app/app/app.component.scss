@@ -1,10 +1,130 @@
-.header-container {
-	min-height: 2rem;
+/* Hallmark · macrostructure: Marquee Hero · nav: N1b (4 links, no dropdowns, always-solid) */
+:host {
+	display: block;
+	min-inline-size: 0;
 }
 
-.logo-img {
-	min-height: 2rem;
-	height: 3rem;
-	width: auto;
-	color: var(--text-color);
+.app-shell {
+	min-block-size: 100dvh;
+}
+
+.site-header {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	gap: var(--space-sm) var(--space-md);
+	padding: var(--space-sm) var(--page-gutter);
+	border-block-end: var(--rule-hair) solid var(--color-rule);
+	background: var(--color-paper);
+	color: var(--color-ink);
+}
+
+.site-brand,
+.site-nav__link {
+	min-block-size: 44px;
+	display: inline-flex;
+	align-items: center;
+	white-space: nowrap;
+}
+
+.site-brand {
+	gap: var(--space-sm);
+	color: inherit;
+	font-family: var(--font-display);
+	font-size: var(--text-md);
+	text-decoration: none;
+}
+
+.site-nav {
+	grid-column: 1 / -1;
+	display: flex;
+	align-items: center;
+	gap: var(--space-2xs) var(--space-md);
+	overflow-x: auto;
+	scrollbar-width: none;
+}
+
+.site-nav__link {
+	position: relative;
+	padding: var(--space-xs) var(--space-2xs);
+	border: 0;
+	background: transparent;
+	color: var(--color-muted);
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.site-nav__link::after {
+	content: '';
+	position: absolute;
+	inset: auto var(--space-2xs) var(--space-xs);
+	block-size: var(--rule-strong);
+	background: var(--color-accent);
+	transform: scaleX(0);
+	transform-origin: left;
+	transition: transform var(--dur-short) var(--ease-out);
+}
+
+.site-nav__link.is-active {
+	color: var(--color-ink);
+}
+
+.site-nav__link.is-active::after {
+	transform: scaleX(1);
+}
+
+.site-nav__link:disabled {
+	display: none;
+	opacity: 0.45;
+	cursor: not-allowed;
+}
+
+.theme-control {
+	grid-column: 2;
+	grid-row: 1;
+	justify-self: end;
+}
+
+.app-main {
+	min-inline-size: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.site-nav__link:not(:disabled):hover {
+		color: var(--color-ink);
+	}
+
+	.site-nav__link:not(:disabled):hover::after {
+		transform: scaleX(1);
+	}
+}
+
+@media (min-width: 60rem) {
+	.site-header {
+		grid-template-columns: minmax(12rem, 1fr) auto minmax(12rem, 1fr);
+		padding-block: var(--space-xs);
+	}
+
+	.site-nav {
+		grid-column: auto;
+		justify-self: center;
+		overflow: visible;
+	}
+
+	.theme-control {
+		grid-column: auto;
+		grid-row: auto;
+	}
+}
+
+@media (min-width: 23rem) {
+	.site-nav__link:disabled {
+		display: inline-flex;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.site-nav__link::after {
+		transition: none;
+	}
 }

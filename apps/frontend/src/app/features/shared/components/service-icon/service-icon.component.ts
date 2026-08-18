@@ -13,6 +13,7 @@ export class ServiceIconComponent {
 	@Input() serviceName: string = '';
 	@Input() externalUrl?: string;
 	@Input() providerIconUrl?: string | null;
+	@Input() interactive: boolean = true;
 
 	constructor(private router: Router) {}
 
@@ -21,10 +22,19 @@ export class ServiceIconComponent {
 	}
 
 	openUrl() {
+		if (!this.interactive) {
+			return;
+		}
+
 		if (!this.externalUrl) {
 			return this.openServicePage(this.serviceId);
 		}
-		window.open(this.externalUrl, '_blank');
+		window.open(this.externalUrl, '_blank', 'noopener,noreferrer');
+	}
+
+	activateWithKeyboard(event: Event) {
+		event.preventDefault();
+		this.openUrl();
 	}
 
 	openServicePage(serviceId: number) {

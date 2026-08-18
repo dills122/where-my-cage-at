@@ -5,8 +5,8 @@ describe('Where My Cage At local stack', () => {
 
 		cy.visit('/');
 		cy.wait(['@filmography', '@serviceProviders']);
-		cy.contains('This Movie Night Make it a Nick-casion..');
-		cy.get('#whats-streaming-platform-card app-service-icon img')
+		cy.contains('This movie night, make it a Nick-casion.');
+		cy.get('.providers__grid app-service-icon img')
 			.should('have.length', 3)
 			.each(image => {
 				cy.wrap(image)
@@ -27,5 +27,21 @@ describe('Where My Cage At local stack', () => {
 				expect($image[0].naturalWidth).to.be.greaterThan(0);
 			});
 		});
+	});
+
+	it('organizes the available providers and opens one', () => {
+		cy.intercept('GET', 'http://localhost:3000/filmography').as('filmography');
+		cy.intercept('GET', 'http://localhost:3000/service-providers').as('serviceProviders');
+
+		cy.visit('/available-service-providers');
+		cy.wait(['@filmography', '@serviceProviders']);
+		cy.contains('h1', 'All available providers');
+		cy.get('.provider-index__summary').should('contain.text', 'providers with Cage movies');
+		cy.get('.provider-index__grid app-service-icon [role="button"]')
+			.should('have.length.greaterThan', 0)
+			.first()
+			.click();
+
+		cy.location('pathname').should('match', /^\/service-provider-overview\/\d+$/);
 	});
 });

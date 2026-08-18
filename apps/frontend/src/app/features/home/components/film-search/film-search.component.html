@@ -1,18 +1,16 @@
-<div class="grid-nogutter sm:my-8 my-4">
-	<div class="col-12">
-		<h3>Search your favorite title:</h3>
-	</div>
-	<div class="col-12">
-		<div class="p-fluid">
-			<p-autoComplete
-				[(ngModel)]="text"
-				[suggestions]="results"
-				(completeMethod)="search($event)"
-				(onSelect)="navigate($event)"
-				field="title"
-				[minLength]="1"
-				[forceSelection]="true"
-			></p-autoComplete>
-		</div>
-	</div>
+<div class="film-search">
+	<label class="film-search__label" for="film-title-search">Search your favorite title</label>
+	<p id="film-search-help" class="film-search__help">Type a title, then pick a movie from the list.</p>
+	<p-autoComplete
+		inputId="film-title-search"
+		[(ngModel)]="text"
+		[suggestions]="results"
+		(completeMethod)="search($event)"
+		(onSelect)="navigate($event)"
+		field="title"
+		[minLength]="1"
+		[forceSelection]="true"
+		placeholder="Try “Moonstruck”"
+		aria-describedby="film-search-help"
+	></p-autoComplete>
 </div>

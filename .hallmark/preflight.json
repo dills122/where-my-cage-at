@@ -1,0 +1,15 @@
+{
+	"date": "2026-08-17",
+	"framework": "Angular 14 with PrimeNG and PrimeFlex",
+	"font_stack": ["Easy Print", "Special Elite"],
+	"palette": "PrimeNG deep-purple light and dark themes",
+	"motion": "motion-cut; no motion library",
+	"spacing": "PrimeFlex utilities with sparse component SCSS",
+	"preserve": [
+		"typewriter font pairing",
+		"deep-purple themes",
+		"routes",
+		"component ownership",
+		"copy intent"
+	]
+}
