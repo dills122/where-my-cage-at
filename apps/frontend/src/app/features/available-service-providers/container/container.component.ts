@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
 	selector: 'app-container',
@@ -6,8 +6,5 @@ import { Component, OnInit } from '@angular/core';
 	styleUrls: ['./container.component.scss']
 })
 export class ContainerComponent {
-	readonly serviceProvidersOverviewCardHeader: string = 'All Available Providers:';
-	constructor() {}
-
-	// ngOnInit(): void {}
+	readonly serviceProvidersOverviewCardHeader: string = 'All available providers';
 }

@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test yet\" && exit 0",
-		"build": "tsc -p .",
+		"build": "tsc -p . --incremental false",
 		"watch": "tsc -p . --watch",
 		"compile": "tsc",
 		"clean": "tsc --build --clean && rm -rf ./types",

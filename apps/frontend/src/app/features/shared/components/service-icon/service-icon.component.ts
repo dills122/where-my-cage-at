@@ -1,4 +1,4 @@
-import { Component, Input, isDevMode, OnInit } from '@angular/core';
+import { Component, Input, isDevMode } from '@angular/core';
 import { Router } from '@angular/router';
 import { buildBaseApuUrlBasedOffEnv } from 'src/app/util/api-url-builder';
 
@@ -7,26 +7,53 @@ import { buildBaseApuUrlBasedOffEnv } from 'src/app/util/api-url-builder';
 	templateUrl: './service-icon.component.html',
 	styleUrls: ['./service-icon.component.scss']
 })
-export class ServiceIconComponent implements OnInit {
+export class ServiceIconComponent {
 	private apiURL = buildBaseApuUrlBasedOffEnv(isDevMode());
-	imageUrl: string = '';
 	@Input() serviceId: number = -1;
 	@Input() serviceName: string = '';
 	@Input() externalUrl?: string;
+	@Input() providerIconUrl?: string | null;
+	@Input() interactive: boolean = true;
 
 	constructor(private router: Router) {}
-	ngOnInit(): void {
-		this.imageUrl = `${this.apiURL}/icons/${this.serviceId}.webp`;
+
+	get imageUrl() {
+		return `${this.apiURL}/icons/${this.serviceId}.webp`;
 	}
 
 	openUrl() {
+		if (!this.interactive) {
+			return;
+		}
+
 		if (!this.externalUrl) {
 			return this.openServicePage(this.serviceId);
 		}
-		window.open(this.externalUrl, '_blank');
+		window.open(this.externalUrl, '_blank', 'noopener,noreferrer');
+	}
+
+	activateWithKeyboard(event: Event) {
+		event.preventDefault();
+		this.openUrl();
 	}
 
 	openServicePage(serviceId: number) {
 		this.router.navigate([`/service-provider-overview/${serviceId}`]);
+	}
+
+	useProviderFallback(event: Event) {
+		const image = event.target as HTMLImageElement;
+		const iconId = this.providerIconUrl?.split('/')[2];
+		if (!iconId) {
+			image.hidden = true;
+			return;
+		}
+
+		const fallbackUrl = `https://www.justwatch.com/images/icon/${iconId}/s100/icon.webp`;
+		if (image.src === fallbackUrl) {
+			image.hidden = true;
+			return;
+		}
+		image.src = fallbackUrl;
 	}
 }

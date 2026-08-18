@@ -1,0 +1,73 @@
+:host {
+	display: block;
+	min-inline-size: 0;
+}
+
+.service-icon {
+	min-block-size: 44px;
+	display: grid;
+	place-items: center;
+	align-content: center;
+	gap: var(--space-md);
+	min-inline-size: 0;
+	color: var(--color-ink);
+	text-align: center;
+}
+
+.service-icon--interactive {
+	cursor: pointer;
+	transition:
+		background-color var(--dur-short) var(--ease-out),
+		transform var(--dur-micro) var(--ease-out);
+}
+
+.service-icon__media {
+	display: grid;
+	place-items: center;
+	min-inline-size: 0;
+}
+
+.service-icon__image {
+	inline-size: 5rem;
+	block-size: 5rem;
+	object-fit: contain;
+}
+
+.service-icon__name {
+	max-inline-size: 15ch;
+	min-inline-size: 0;
+	font-weight: 700;
+	line-height: 1.2;
+	overflow-wrap: anywhere;
+}
+
+.service-icon--interactive:active {
+	transform: translateY(1px);
+}
+
+.service-icon--interactive[aria-disabled='true'],
+.service-icon--interactive[aria-busy='true'] {
+	opacity: 0.5;
+	cursor: not-allowed;
+	transform: none;
+}
+
+.service-icon--interactive.is-error {
+	color: var(--color-error);
+}
+
+.service-icon--interactive.is-success {
+	color: var(--color-success);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.service-icon--interactive:hover {
+		background: var(--color-accent-soft);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.service-icon--interactive {
+		transition: none;
+	}
+}

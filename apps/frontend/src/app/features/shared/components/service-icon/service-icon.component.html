@@ -1,10 +1,20 @@
-<div class="flex flex-column text-center" (click)="openUrl()">
-	<div class="flex align-items-center justify-content-center m-3">
-		<img [lazyLoad]="imageUrl" class="border-circle" />
+<div
+	class="service-icon"
+	[class.service-icon--interactive]="interactive"
+	[attr.role]="interactive ? 'button' : null"
+	[attr.tabindex]="interactive ? 0 : -1"
+	[attr.aria-label]="interactive ? 'Browse ' + serviceName + ' movies' : null"
+	(click)="openUrl()"
+	(keydown.enter)="activateWithKeyboard($event)"
+	(keydown.space)="activateWithKeyboard($event)"
+>
+	<div class="service-icon__media">
+		<img
+			[src]="imageUrl"
+			(error)="useProviderFallback($event)"
+			[attr.alt]="serviceName ? serviceName + ' icon' : 'Streaming service icon'"
+			class="service-icon__image border-circle"
+		/>
 	</div>
-	<div class="flex align-items-center justify-content-center font-bold">
-		<div style="inline-size: 100px; overflow-wrap: break-word">
-			{{ serviceName }}
-		</div>
-	</div>
+	<div class="service-icon__name">{{ serviceName }}</div>
 </div>

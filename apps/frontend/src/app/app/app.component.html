@@ -1,39 +1,41 @@
-<div class="grid">
-	<div class="col-12">
-		<!-- Header -->
-		<div
-			class="flex sm:flex-row flex-column align-content-center sm:justify-content-between justify-content-center header-container">
-			<div class="flex sm:align-items-center justify-content-center p-2" routerLink="/">
-				<i class="pi pi-home p-1"></i>
-			</div>
-			<div>
-				<div
-					class="flex sm:flex-row flex-column sm:justify-content-between justify-content-center align-content-center">
-					<div class="flex sm:align-items-center justify-content-center px-3 py-2">
-						<div class="flex justify-content-center flex-wrap">
-							<p-toggleButton onLabel="Light" offLabel="Dark" onIcon="pi pi-moon" offIcon="pi pi-sun"
-								iconPos="right" [(ngModel)]="isDarkTheme" (onChange)="handleChange($event)">
-							</p-toggleButton>
-						</div>
-					</div>
-					<div class="flex sm:align-items-center justify-content-center p-2">
-						<button pButton type="button" label="Home" class="p-button-text" routerLink="/"></button>
-					</div>
-					<div class="flex sm:align-items-center justify-content-center p-2">
-						<button pButton type="button" label="Services" class="p-button-text"
-							routerLink="/available-service-providers"></button>
-					</div>
-					<div class="flex sm:align-items-center justify-content-center p-2">
-						<button pButton type="button" label="Staff Picks" class="p-button-text"></button>
-					</div>
-					<div class="flex sm:align-items-center justify-content-center p-2">
-						<button pButton type="button" label="Data View" class="p-button-text"></button>
-					</div>
-				</div>
-			</div>
+<div class="app-shell">
+	<header class="site-header">
+		<a class="site-brand" routerLink="/" aria-label="Where My Cage At home">
+			<i class="pi pi-home" aria-hidden="true"></i>
+			<span>Where My Cage At?</span>
+		</a>
+
+		<nav class="site-nav" aria-label="Primary navigation">
+			<a
+				class="site-nav__link"
+				routerLink="/"
+				routerLinkActive="is-active"
+				[routerLinkActiveOptions]="{ exact: true }"
+			>
+				Home
+			</a>
+			<a class="site-nav__link" routerLink="/available-service-providers" routerLinkActive="is-active"
+				>Services</a
+			>
+			<button class="site-nav__link" type="button" disabled title="Coming soon">Staff Picks</button>
+			<button class="site-nav__link" type="button" disabled title="Coming soon">Data View</button>
+		</nav>
+
+		<div class="theme-control">
+			<span class="visually-hidden">Color theme</span>
+			<p-toggleButton
+				onLabel="Light"
+				offLabel="Dark"
+				onIcon="pi pi-moon"
+				offIcon="pi pi-sun"
+				iconPos="right"
+				[(ngModel)]="isDarkTheme"
+				(onChange)="handleChange($event)"
+			></p-toggleButton>
 		</div>
-	</div>
-	<div class="col-12">
+	</header>
+
+	<main class="app-main">
 		<router-outlet></router-outlet>
-	</div>
+	</main>
 </div>

@@ -46,6 +46,15 @@ async function bootstrap() {
 		cacheControl: true,
 		maxAge: 15552000,
 	});
+	app
+		.getHttpAdapter()
+		.getInstance()
+		.addHook('onSend', async (request, reply, payload) => {
+			if (request.url.startsWith('/icons/')) {
+				reply.header('Cross-Origin-Resource-Policy', 'cross-origin');
+			}
+			return payload;
+		});
 	await app.listen(Number(PORT), '0.0.0.0');
 	console.log(`Application is running on: ${await app.getUrl()}`);
 }

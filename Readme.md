@@ -4,7 +4,7 @@ Next time you plan a Netflix and chill, why not make it a Nick-casion? Find a pl
 
 ## Getting Started
 
-update and install dependencies
+The local stack expects Node 22, Docker, and Rush. Install dependencies from the repository root:
 
 ```bash
 rush update
@@ -12,47 +12,59 @@ rush update
 
 ## Running the Solution
 
-First you'll need to setup your ENV file based off the `.env.example` file in the root dir.
+Start Redis Stack. The container includes RedisJSON, persists its data in a named Docker volume, and exposes Redis on port `6379` by default.
 
-Next you'll need to create a `config.secret.ts` in `apps/data-service`. You'll need to setup an account at [tmdb](https://developers.themoviedb.org/3/getting-started/introduction) for an api-key.
-
-Next you'll need to get a `redis reJSON` container running.
-
-```bash
-docker compose run -d redis
+```sh
+docker compose up -d redis
+docker compose ps
 ```
 
-Build the dependency libraries (you can also run `rushx watch` on each to rebuild on change)
+Set `TMDB_KEY` in `apps/data-service/.env` to your [TMDB API key](https://developer.themoviedb.org/docs/getting-started), then build the workspace and populate local Redis. The refresh reads JustWatch and TMDB, then replaces the local movie and provider catalogs.
 
-```bash
-# apps/wtw
-rushx build
-# apps/redis-sdk
-rushx build
-# Or On bash, base dir
-sh build-deps-dev.sh
-```
+```sh
+rush build
 
-After that you'll need to backfill all of the data needed for the app.
-
-```bash
 # apps/data-service
-npx ts-node ./refresh-runner.ts
+cd apps/data-service
+rushx refresh
 ```
 
-Finally, you can start up the frontend and api
+The JustWatch contract can be checked without writing to Redis:
 
-```bash
+```sh
+# apps/wtw
+cd apps/wtw
+rushx test:live
+```
+
+Start the API and frontend in separate terminals:
+
+```sh
 # apps/api
+cd apps/api
 rushx start:dev
 ```
 
-```bash
+```sh
 # apps/frontend
+cd apps/frontend
 rushx start
 ```
 
-The frontend will be available at `http://localhost:4200/`
+The frontend is available at `http://localhost:4200/` and uses the API at `http://localhost:3000/` in Angular development mode.
+
+With both servers running, execute the local browser smoke test from another terminal:
+
+```sh
+cd apps/frontend
+rushx cypress:run
+```
+
+Stop the local infrastructure without deleting its Redis data:
+
+```sh
+docker compose down
+```
 
 ## Deployment
 

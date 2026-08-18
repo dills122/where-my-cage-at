@@ -20,9 +20,10 @@ export class FilmographyController {
 	@Get(':id')
 	async getFilmographyRecord(@Param() params) {
 		const { id } = params;
-		if (!id || Number(id) <= 0) {
+		const recordId = Number(id);
+		if (!Number.isInteger(recordId) || recordId <= 0) {
 			throw new HttpException('No recordId provided', HttpStatus.BAD_REQUEST);
 		}
-		return this.filmographyService.getRecord(id as number);
+		return this.filmographyService.getRecord(recordId);
 	}
 }

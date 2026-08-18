@@ -1,4 +1,86 @@
-.min-box {
-	min-width: 100px;
-	min-height: 100px;
+.service-button {
+	inline-size: 100%;
+	min-block-size: 11rem;
+	display: grid;
+	place-items: center;
+	align-content: center;
+	gap: var(--space-md);
+	padding: var(--space-lg) var(--space-sm);
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	color: var(--color-ink);
+	cursor: pointer;
+	transition:
+		transform var(--dur-micro) var(--ease-out),
+		background-color var(--dur-short) var(--ease-out);
+}
+
+.service-button__icon {
+	min-block-size: 5rem;
+	display: grid;
+	place-items: center;
+	font-size: 3.5rem;
+}
+
+.service-button__label {
+	font-weight: 700;
+	line-height: 1.2;
+	text-align: center;
+}
+
+:host ::ng-deep app-service-icon {
+	pointer-events: none;
+}
+
+:host ::ng-deep app-service-icon > div > div:first-child {
+	margin: 0 !important;
+}
+
+:host ::ng-deep app-service-icon > div > div:last-child {
+	display: none !important;
+}
+
+:host ::ng-deep app-service-icon img {
+	inline-size: 5rem;
+	block-size: 5rem;
+	object-fit: contain;
+}
+
+.service-button:active {
+	transform: translateY(1px);
+}
+
+.service-button:disabled,
+.service-button[aria-busy='true'] {
+	opacity: 0.5;
+	cursor: not-allowed;
+	transform: none;
+}
+
+.service-button.is-error {
+	color: var(--color-error);
+}
+
+.service-button.is-success {
+	color: var(--color-success);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.service-button:not(:disabled):hover {
+		background: var(--color-accent-soft);
+		transform: translateY(-1px);
+	}
+}
+
+@media (min-width: 40rem) {
+	.service-button {
+		min-block-size: 12rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.service-button {
+		transform: none !important;
+	}
 }

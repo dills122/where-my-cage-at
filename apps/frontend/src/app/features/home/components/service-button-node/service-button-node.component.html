@@ -1,17 +1,20 @@
-<div class="flex align-items-center justify-content-center" (click)="openServicePage(serviceId)">
-	<div class="flex flex-column text-center" [class.min-box]="serviceId === SEE_MORE_SERVICE_ID">
-		<div class="flex align-items-center justify-content-center m-3">
-			<div *ngIf="serviceId === SEE_MORE_SERVICE_ID; else elseBlock"
-				class="flex align-content-center justify-content-center m-3"
-				[class.min-box]="serviceId === SEE_MORE_SERVICE_ID">
-				<i class="pi mb-3 flex align-items-center justify-content-center" [ngClass]="serviceIcon"> </i>
-			</div>
-			<ng-template #elseBlock>
-				<div>
-					<app-service-icon [serviceId]="serviceId"></app-service-icon>
-				</div>
-			</ng-template>
-		</div>
-		<div class="flex align-items-center justify-content-center font-bold">{{ serviceName }}</div>
-	</div>
-</div>
+<button
+	type="button"
+	class="service-button"
+	(click)="openServicePage(serviceId)"
+	[attr.aria-label]="
+		serviceId === SEE_MORE_SERVICE_ID ? 'See all streaming services' : 'Browse ' + serviceName + ' movies'
+	"
+>
+	<span class="service-button__icon" aria-hidden="true">
+		<i *ngIf="serviceId === SEE_MORE_SERVICE_ID; else providerIcon" class="pi" [ngClass]="serviceIcon"></i>
+		<ng-template #providerIcon>
+			<app-service-icon
+				[serviceId]="serviceId"
+				[serviceName]="serviceName"
+				[interactive]="false"
+			></app-service-icon>
+		</ng-template>
+	</span>
+	<span class="service-button__label">{{ serviceName }}</span>
+</button>

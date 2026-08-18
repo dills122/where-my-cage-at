@@ -1,0 +1,94 @@
+:host {
+	display: block;
+}
+
+.film-search {
+	display: grid;
+	gap: var(--space-xs);
+}
+
+.film-search__label {
+	font-size: var(--text-lg);
+	line-height: 1.2;
+}
+
+.film-search__help {
+	min-block-size: 1lh;
+	margin: 0 0 var(--space-xs);
+	color: var(--color-muted);
+	font-size: var(--text-sm);
+	line-height: 1.5;
+}
+
+:host ::ng-deep .p-autocomplete,
+:host ::ng-deep .p-autocomplete-input {
+	inline-size: 100%;
+}
+
+:host ::ng-deep .p-autocomplete-input {
+	min-block-size: 3.5rem;
+	padding: var(--space-sm) calc(var(--space-xl) + var(--space-xs)) var(--space-sm) var(--space-md);
+	border: var(--rule-hair) solid var(--color-rule);
+	border-radius: var(--radius-md);
+	outline: var(--rule-strong) solid transparent;
+	outline-offset: var(--space-3xs);
+	background: var(--color-paper-2);
+	color: var(--color-ink);
+	font-size: var(--text-md);
+	box-shadow: none;
+}
+
+:host ::ng-deep .p-autocomplete-input::placeholder {
+	color: var(--color-muted);
+	opacity: 1;
+}
+
+:host ::ng-deep .p-autocomplete-input:focus-visible {
+	border-color: var(--color-rule);
+	outline-color: var(--color-focus);
+	box-shadow: none;
+}
+
+:host ::ng-deep .p-autocomplete-input:disabled {
+	opacity: 0.55;
+	cursor: not-allowed;
+	color: var(--color-muted);
+}
+
+:host ::ng-deep .p-autocomplete-panel {
+	border: var(--rule-hair) solid var(--color-rule);
+	border-radius: var(--radius-md);
+	background: var(--color-paper-2);
+	color: var(--color-ink);
+	box-shadow: none;
+}
+
+:host ::ng-deep .p-autocomplete-item {
+	min-block-size: 44px;
+	display: flex;
+	align-items: center;
+	color: var(--color-ink);
+}
+
+:host ::ng-deep .p-autocomplete-item.p-highlight {
+	background: var(--color-accent-soft);
+	color: var(--color-ink);
+}
+
+:host ::ng-deep .p-autocomplete-loader {
+	color: var(--color-accent);
+}
+
+:host(.is-error) ::ng-deep .p-autocomplete-input {
+	border-color: var(--color-error);
+}
+
+:host(.is-success) ::ng-deep .p-autocomplete-input {
+	border-color: var(--color-success);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	:host ::ng-deep .p-autocomplete-input:hover {
+		background: var(--color-paper-3);
+	}
+}
