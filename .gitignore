@@ -77,3 +77,19 @@ keys/
 *.secret.ts
 
 tsconfig.tsbuildinfo
+
+# TypeScript packages compile in place for local workspace consumers
+/apps/redis-sdk/index.js
+/apps/redis-sdk/src/**/*.js
+/apps/redis-sdk/tests/**/*.js
+/apps/redis-sdk/types/
+/apps/data-service/types/
+/apps/wtw/*.js
+/apps/wtw/types/
+
+# Local data-service runtime log
+/apps/data-service/src/loggerlogs.txt
+
+# Cypress run artifacts
+/apps/frontend/cypress/screenshots/
+/apps/frontend/cypress/videos/

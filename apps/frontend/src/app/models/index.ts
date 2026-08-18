@@ -4,6 +4,7 @@ export interface ServiceProvider {
 	shortName: string;
 	clearName: string;
 	monetizationTypes: string[];
+	iconUrl?: string | null;
 }
 
 export interface MovieRecord {

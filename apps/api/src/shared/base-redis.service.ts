@@ -7,8 +7,8 @@ export default class RedisServiceBase {
 		const ENV = process.env.NODE_ENV;
 		const isProd = ENV === 'prod';
 		this.client = new ReadOnlyClient({
-			host: isProd ? 'redis' : 'localhost',
-			port: '6379',
+			host: process.env.REDIS_HOST || (isProd ? 'redis' : 'localhost'),
+			port: process.env.REDIS_PORT || '6379',
 		});
 	}
 	protected async connect() {

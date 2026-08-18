@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import RedisServiceBase from 'src/shared/base-redis.service';
+import RedisServiceBase from '../../shared/base-redis.service';
 
 @Injectable()
 export class FilmographyService extends RedisServiceBase {

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import Fuse from 'fuse.js';
-import { map, mergeMap, of, Subject, switchMap, takeUntil, tap, toArray } from 'rxjs';
+import { filter, map, Subject, take, takeUntil, tap } from 'rxjs';
 import { FilmographyRepository } from 'src/app/repositories';
 
 export interface FilmSearchResult {
@@ -21,28 +21,23 @@ export class FilmSearchComponent implements OnInit, OnDestroy {
 	notifier = new Subject();
 	searchResults$ = this.filmographyRepository.credits$.pipe(
 		takeUntil(this.notifier),
-		switchMap(records => {
-			return of(records).pipe(
-				mergeMap(records => records),
-				map(record => {
-					const { id, title } = record;
-					return {
-						id,
-						title
-					} as FilmSearchResult;
-				}),
-				toArray()
-			);
-		}),
+		filter(records => records.length > 0),
+		map(records =>
+			records.map(({ id, title }) => ({
+				id,
+				title
+			}))
+		),
 		tap(records => {
 			this.searchDictonary = records;
 		}),
-		tap(() => {
-			this.notifier.next(true);
-		})
+		take(1)
 	);
 
-	constructor(private filmographyRepository: FilmographyRepository, private router: Router) {}
+	constructor(
+		private filmographyRepository: FilmographyRepository,
+		private router: Router
+	) {}
 
 	ngOnDestroy(): void {
 		this.notifier.next(true);

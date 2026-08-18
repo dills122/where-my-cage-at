@@ -4,6 +4,7 @@
 	"description": "What to watch, Unoffical Justwatch api wrapper",
 	"scripts": {
 		"test": "mocha -r ts-node/register \"*.spec.ts\"",
+		"test:live": "ts-node tester.ts",
 		"build": "tsc -p .",
 		"watch": "tsc -p . --watch",
 		"compile": "tsc",
