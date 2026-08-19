@@ -3,7 +3,11 @@ import {
 	FastifyAdapter,
 	NestFastifyApplication,
 } from '@nestjs/platform-fastify';
-import { MovieRecord, ServiceProvider } from 'redis-sdk';
+import {
+	CatalogueRefreshStatus,
+	MovieRecord,
+	ServiceProvider,
+} from 'redis-sdk';
 import { AppModule } from '../src/app.module';
 import { FilmographyService } from '../src/filmography/service/filmography.service';
 import { ServiceProvidersService } from '../src/service-providers/service/service-providers.service';
@@ -34,6 +38,17 @@ const provider: ServiceProvider = {
 	monetizationTypes: ['flatrate'],
 };
 
+const refreshStatus: CatalogueRefreshStatus = {
+	state: 'success',
+	version: 'e2e-version',
+	activeVersion: 'e2e-version',
+	startedAt: '2026-08-19T00:00:00.000Z',
+	completedAt: '2026-08-19T00:00:01.000Z',
+	durationMs: 1000,
+	counts: { credits: 1, movies: 1, serviceProviders: 1, failed: 0 },
+	failures: [],
+};
+
 describe('Application API (e2e)', () => {
 	let app: NestFastifyApplication;
 
@@ -45,6 +60,7 @@ describe('Application API (e2e)', () => {
 			.useValue({
 				getAll: async () => [movie],
 				getRecord: async (id: number) => (id === movie.id ? movie : undefined),
+				getRefreshStatus: async () => refreshStatus,
 			})
 			.overrideProvider(ServiceProvidersService)
 			.useValue({ getAll: async () => [provider] })
@@ -85,6 +101,16 @@ describe('Application API (e2e)', () => {
 
 		expect(response.statusCode).toBe(400);
 		expect(response.json()).toMatchObject({ message: 'No recordId provided' });
+	});
+
+	it('serves the latest catalogue refresh status', async () => {
+		const response = await app.inject({
+			method: 'GET',
+			url: '/filmography/refresh-status',
+		});
+
+		expect(response.statusCode).toBe(200);
+		expect(response.json()).toEqual(refreshStatus);
 	});
 
 	it('serves the provider catalogue', async () => {

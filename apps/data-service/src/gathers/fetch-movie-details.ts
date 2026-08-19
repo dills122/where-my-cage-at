@@ -52,10 +52,8 @@ export default async ({ movieId, imdbId, title, releaseYear }: FetchMovieArgs) =
 				}
 			}
 
-			console.error('Movie not found, strange..');
 			throw error;
 		} else {
-			console.error(error);
 			throw error;
 		}
 	}

@@ -1,5 +1,5 @@
 import { MovieRecord } from '..';
-import { ServiceProvider } from './data-types';
+import { CatalogueRefreshStatus, ServiceProvider } from './data-types';
 import { createRedisClient, RedisClientLike } from './redis-client';
 import config from './shared';
 
@@ -16,6 +16,9 @@ export class ReadOnlyClient {
 	}
 
 	async connect() {
+		if (this._connected) {
+			return;
+		}
 		await this._client.connect();
 		this._connected = true;
 	}
@@ -23,18 +26,19 @@ export class ReadOnlyClient {
 	async disconnect() {
 		try {
 			await this._client.disconnect();
-			this._connected = false;
 		} catch (err) {
 			return;
+		} finally {
+			this._connected = false;
 		}
 	}
 
 	async getProviders(): Promise<ServiceProvider[]> {
 		try {
-			if (!this._connected) {
-				await this.connect();
-			}
-			const providers = await this._client.json.get(config.serviceProvidersPath);
+			await this.ensureConnected();
+			const version = await this._client.get(config.activeCatalogVersionPath);
+			const key = version ? config.serviceProvidersVersionPath(version) : config.serviceProvidersPath;
+			const providers = await this._client.json.get(key);
 			if (providers == null || providers === '') {
 				throw Error('No records found');
 			}
@@ -51,10 +55,10 @@ export class ReadOnlyClient {
 
 	async getMovieCatalog(): Promise<MovieRecord[]> {
 		try {
-			if (!this._connected) {
-				await this.connect();
-			}
-			const movies = await this._client.json.get(config.movieCatalogPath);
+			await this.ensureConnected();
+			const version = await this._client.get(config.activeCatalogVersionPath);
+			const key = version ? config.movieCatalogVersionPath(version) : config.movieCatalogPath;
+			const movies = await this._client.json.get(key);
 			if (movies == null || movies === '') {
 				throw Error('No records found');
 			}
@@ -66,6 +70,27 @@ export class ReadOnlyClient {
 			console.error(err);
 			await this.disconnect();
 			throw err;
+		}
+	}
+
+	async getRefreshStatus(): Promise<CatalogueRefreshStatus> {
+		try {
+			await this.ensureConnected();
+			const status = await this._client.json.get(config.refreshStatusPath);
+			if (status == null || status === '') {
+				throw Error('No refresh status found');
+			}
+			return status as CatalogueRefreshStatus;
+		} catch (err) {
+			console.error(err);
+			await this.disconnect();
+			throw err;
+		}
+	}
+
+	private async ensureConnected() {
+		if (!this._connected) {
+			await this.connect();
 		}
 	}
 }

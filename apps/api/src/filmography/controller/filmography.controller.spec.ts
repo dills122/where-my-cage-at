@@ -7,6 +7,7 @@ describe('FilmographyController', () => {
 	const filmographyService = {
 		getAll: jest.fn(),
 		getRecord: jest.fn(),
+		getRefreshStatus: jest.fn(),
 	};
 
 	beforeEach(async () => {
@@ -37,5 +38,13 @@ describe('FilmographyController', () => {
 		await controller.getFilmographyRecord({ id: '1226578' });
 
 		expect(filmographyService.getRecord).toHaveBeenCalledWith(1226578);
+	});
+
+	it('returns the latest catalogue refresh status', async () => {
+		filmographyService.getRefreshStatus.mockResolvedValue({ state: 'success' });
+
+		await expect(controller.getRefreshStatus()).resolves.toEqual({
+			state: 'success',
+		});
 	});
 });
