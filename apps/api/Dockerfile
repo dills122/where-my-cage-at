@@ -1,19 +1,32 @@
-FROM ghcr.io/dills122/rushjs-base-img:edge
-WORKDIR /tmp
+ARG NODE_IMAGE=node:22.22.1-bookworm-slim@sha256:4f77a690f2f8946ab16fe1e791a3ac0667ae1c3575c3e4d0d4589e9ed5bfaf3d
+
+FROM ${NODE_IMAGE} AS builder
+
+ENV CI=1
+WORKDIR /workspace
+
 COPY . .
 
-RUN adduser -S app
-RUN rm -rf ./common/temp \
-    && rush install -f api -p \
-    && rush build --to api
-RUN mkdir ./prod \
-    && rush deploy --project api --target-folder ./prod \
-    && cp ./.env ./prod/apps/api/ \
-    && cp -avr ./data/icons ./prod/apps/api
-# TODO need to make new image with nestjs included
-RUN npm i -g @nestjs/cli
-WORKDIR /tmp/prod/apps/api
-RUN chown -R app /tmp/prod
-USER app
+RUN node common/scripts/install-run-rush.js install --to api --purge \
+	&& node common/scripts/install-run-rush.js build --to api \
+	&& node common/scripts/install-run-rush.js deploy \
+		--project api \
+		--target-folder /opt/deploy \
+	&& cp -R data/icons /opt/deploy/apps/api/icons
 
-CMD ["pm2-runtime", "start", "processes.json", "--env", "production"]
+FROM ${NODE_IMAGE} AS runtime
+
+ENV API_PORT=3000 \
+	NODE_ENV=prod \
+	REDIS_HOST=redis \
+	REDIS_PORT=6379
+
+WORKDIR /app/apps/api
+
+COPY --from=builder --chown=node:node /opt/deploy /app
+
+USER node
+
+EXPOSE 3000
+
+CMD ["node", "dist/main.js"]
