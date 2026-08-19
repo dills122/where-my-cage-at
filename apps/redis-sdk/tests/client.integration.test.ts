@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { FullClient } from '../src/client';
-import { MovieRecord, ServiceProvider } from '../src/data-types';
+import { CatalogueRefreshStatus, MovieRecord, ServiceProvider } from '../src/data-types';
 import { ReadOnlyClient } from '../src/readonly-client';
 
 const port = process.env.REDIS_TEST_PORT;
@@ -41,12 +41,28 @@ test('publishes and reads catalogues through Redis JSON', async () => {
 	const reader = new ReadOnlyClient(connection);
 
 	try {
-		await writer.connect();
-		await writer.updateMovieCatalog([movie]);
-		await writer.updateServiceProviders([provider]);
+		const status: CatalogueRefreshStatus = {
+			state: 'success',
+			version: 'integration-version',
+			startedAt: '2026-08-19T00:00:00.000Z',
+			completedAt: '2026-08-19T00:00:01.000Z',
+			durationMs: 1000,
+			counts: { credits: 1, movies: 1, serviceProviders: 1, failed: 0 },
+			failures: []
+		};
+		await writer.publishCatalog({
+			version: status.version,
+			movies: [movie],
+			serviceProviders: [provider],
+			status
+		});
 
 		assert.deepEqual(await reader.getMovieCatalog(), [movie]);
 		assert.deepEqual(await reader.getProviders(), [provider]);
+		assert.deepEqual(await reader.getRefreshStatus(), {
+			...status,
+			activeVersion: status.version
+		});
 	} finally {
 		await writer.disconnect();
 		await reader.disconnect();

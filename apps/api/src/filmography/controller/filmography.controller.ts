@@ -17,6 +17,11 @@ export class FilmographyController {
 		return this.filmographyService.getAll();
 	}
 
+	@Get('refresh-status')
+	async getRefreshStatus() {
+		return this.filmographyService.getRefreshStatus();
+	}
+
 	@Get(':id')
 	async getFilmographyRecord(@Param() params) {
 		const { id } = params;

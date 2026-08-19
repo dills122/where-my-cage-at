@@ -6,6 +6,36 @@ export interface ServiceProvider {
 	monetizationTypes: string[];
 	iconUrl?: string | null;
 }
+
+export interface CatalogueRefreshFailure {
+	id: number;
+	title: string;
+	message: string;
+}
+
+export interface CatalogueRefreshStatus {
+	state: 'success' | 'failed';
+	version: string;
+	activeVersion?: string;
+	startedAt: string;
+	completedAt: string;
+	durationMs: number;
+	counts: {
+		credits: number;
+		movies: number;
+		serviceProviders: number;
+		failed: number;
+	};
+	failures: CatalogueRefreshFailure[];
+}
+
+export interface CataloguePublication {
+	version: string;
+	movies: MovieRecord[];
+	serviceProviders: ServiceProvider[];
+	status: CatalogueRefreshStatus;
+}
+
 export interface MovieRecord {
 	id: number;
 	imdbId: string;

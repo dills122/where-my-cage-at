@@ -19,4 +19,11 @@ export class FilmographyService extends RedisServiceBase {
 			return record.id === tmdbId;
 		});
 	}
+
+	async getRefreshStatus() {
+		if (!this.isConnected) {
+			await this.connect();
+		}
+		return this.client.getRefreshStatus();
+	}
 }
