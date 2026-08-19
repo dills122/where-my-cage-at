@@ -7,7 +7,6 @@ import {
 	setEntities,
 	withEntities
 } from '@ngneat/elf-entities';
-import { localStorageStrategy, persistState } from '@ngneat/elf-persist-state';
 import { createRequestsCacheOperator, updateRequestCache, withRequestsCache } from '@ngneat/elf-requests';
 import { EMPTY, of, switchMap } from 'rxjs';
 import { ServiceProvider } from '../models';
@@ -21,15 +20,10 @@ const { state, config } = createState(
 
 export const serviceProviderStore = new Store({ state, name: storeName, config });
 
-export const serviceProviderPersist = persistState(serviceProviderStore, {
-	key: storeName,
-	storage: localStorageStrategy
-});
-
 export const skipServiceProviderWhileCached = createRequestsCacheOperator(serviceProviderStore);
 
 export class ServiceProviderRepository {
-	initialized$ = serviceProviderPersist.initialized$;
+	initialized$ = of(true);
 	serviceProviders$ = serviceProviderStore.pipe(selectAllEntities());
 
 	set(entities: ServiceProvider[]) {

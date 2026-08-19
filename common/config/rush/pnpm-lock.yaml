@@ -227,9 +227,6 @@ importers:
       '@ngneat/elf-pagination':
         specifier: ^1.0.1
         version: 1.1.0(@ngneat/elf-entities@4.6.0)
-      '@ngneat/elf-persist-state':
-        specifier: ^1.1.6
-        version: 1.2.1(rxjs@7.5.7)
       '@ngneat/elf-requests':
         specifier: ^1.1.4
         version: 1.9.2
@@ -1625,11 +1622,6 @@ packages:
     resolution: {integrity: sha512-MhaeHxRXlLMDg4SIidWS/USr82l8tJ5/QKl8JbOTWDu6YAygVb2pwlXITPFG0Nk2dusRTt5/P2JcGdcxQK6//Q==}
     peerDependencies:
       '@ngneat/elf-entities': '*'
-
-  '@ngneat/elf-persist-state@1.2.1':
-    resolution: {integrity: sha512-R+5IRLC35cDT403sSs37UeqqOpHNnCwHl3eicPv/Rc+JJ7Av1bcQClSF2mHC0jE4pkYmEuVghpzUntvmrKCCwA==}
-    peerDependencies:
-      rxjs: '>=7.0.0'
 
   '@ngneat/elf-requests@1.9.2':
     resolution: {integrity: sha512-DSlUVGlltkxcCjH0lWIjSJLz7SAR6ZdGtVwQumip7pXdxeSYmYFnqIwDObR4Cbd3Jbmx0jQs+C9VSbgTDhtdLA==}
@@ -8786,10 +8778,6 @@ snapshots:
   '@ngneat/elf-pagination@1.1.0(@ngneat/elf-entities@4.6.0)':
     dependencies:
       '@ngneat/elf-entities': 4.6.0
-
-  '@ngneat/elf-persist-state@1.2.1(rxjs@7.5.7)':
-    dependencies:
-      rxjs: 7.5.7
 
   '@ngneat/elf-requests@1.9.2': {}
 

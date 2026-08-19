@@ -1,5 +1,5 @@
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -11,6 +11,11 @@ import { AppRoutingModule } from './app-routing.module';
 import AppComponent from './app/app.component';
 import { HeadersInterceptor } from './interceptors/headers/headers.interceptor';
 import { FilmographyRepository, ServiceProviderRepository } from './repositories';
+import { LocalStorageService } from './services/local-storage/local-storage.service';
+
+export function removeLegacyCatalogueStorage(localStorageService: LocalStorageService) {
+	return () => localStorageService.removeLegacyCatalogueEntries();
+}
 
 @NgModule({
 	declarations: [AppComponent],
@@ -31,6 +36,12 @@ import { FilmographyRepository, ServiceProviderRepository } from './repositories
 	providers: [
 		FilmographyRepository,
 		ServiceProviderRepository,
+		{
+			provide: APP_INITIALIZER,
+			useFactory: removeLegacyCatalogueStorage,
+			deps: [LocalStorageService],
+			multi: true
+		},
 		{ provide: HTTP_INTERCEPTORS, useClass: HeadersInterceptor, multi: true }
 	],
 	bootstrap: [AppComponent]

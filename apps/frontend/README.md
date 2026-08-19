@@ -18,6 +18,17 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
+## Browser storage
+
+Filmography and service-provider catalogues are kept in memory and fetched from the API after a
+page reload. They are deliberately not persisted in browser storage because the complete catalogue
+can exceed common `localStorage` quotas. Startup removes catalogue keys written by older versions.
+
+The remaining versioned storage wrapper is reserved for small preferences and metadata. Each item
+is capped at 4 KiB and total application storage is capped at 16 KiB. Disabled storage, corrupt
+JSON, stale versions, and quota errors are treated as cache misses so they cannot prevent the
+application from loading.
+
 ## Running end-to-end tests
 
 Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.

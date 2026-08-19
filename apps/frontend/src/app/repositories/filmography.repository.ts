@@ -6,7 +6,6 @@ import {
 	setEntities,
 	withEntities
 } from '@ngneat/elf-entities';
-import { localStorageStrategy, persistState } from '@ngneat/elf-persist-state';
 import { createRequestsCacheOperator, updateRequestCache, withRequestsCache } from '@ngneat/elf-requests';
 import { EMPTY, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -18,15 +17,10 @@ const { state, config } = createState(withEntities<MovieRecord>(), withRequestsC
 
 const filmographyStore = new Store({ state, name: storeName, config });
 
-export const filmographyPersist = persistState(filmographyStore, {
-	key: storeName,
-	storage: localStorageStrategy
-});
-
 export const skipFilmographyWhileCached = createRequestsCacheOperator(filmographyStore);
 
 export class FilmographyRepository {
-	initialized$ = filmographyPersist.initialized$;
+	initialized$ = of(true);
 	credits$ = filmographyStore.pipe(selectAllEntities());
 	set(entities: MovieRecord[]) {
 		filmographyStore.update(
