@@ -1,16 +1,16 @@
-import { createClient } from 'redis';
 import { MovieRecord, ServiceProvider } from './data-types';
+import { createRedisClient, RedisClientLike } from './redis-client';
 
 export class FullClient {
-	private _client;
+	private _client: RedisClientLike;
 	private _connected: boolean;
-	constructor({ host, port }: { host: string; port: string }) {
-		this._client = createClient({
-			socket: {
-				port: Number(port),
-				host
-			}
-		});
+	constructor({ host, port, client }: { host: string; port: string; client?: RedisClientLike }) {
+		this._client =
+			client ||
+			createRedisClient({
+				host,
+				port
+			});
 	}
 
 	async connect() {

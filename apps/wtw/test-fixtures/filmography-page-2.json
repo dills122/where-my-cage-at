@@ -1,0 +1,18 @@
+{
+	"searchTitles": {
+		"pageInfo": {
+			"hasNextPage": false,
+			"endCursor": null
+		},
+		"edges": [
+			{
+				"node": {
+					"id": "tm22",
+					"objectType": "MOVIE",
+					"content": null,
+					"offers": []
+				}
+			}
+		]
+	}
+}

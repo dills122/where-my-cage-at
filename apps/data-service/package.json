@@ -3,7 +3,7 @@
 	"version": "0.1.5",
 	"description": "",
 	"scripts": {
-		"test": "echo \"Error: no test yet\" && exit 0",
+		"test": "TS_NODE_PREFER_TS_EXTS=true node --test --require ts-node/register src/refresh-redis-data.spec.ts",
 		"build": "tsc -p .",
 		"watch": "tsc -p . --watch",
 		"compile": "tsc",

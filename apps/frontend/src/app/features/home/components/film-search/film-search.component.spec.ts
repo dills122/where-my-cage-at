@@ -1,24 +1,26 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { Router } from '@angular/router';
+import { of } from 'rxjs';
+import { FilmographyRepository } from 'src/app/repositories';
+import { createMovie } from 'src/testing/fixtures';
 import { FilmSearchComponent } from './film-search.component';
 
 describe('FilmSearchComponent', () => {
-	let component: FilmSearchComponent;
-	let fixture: ComponentFixture<FilmSearchComponent>;
+	it('indexes catalogue titles, searches them, and navigates to a selection', () => {
+		const repository = {
+			credits$: of([createMovie({ id: 42, title: 'Moonstruck' }), createMovie({ id: 7, title: 'Mandy' })])
+		} as FilmographyRepository;
+		const router = jasmine.createSpyObj<Router>('Router', ['navigate']);
+		const component = new FilmSearchComponent(repository, router);
 
-	beforeEach(async () => {
-		await TestBed.configureTestingModule({
-			declarations: [FilmSearchComponent]
-		}).compileComponents();
-	});
+		component.ngOnInit();
+		component.search({ query: 'Moon' });
+		component.navigate(component.results[0]);
 
-	beforeEach(() => {
-		fixture = TestBed.createComponent(FilmSearchComponent);
-		component = fixture.componentInstance;
-		fixture.detectChanges();
-	});
-
-	it('should create', () => {
-		expect(component).toBeTruthy();
+		expect(component.searchDictonary).toEqual([
+			{ id: 42, title: 'Moonstruck' },
+			{ id: 7, title: 'Mandy' }
+		]);
+		expect(component.results[0]).toEqual({ id: 42, title: 'Moonstruck' });
+		expect(router.navigate).toHaveBeenCalledOnceWith(['/film-overview/42']);
 	});
 });

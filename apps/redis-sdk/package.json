@@ -4,7 +4,8 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"test": "echo \"Error: no test yet\" && exit 0",
+		"test": "TS_NODE_PREFER_TS_EXTS=true node --test --require ts-node/register tests/client.test.ts",
+		"test:integration": "bash tests/run-integration.sh",
 		"build": "tsc -p . --incremental false",
 		"watch": "tsc -p . --watch",
 		"compile": "tsc",
@@ -23,6 +24,7 @@
 		"@typescript-eslint/parser": "5.62.0",
 		"@types/node": "^18.11.7",
 		"eslint": "~8.57.1",
+		"ts-node": "~10.9.1",
 		"ts-node-dev": "^2.0.0",
 		"typescript": "~4.8.4"
 	}

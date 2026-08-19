@@ -1,8 +1,15 @@
 import { expect } from 'chai';
+import { readFileSync } from 'fs';
+import got from 'got';
 import { describe } from 'mocha';
+import { join } from 'path';
 import { of } from 'rxjs';
 import Sinon from 'sinon';
 import WTW, { ObjectSearchResult, ServiceProvider } from './index';
+
+function loadFixture(name: string) {
+	return JSON.parse(readFileSync(join(__dirname, 'test-fixtures', name), 'utf8'));
+}
 
 function graphqlNode({
 	id,
@@ -100,41 +107,9 @@ describe('WTW::', () => {
 		});
 
 		it('paginates GraphQL results and maps movie ids and offers', async () => {
-			const encodedProviderId = Buffer.from('package|8').toString('base64');
 			const graphqlRequestStub = sandbox.stub(WTW.prototype as any, 'graphqlRequest');
-			graphqlRequestStub.onFirstCall().resolves(
-				graphqlPage(
-					[
-						graphqlNode({
-							id: 'tm10',
-							title: 'First Movie',
-							tmdbId: '10',
-							offers: [
-								{
-									monetizationType: 'FLATRATE',
-									presentationType: 'HD',
-									standardWebURL: 'https://example.com/watch',
-									deeplinkURL: 'example://watch',
-									retailPriceValue: null,
-									currency: 'CAD',
-									package: {
-										id: encodedProviderId,
-										shortName: 'svc'
-									}
-								}
-							]
-						}),
-						graphqlNode({ id: 'ts20', title: 'A Show', objectType: 'SHOW', tmdbId: '20' })
-					],
-					true,
-					'next-page'
-				)
-			);
-			graphqlRequestStub
-				.onSecondCall()
-				.resolves(
-					graphqlPage([graphqlNode({ id: 'tm22', title: 'Second Movie', tmdbId: null, imdbId: null })])
-				);
+			graphqlRequestStub.onFirstCall().resolves(loadFixture('filmography-page-1.json'));
+			graphqlRequestStub.onSecondCall().resolves(loadFixture('filmography-page-2.json'));
 
 			const api = new WTW();
 			api.locale = 'en_CA';
@@ -142,6 +117,7 @@ describe('WTW::', () => {
 
 			expect(results).to.have.length(2);
 			expect(results.map((movie: ObjectSearchResult) => movie.id)).to.deep.equal([10, 22]);
+			expect(results[1]).to.deep.include({ title: '', shortDescription: '', ageCertification: '' });
 			expect(results[0].offers[0]).to.deep.include({
 				providerId: 8,
 				monetizationType: 'flatrate',
@@ -203,6 +179,38 @@ describe('WTW::', () => {
 				includeTitlesWithoutUrl: true,
 				isUpcoming: false
 			});
+		});
+
+		it('surfaces GraphQL schema errors instead of returning partial data', async () => {
+			sandbox.stub(got, 'post').resolves({
+				body: {
+					errors: [{ message: 'Cannot query field "offers" on type "Movie"' }]
+				}
+			} as any);
+			const api = new WTW();
+
+			let error: Error | undefined;
+			try {
+				await (api as any).graphqlRequest({ query: 'query', variables: {} });
+			} catch (err) {
+				error = err as Error;
+			}
+
+			expect(error?.message).to.equal('Cannot query field "offers" on type "Movie"');
+		});
+
+		it('rejects a GraphQL response with no data payload', async () => {
+			sandbox.stub(got, 'post').resolves({ body: {} } as any);
+			const api = new WTW();
+
+			let error: Error | undefined;
+			try {
+				await (api as any).graphqlRequest({ query: 'query', variables: {} });
+			} catch (err) {
+				error = err as Error;
+			}
+
+			expect(error?.message).to.equal('JustWatch GraphQL returned no data');
 		});
 	});
 });
