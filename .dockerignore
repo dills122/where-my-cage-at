@@ -1,11 +1,34 @@
 .git
 .gitignore
-node_modules/
-temp/
-prod/
-.github/
-pnpm-local/
-pnpm-store/
+.github
+.vscode
+.DS_Store
+
+# Local dependencies and Rush/pnpm state
+**/node_modules
+common/temp
+common/deploy
+pnpm-local
+pnpm-store
+
+# Generated build and test output
+**/dist
+**/coverage
+**/types
+**/.angular
+**/*.tsbuildinfo
+apps/data-service/**/*.js
+apps/redis-sdk/**/*.js
+apps/wtw/*.js
+apps/frontend/cypress/screenshots
+apps/frontend/cypress/videos
 *.log
-.vscode/
-infastructure/
+
+# Local deployment output and infrastructure
+prod
+temp
+infrastructure
+
+# Runtime configuration must be injected, never baked into images
+.env
+**/.env
