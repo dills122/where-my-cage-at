@@ -1,24 +1,23 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import { of } from 'rxjs';
+import { FilmographyRepository } from 'src/app/repositories';
+import { createMovie } from 'src/testing/fixtures';
 import { ContainerComponent } from './container.component';
 
-describe('ContainerComponent', () => {
-	let component: ContainerComponent;
-	let fixture: ComponentFixture<ContainerComponent>;
+describe('Film overview ContainerComponent', () => {
+	it('loads the movie selected by the route', () => {
+		const movie = createMovie({ id: 42, genres: ['Comedy'] });
+		const repository = jasmine.createSpyObj<FilmographyRepository>('FilmographyRepository', ['getCredit']);
+		repository.getCredit.and.returnValue(of(movie));
+		const route = {
+			snapshot: { paramMap: convertToParamMap({ filmId: '42' }) }
+		} as ActivatedRoute;
+		const component = new ContainerComponent(repository, route);
 
-	beforeEach(async () => {
-		await TestBed.configureTestingModule({
-			declarations: [ContainerComponent]
-		}).compileComponents();
-	});
+		component.ngOnInit();
 
-	beforeEach(() => {
-		fixture = TestBed.createComponent(ContainerComponent);
-		component = fixture.componentInstance;
-		fixture.detectChanges();
-	});
-
-	it('should create', () => {
-		expect(component).toBeTruthy();
+		expect(repository.getCredit).toHaveBeenCalledOnceWith(42);
+		expect(component.filmRecord).toEqual(movie);
+		expect(component.getGenres()).toEqual(['Comedy']);
 	});
 });

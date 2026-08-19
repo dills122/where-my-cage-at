@@ -1,33 +1,47 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
+import { FilmographyRepository, ServiceProviderRepository } from '../repositories';
+import { FilmographyService } from '../services/filmography/filmography.service';
+import { ServiceProvidersService } from '../services/service-providers/service-providers.service';
+import { ThemeService } from '../services/theme/theme-service';
 import AppComponent from './app.component';
 
 describe('AppComponent', () => {
-	beforeEach(
-		waitForAsync(() => {
-			TestBed.configureTestingModule({
-				imports: [RouterTestingModule],
-				declarations: [AppComponent]
-			}).compileComponents();
-		})
-	);
+	let component: AppComponent;
+	let themeService: jasmine.SpyObj<ThemeService>;
+	let filmographyService: jasmine.SpyObj<FilmographyService>;
+	let serviceProvidersService: jasmine.SpyObj<ServiceProvidersService>;
 
-	it('should create the app', () => {
-		const fixture = TestBed.createComponent(AppComponent);
-		const app = fixture.debugElement.componentInstance;
-		expect(app).toBeTruthy();
+	beforeEach(() => {
+		themeService = jasmine.createSpyObj<ThemeService>('ThemeService', ['switchTheme']);
+		filmographyService = jasmine.createSpyObj<FilmographyService>('FilmographyService', [
+			'getFilmographyCredits'
+		]);
+		serviceProvidersService = jasmine.createSpyObj<ServiceProvidersService>('ServiceProvidersService', [
+			'getServiceProviders'
+		]);
+		filmographyService.getFilmographyCredits.and.returnValue(of([]));
+		serviceProvidersService.getServiceProviders.and.returnValue(of([]));
+
+		component = new AppComponent(
+			themeService,
+			serviceProvidersService,
+			filmographyService,
+			{ initialized$: of(true) } as FilmographyRepository,
+			{ initialized$: of(true) } as ServiceProviderRepository
+		);
 	});
 
-	it(`should have as title 'angular-example'`, () => {
-		const fixture = TestBed.createComponent(AppComponent);
-		const app = fixture.debugElement.componentInstance;
-		expect(app.title).toEqual('angular-example');
+	it('loads both catalogues after persistence initializes', () => {
+		component.ngOnInit();
+
+		expect(serviceProvidersService.getServiceProviders).toHaveBeenCalledTimes(1);
+		expect(filmographyService.getFilmographyCredits).toHaveBeenCalledTimes(1);
 	});
 
-	it('should render title in a h1 tag', () => {
-		const fixture = TestBed.createComponent(AppComponent);
-		fixture.detectChanges();
-		const compiled = fixture.debugElement.nativeElement;
-		expect(compiled.querySelector('h1').textContent).toContain('Welcome to angular-example!');
+	it('switches between the light and dark themes', () => {
+		component.handleChange({ checked: false });
+		component.handleChange({ checked: true });
+
+		expect(themeService.switchTheme.calls.allArgs()).toEqual([['light-th'], ['dark-th']]);
 	});
 });

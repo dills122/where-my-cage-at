@@ -1,0 +1,54 @@
+{
+	"searchTitles": {
+		"pageInfo": {
+			"hasNextPage": true,
+			"endCursor": "next-page"
+		},
+		"edges": [
+			{
+				"node": {
+					"id": "tm10",
+					"objectType": "MOVIE",
+					"content": {
+						"title": "First Movie",
+						"originalReleaseYear": 2024,
+						"fullPath": "/us/movie/first-movie",
+						"shortDescription": "First Movie description",
+						"ageCertification": "PG-13",
+						"externalIds": {
+							"imdbId": "tt0000001",
+							"tmdbId": "10"
+						}
+					},
+					"offers": [
+						{
+							"monetizationType": "FLATRATE",
+							"presentationType": "HD",
+							"standardWebURL": "https://example.com/watch",
+							"deeplinkURL": "example://watch",
+							"retailPriceValue": null,
+							"currency": "CAD",
+							"package": {
+								"id": "cGFja2FnZXw4",
+								"shortName": "svc",
+								"clearName": "Service",
+								"technicalName": "service",
+								"icon": "",
+								"iconWide": "",
+								"monetizationTypes": ["FLATRATE"]
+							}
+						}
+					]
+				}
+			},
+			{
+				"node": {
+					"id": "ts20",
+					"objectType": "SHOW",
+					"content": null,
+					"offers": []
+				}
+			}
+		]
+	}
+}

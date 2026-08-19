@@ -1,24 +1,20 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { Router } from '@angular/router';
+import { SEE_MORE_SERVICE_ID } from '../../services';
 import { ServiceButtonNodeComponent } from './service-button-node.component';
 
 describe('ServiceButtonNodeComponent', () => {
-	let component: ServiceButtonNodeComponent;
-	let fixture: ComponentFixture<ServiceButtonNodeComponent>;
+	it('routes provider buttons and the see-more button to their destinations', () => {
+		const router = jasmine.createSpyObj<Router>('Router', ['navigate']);
+		const component = new ServiceButtonNodeComponent(router);
 
-	beforeEach(async () => {
-		await TestBed.configureTestingModule({
-			declarations: [ServiceButtonNodeComponent]
-		}).compileComponents();
-	});
+		component.serviceId = 8;
+		component.openServicePage(8);
+		component.serviceId = SEE_MORE_SERVICE_ID;
+		component.openServicePage(SEE_MORE_SERVICE_ID);
 
-	beforeEach(() => {
-		fixture = TestBed.createComponent(ServiceButtonNodeComponent);
-		component = fixture.componentInstance;
-		fixture.detectChanges();
-	});
-
-	it('should create', () => {
-		expect(component).toBeTruthy();
+		expect(router.navigate.calls.allArgs()).toEqual([
+			[['/service-provider-overview/8']],
+			[['/available-service-providers']]
+		]);
 	});
 });

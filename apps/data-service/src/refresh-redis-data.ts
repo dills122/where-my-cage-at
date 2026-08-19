@@ -25,13 +25,29 @@ const NON_MAJOR_TITLE_PATTERNS: RegExp[] = [
 	/\binvestigates?\b/i
 ];
 
-interface UpdateFailures {
+export interface UpdateFailures {
 	totalFailed: number;
 	failedMovies: {
 		title: string;
 		id: number;
 	}[];
 }
+
+interface RedisPublisher {
+	connect(): Promise<void>;
+	disconnect(): Promise<void>;
+	updateMovieCatalog(movies: MovieRecord[]): Promise<void>;
+	updateServiceProviders(serviceProviders: ServiceProvider[]): Promise<void>;
+}
+
+type MovieDataFetcher = (args: {
+	movieId: number;
+	imdbId?: string;
+	title?: string;
+	releaseYear?: number;
+}) => Promise<Movie>;
+
+type RefreshLogger = (message: string, isError?: boolean) => Promise<void>;
 
 export default async () => {
 	const failures: UpdateFailures = {
@@ -68,7 +84,7 @@ export default async () => {
 		}
 	} catch (err) {
 		console.error(err);
-		process.exit(1);
+		throw err;
 	}
 };
 
@@ -102,10 +118,11 @@ function getImdbIdFromObjectSearchResult(record: ObjectSearchResult) {
 	return imdbRecord?.externalId;
 }
 
-async function iterateThroughCredits(
+export async function iterateThroughCredits(
 	creditRecords: ObjectSearchResult[],
 	movieRecords: MovieRecord[],
-	failures: UpdateFailures
+	failures: UpdateFailures,
+	fetchMovieData: MovieDataFetcher = getAdditionalMovieData
 ) {
 	for (const record of creditRecords) {
 		const { title, objectType, originalReleaseYear } = record;
@@ -113,7 +130,7 @@ async function iterateThroughCredits(
 		const imdbId = getImdbIdFromObjectSearchResult(record);
 		try {
 			console.log(`Movie: ${title}: ${objectType}, tmdb: ${tmdbId}`);
-			const movieObject = await getAdditionalMovieData({
+			const movieObject = await fetchMovieData({
 				movieId: tmdbId,
 				imdbId,
 				title,
@@ -136,24 +153,31 @@ async function iterateThroughCredits(
 	}
 }
 
-async function updateEntireRedisInstance(movies: MovieRecord[], serviceProviders: ServiceProvider[]) {
+export async function updateEntireRedisInstance(
+	movies: MovieRecord[],
+	serviceProviders: ServiceProvider[],
+	redisClient?: RedisPublisher,
+	log: RefreshLogger = LogToAllInterfaces
+) {
 	const redisHostName = getRedisHostName();
-	const client = new FullClient({
-		host: redisHostName,
-		port: RedisPort
-	});
+	const client =
+		redisClient ||
+		new FullClient({
+			host: redisHostName,
+			port: RedisPort
+		});
 	try {
 		await client.connect();
-		await LogToAllInterfaces('Successfully connected to Redis instance');
+		await log('Successfully connected to Redis instance');
 		console.log('Updating Movie Catalog');
 		await client.updateMovieCatalog(movies);
 		console.log('Updating Service Providers');
 		await client.updateServiceProviders(serviceProviders);
 		await client.disconnect();
-		await LogToAllInterfaces('Successfully updated data & disconnected from Redis instance');
+		await log('Successfully updated data & disconnected from Redis instance');
 	} catch (err) {
 		await client.disconnect();
-		await LogToAllInterfaces('Issue encountered with Redis update', true);
+		await log('Issue encountered with Redis update', true);
 		throw err;
 	}
 }
