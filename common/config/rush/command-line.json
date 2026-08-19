@@ -59,6 +59,13 @@
 			"summary": "Formats all the repos code"
 		},
 		{
+			"name": "prettier-check",
+			"commandKind": "global",
+			"autoinstallerName": "rush-prettier",
+			"shellCommand": "pretty-quick --check --branch origin/master",
+			"summary": "Checks formatting for files changed from origin/master"
+		},
+		{
 			"commandKind": "bulk",
 			"name": "compile",
 			"summary": "compilies all of the projects typescript",
