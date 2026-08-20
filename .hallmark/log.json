@@ -1,6 +1,14 @@
 [
 	{
 		"date": "2026-08-20",
+		"macrostructure": "Existing system enrichment",
+		"theme": "existing Cage typewriter",
+		"enrichment": "official TMDB poster artwork",
+		"scope": "film discovery surfaces",
+		"brief": "Add responsive movie posters to film detail, provider rows, and search"
+	},
+	{
+		"date": "2026-08-20",
 		"macrostructure": "Stat-Led",
 		"theme": "existing Cage typewriter",
 		"enrichment": "provider mark",

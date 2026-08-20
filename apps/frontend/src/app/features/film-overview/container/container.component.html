@@ -1,6 +1,13 @@
 @if (filmRecord$ | async; as film) {
 	<main class="film-detail" aria-labelledby="film-title">
 		<header class="film-detail__intro">
+			<app-movie-poster
+				[posterPath]="film.poster"
+				[title]="film.title"
+				variant="detail"
+				[priority]="true"
+			></app-movie-poster>
+
 			<div class="film-detail__copy">
 				<h1 id="film-title">{{ film.title }}</h1>
 				<p>{{ film.shortDescription }}</p>

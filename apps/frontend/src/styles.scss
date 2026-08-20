@@ -445,6 +445,14 @@ app-film-node .film-record__summary::-webkit-details-marker {
 	display: none;
 }
 
+app-film-node .film-record__identity {
+	min-inline-size: 0;
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	align-items: center;
+	gap: var(--space-sm);
+}
+
 app-film-node .film-record__title {
 	min-inline-size: 0;
 	font-family: var(--font-display);
@@ -492,6 +500,10 @@ app-film-node .film-record__indicator {
 	grid-row: 1;
 	justify-content: end;
 	color: var(--color-ink);
+}
+
+app-film-node .film-record__indicator > span {
+	display: none;
 }
 
 app-film-node .film-record__indicator strong {
@@ -654,7 +666,7 @@ app-film-node .film-record__external:active {
 		padding-inline: var(--space-md);
 	}
 
-	app-film-node .film-record__title {
+	app-film-node .film-record__identity {
 		grid-column: 1;
 	}
 
@@ -671,6 +683,10 @@ app-film-node .film-record__external:active {
 
 	app-film-node .film-record__indicator {
 		grid-column: 4;
+	}
+
+	app-film-node .film-record__indicator > span {
+		display: inline;
 	}
 
 	app-film-node .film-record__runtime > span,
@@ -705,6 +721,137 @@ app-film-node .film-record__external:active {
 
 app-root .site-brand__long {
 	display: none;
+}
+
+app-film-search .film-search__result {
+	min-inline-size: 0;
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	align-items: center;
+	gap: var(--space-sm);
+	inline-size: 100%;
+}
+
+app-film-search .film-search__result > span {
+	min-inline-size: 0;
+	display: grid;
+	gap: var(--space-2xs);
+}
+
+app-film-search .film-search__result strong {
+	font-family: var(--font-display);
+	font-size: var(--text-base);
+	font-weight: 400;
+	line-height: 1.15;
+	overflow-wrap: anywhere;
+}
+
+app-film-search .film-search__result small {
+	color: var(--color-muted);
+	font-family: var(--font-body);
+	font-size: var(--text-xs);
+	font-variant-numeric: tabular-nums;
+}
+
+app-root .site-credits {
+	padding: var(--space-lg) var(--page-gutter);
+	border-block-start: var(--rule-hair) solid var(--color-rule);
+	background: var(--color-paper-2);
+	color: var(--color-muted);
+}
+
+app-root .site-credits__inner {
+	max-inline-size: var(--page-max);
+	display: grid;
+	gap: var(--space-md);
+	margin-inline: auto;
+}
+
+app-root .site-credits__tmdb {
+	min-block-size: 44px;
+	display: inline-flex;
+	align-items: center;
+	justify-self: start;
+}
+
+app-root .site-credits__tmdb img {
+	display: block;
+	inline-size: 8rem;
+	block-size: auto;
+}
+
+app-root .site-credits__copy {
+	display: grid;
+	gap: var(--space-2xs);
+}
+
+app-root .site-credits__studio {
+	display: grid;
+	gap: var(--space-2xs);
+	padding-block-start: var(--space-md);
+	border-block-start: var(--rule-hair) solid var(--color-rule);
+}
+
+app-root .site-credits .site-credits__studio a {
+	min-block-size: 44px;
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-xs);
+	justify-self: start;
+	color: var(--color-ink);
+	font-family: var(--font-display);
+	font-size: var(--text-base);
+	line-height: 1;
+	text-decoration-thickness: var(--rule-hair);
+	white-space: nowrap;
+}
+
+app-root .site-credits__studio i {
+	font-size: var(--text-xs);
+}
+
+app-root .site-credits p {
+	max-inline-size: 68ch;
+	margin: 0;
+	font-family: var(--font-body);
+	font-size: var(--text-xs);
+	line-height: 1.5;
+}
+
+app-root .site-credits a {
+	color: inherit;
+	text-underline-offset: var(--space-2xs);
+}
+
+app-root .site-credits a:active {
+	color: var(--color-accent);
+}
+
+app-root .site-credits a[aria-disabled='true'] {
+	opacity: 0.55;
+	cursor: not-allowed;
+	color: var(--color-muted);
+	pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	app-root .site-credits a:hover {
+		color: var(--color-ink);
+	}
+}
+
+@media (min-width: 40rem) {
+	app-root .site-credits__inner {
+		grid-template-columns: auto minmax(0, 1fr) auto;
+		align-items: center;
+	}
+
+	app-root .site-credits__studio {
+		padding-block-start: 0;
+		padding-inline-start: var(--space-md);
+		border-block-start: 0;
+		border-inline-start: var(--rule-hair) solid var(--color-rule);
+	}
 }
 
 @media (min-width: 23rem) {

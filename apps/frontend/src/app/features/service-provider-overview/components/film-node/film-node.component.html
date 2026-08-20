@@ -1,8 +1,11 @@
 <details class="film-record">
 	<summary class="film-record__summary">
-		<span class="film-record__title">
-			{{ filmOverview.title }}
-			<span>({{ filmOverview.originalReleaseYear }})</span>
+		<span class="film-record__identity">
+			<app-movie-poster [posterPath]="filmOverview.poster" [title]="filmOverview.title"></app-movie-poster>
+			<span class="film-record__title">
+				{{ filmOverview.title }}
+				<span>({{ filmOverview.originalReleaseYear }})</span>
+			</span>
 		</span>
 		<span class="film-record__runtime">
 			<span>Runtime</span>

@@ -19,11 +19,21 @@ describe('Where My Cage At local stack', () => {
 			});
 
 		cy.get('p-autocomplete input').type('Longlegs');
+		cy.get('.film-search__result app-movie-poster img')
+			.should('be.visible')
+			.and(($image: JQuery<HTMLImageElement>) => {
+				expect($image[0].naturalWidth).to.be.greaterThan(0);
+			});
 		cy.contains('.p-autocomplete-option', 'Longlegs').click();
 
 		cy.location('pathname').should('match', /^\/film-overview\/\d+$/);
 		cy.contains('h1', 'Longlegs');
 		cy.contains('h2', 'Viewing options');
+		cy.get('.film-detail__intro app-movie-poster img')
+			.should('be.visible')
+			.and(($image: JQuery<HTMLImageElement>) => {
+				expect($image[0].naturalWidth).to.be.greaterThan(0);
+			});
 		cy.get('app-service-icon img').each(image => {
 			cy.wrap(image).should(($image: JQuery<HTMLImageElement>) => {
 				expect($image[0].naturalWidth).to.be.greaterThan(0);
@@ -51,6 +61,12 @@ describe('Where My Cage At local stack', () => {
 		cy.location('pathname').should('match', /^\/service-provider-overview\/\d+$/);
 		cy.get('.provider-detail__stat strong').invoke('text').should('match', /^\d+$/);
 		cy.contains('h2', 'Available titles');
+		cy.get('.film-record__summary app-movie-poster img')
+			.first()
+			.should('be.visible')
+			.and(($image: JQuery<HTMLImageElement>) => {
+				expect($image[0].naturalWidth).to.be.greaterThan(0);
+			});
 		cy.get('.film-record__summary').first().click();
 		cy.contains('h3', 'Quick facts');
 		cy.contains('h3', 'Watch options');

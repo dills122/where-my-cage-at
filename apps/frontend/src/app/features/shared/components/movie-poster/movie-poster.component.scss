@@ -1,0 +1,49 @@
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4 */
+/* Hallmark · macrostructure: Existing system enrichment · genre: playful · theme: existing Cage typewriter
+ * tone: playful · anchor hue: violet · enrichment: official TMDB poster artwork · treatment: fixed 2:3 crop
+ * contrast: pass (40–41) · nav: N1b · footer: Ft8 · slop: pass (42–45)
+ * honest: pass (46) · chrome: pass (47) · tokens: pass (48) · responsive: pass (49)
+ * mobile: pass (34, 50–57) · icons: pass (30)
+ */
+:host {
+	display: block;
+	inline-size: 3.5rem;
+	min-inline-size: 3.5rem;
+}
+
+.movie-poster {
+	inline-size: 100%;
+	aspect-ratio: 2 / 3;
+	margin: 0;
+	overflow: hidden;
+	border: var(--rule-hair) solid var(--color-rule);
+	background: var(--color-paper-3);
+}
+
+.movie-poster--detail {
+	inline-size: min(16rem, 100%);
+}
+
+.movie-poster img {
+	display: block;
+	inline-size: 100%;
+	block-size: 100%;
+	object-fit: cover;
+}
+
+.movie-poster__fallback {
+	block-size: 100%;
+	display: grid;
+	place-items: center;
+	padding: var(--space-xs);
+	color: var(--color-muted);
+	font-family: var(--font-body);
+	font-size: var(--text-xs);
+	line-height: 1.25;
+	text-align: center;
+}
+
+:host(.is-detail) {
+	inline-size: min(16rem, 100%);
+	min-inline-size: 0;
+}

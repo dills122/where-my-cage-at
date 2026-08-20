@@ -1,5 +1,5 @@
 /* Hallmark · macrostructure: Long Document · tone: playful · anchor hue: violet
- * theme: existing Cage typewriter · design-system: shared tokens · enrichment: none
+ * theme: existing Cage typewriter · design-system: shared tokens · enrichment: official TMDB poster artwork
  */
 /* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4 */
 :host {
@@ -115,7 +115,7 @@
 
 @media (min-width: 60rem) {
 	.film-detail__intro {
-		grid-template-columns: minmax(0, 8fr) minmax(16rem, 4fr);
+		grid-template-columns: minmax(12rem, 3fr) minmax(0, 6fr) minmax(14rem, 3fr);
 		align-items: end;
 	}
 }
