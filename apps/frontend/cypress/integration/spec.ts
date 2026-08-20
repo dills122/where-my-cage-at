@@ -1,3 +1,5 @@
+import type { MovieRecord } from '../../src/app/models';
+
 describe('Where My Cage At local stack', () => {
 	it('loads catalog data and opens a film from search', () => {
 		cy.intercept('GET', 'http://localhost:3000/filmography').as('filmography');
@@ -46,10 +48,18 @@ describe('Where My Cage At local stack', () => {
 	});
 
 	it('loads a film detail route directly', () => {
-		cy.visit('/film-overview/2039');
+		cy.request<MovieRecord[]>('http://localhost:3000/filmography').then(({ body }) => {
+			const film = body.find(record => record.offers.length > 0);
+			expect(film, 'film with viewing options').to.exist;
 
-		cy.contains('h1', 'Moonstruck');
-		cy.contains('h2', 'Viewing options');
-		cy.get('.viewing-group__providers button').should('have.length.greaterThan', 0);
+			if (!film) {
+				throw new Error('Expected the seeded catalogue to include a film with viewing options.');
+			}
+
+			cy.visit(`/film-overview/${film.id}`);
+			cy.contains('h1', film.title);
+			cy.contains('h2', 'Viewing options');
+			cy.get('.viewing-group__providers button').should('have.length.greaterThan', 0);
+		});
 	});
 });
