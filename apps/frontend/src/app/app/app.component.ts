@@ -1,23 +1,21 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { ToggleButtonModule } from 'primeng/togglebutton';
 import { combineLatest, Subject, Subscription, takeUntil, tap } from 'rxjs';
 import { FilmographyRepository, ServiceProviderRepository } from '../repositories';
 import { FilmographyService } from '../services/filmography/filmography.service';
 import { ServiceProvidersService } from '../services/service-providers/service-providers.service';
 import { ThemeService } from '../services/theme/theme-service';
 
-enum Themes {
-	dark = 'dark-th',
-	light = 'light-th'
-}
-
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss'],
-	changeDetection: ChangeDetectionStrategy.OnPush
+	changeDetection: ChangeDetectionStrategy.OnPush,
+	imports: [FormsModule, RouterLink, RouterLinkActive, RouterOutlet, ToggleButtonModule]
 })
 export default class AppComponent implements OnInit, OnDestroy {
-	private theme: Themes;
 	isDarkTheme: boolean = true;
 	subscriptions: Subscription[] = [];
 	onDestroyNotifier: Subject<boolean> = new Subject();
@@ -27,9 +25,7 @@ export default class AppComponent implements OnInit, OnDestroy {
 		private filmographyService: FilmographyService,
 		private filmographyRepository: FilmographyRepository,
 		private serviceProviderRepository: ServiceProviderRepository
-	) {
-		this.theme = Themes.dark;
-	}
+	) {}
 	ngOnDestroy(): void {
 		this.subscriptions.forEach(sub => sub.unsubscribe());
 		this.onDestroyNotifier.next(true);
@@ -54,7 +50,6 @@ export default class AppComponent implements OnInit, OnDestroy {
 	}
 
 	changeTheme(isDarkTheme: boolean) {
-		this.theme = isDarkTheme ? Themes.dark : Themes.light;
-		this.themeService.switchTheme(this.theme.toString());
+		this.themeService.switchTheme(isDarkTheme);
 	}
 }

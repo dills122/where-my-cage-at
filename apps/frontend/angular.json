@@ -2,7 +2,7 @@
 	"$schema": "./node_modules/@angular/cli/lib/config/schema.json",
 	"cli": {
 		"analytics": false,
-		"defaultCollection": "@angular-eslint/schematics"
+		"schematicCollections": ["@angular-eslint/schematics"]
 	},
 	"version": 1,
 	"newProjectRoot": "projects",
@@ -22,12 +22,14 @@
 			"prefix": "app",
 			"architect": {
 				"build": {
-					"builder": "@angular-devkit/build-angular:browser",
+					"builder": "@angular-devkit/build-angular:application",
 					"options": {
-						"outputPath": "dist/frontend",
+						"outputPath": {
+							"base": "dist/frontend",
+							"browser": ""
+						},
 						"index": "src/index.html",
-						"main": "src/main.ts",
-						"polyfills": "src/polyfills.ts",
+						"polyfills": ["src/polyfills.ts"],
 						"tsConfig": "tsconfig.app.json",
 						"inlineStyleLanguage": "scss",
 						"assets": ["src/favicon.ico", "src/assets"],
@@ -35,20 +37,10 @@
 							"src/styles.scss",
 							"src/assets/fonts/fonts.scss",
 							"node_modules/primeflex/primeflex.scss",
-							"node_modules/primeicons/primeicons.css",
-							"node_modules/primeng/resources/primeng.min.css",
-							{
-								"input": "src/theme-dark.scss",
-								"bundleName": "dark-th",
-								"inject": false
-							},
-							{
-								"input": "src/theme-light.scss",
-								"bundleName": "light-th",
-								"inject": false
-							}
+							"node_modules/primeicons/primeicons.css"
 						],
-						"scripts": []
+						"scripts": [],
+						"browser": "src/main.ts"
 					},
 					"configurations": {
 						"production": {
@@ -73,9 +65,7 @@
 							"outputHashing": "all"
 						},
 						"development": {
-							"buildOptimizer": false,
 							"optimization": false,
-							"vendorChunk": true,
 							"extractLicenses": false,
 							"sourceMap": true,
 							"namedChunks": true
@@ -87,10 +77,10 @@
 					"builder": "@angular-devkit/build-angular:dev-server",
 					"configurations": {
 						"production": {
-							"browserTarget": "frontend:build:production"
+							"buildTarget": "frontend:build:production"
 						},
 						"development": {
-							"browserTarget": "frontend:build:development"
+							"buildTarget": "frontend:build:development"
 						}
 					},
 					"defaultConfiguration": "development"
@@ -98,7 +88,7 @@
 				"extract-i18n": {
 					"builder": "@angular-devkit/build-angular:extract-i18n",
 					"options": {
-						"browserTarget": "frontend:build"
+						"buildTarget": "frontend:build"
 					}
 				},
 				"test": {
@@ -119,40 +109,34 @@
 					"options": {
 						"lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
 					}
-				},
-				"cypress-run": {
-					"builder": "@cypress/schematic:cypress",
-					"options": {
-						"devServerTarget": "frontend:serve"
-					},
-					"configurations": {
-						"production": {
-							"devServerTarget": "frontend:serve:production"
-						}
-					}
-				},
-				"cypress-open": {
-					"builder": "@cypress/schematic:cypress",
-					"options": {
-						"watch": true,
-						"headless": false
-					}
-				},
-				"e2e": {
-					"builder": "@cypress/schematic:cypress",
-					"options": {
-						"devServerTarget": "frontend:serve",
-						"watch": true,
-						"headless": false
-					},
-					"configurations": {
-						"production": {
-							"devServerTarget": "frontend:serve:production"
-						}
-					}
 				}
 			}
 		}
 	},
-	"defaultProject": "frontend"
+	"schematics": {
+		"@schematics/angular:component": {
+			"type": "component"
+		},
+		"@schematics/angular:directive": {
+			"type": "directive"
+		},
+		"@schematics/angular:service": {
+			"type": "service"
+		},
+		"@schematics/angular:guard": {
+			"typeSeparator": "."
+		},
+		"@schematics/angular:interceptor": {
+			"typeSeparator": "."
+		},
+		"@schematics/angular:module": {
+			"typeSeparator": "."
+		},
+		"@schematics/angular:pipe": {
+			"typeSeparator": "."
+		},
+		"@schematics/angular:resolver": {
+			"typeSeparator": "."
+		}
+	}
 }

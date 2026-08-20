@@ -1,29 +1,28 @@
-<ng-container *ngIf="serviceProvidersWithFilmsAvailable$ | async as serviceProviders; else loadingProviders">
+@if (serviceProvidersWithFilmsAvailable$ | async; as serviceProviders) {
 	<section class="provider-index" aria-labelledby="provider-count">
 		<p id="provider-count" class="provider-index__summary" aria-live="polite">
 			{{ serviceProviders.length }} providers with Cage movies
 		</p>
-
-		<ul *ngIf="serviceProviders.length > 0; else noProviders" class="provider-index__grid">
-			<li *ngFor="let serviceProvider of serviceProviders; trackBy: trackServiceProvider">
-				<app-service-icon
-					[serviceId]="serviceProvider.id"
-					[serviceName]="serviceProvider.clearName"
-					[providerIconUrl]="serviceProvider.iconUrl"
-				></app-service-icon>
-			</li>
-		</ul>
+		@if (serviceProviders.length > 0) {
+			<ul class="provider-index__grid">
+				@for (serviceProvider of serviceProviders; track trackServiceProvider($index, serviceProvider)) {
+					<li>
+						<app-service-icon
+							[serviceId]="serviceProvider.id"
+							[serviceName]="serviceProvider.clearName"
+							[providerIconUrl]="serviceProvider.iconUrl"
+						></app-service-icon>
+					</li>
+				}
+			</ul>
+		} @else {
+			<div class="provider-index__state">
+				<i class="pi pi-search" aria-hidden="true"></i>
+				<p>No providers currently match this filmography.</p>
+				<a routerLink="/">Search by movie</a>
+			</div>
+		}
 	</section>
-</ng-container>
-
-<ng-template #loadingProviders>
+} @else {
 	<p class="provider-index__state" aria-live="polite">Matching Cage movies to providers…</p>
-</ng-template>
-
-<ng-template #noProviders>
-	<div class="provider-index__state">
-		<i class="pi pi-search" aria-hidden="true"></i>
-		<p>No providers currently match this filmography.</p>
-		<a routerLink="/">Search by movie</a>
-	</div>
-</ng-template>
+}

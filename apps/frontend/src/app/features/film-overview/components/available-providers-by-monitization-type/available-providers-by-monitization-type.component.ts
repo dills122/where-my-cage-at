@@ -9,7 +9,8 @@ import { ServiceProviderRepository } from 'src/app/repositories';
 @Component({
 	selector: 'app-available-providers-by-monitization-type',
 	templateUrl: './available-providers-by-monitization-type.component.html',
-	styleUrls: ['./available-providers-by-monitization-type.component.scss']
+	styleUrls: ['./available-providers-by-monitization-type.component.scss'],
+	standalone: false
 })
 export class AvailableProvidersByMonitizationTypeComponent implements OnInit {
 	MonetizationTypes = MonetizationTypes;

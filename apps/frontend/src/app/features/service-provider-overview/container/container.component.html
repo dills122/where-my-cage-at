@@ -7,16 +7,20 @@
 			<div class="col-12 pb-3">
 				<p-card [header]="serviceProviderCardHeader" id="whats-streaming-platform-card" class="text-center">
 					<div class="flex justify-content-around flex-wrap m-2">
-						<p-chip *ngFor="let monetizationType of (serviceProviderData$ | async)?.monetizationTypes"
-							[label]="mapMonetizationType(monetizationType)" styleClass="mr-2"></p-chip>
+						@for (
+							monetizationType of (serviceProviderData$ | async)?.monetizationTypes;
+							track monetizationType
+						) {
+							<p-chip [label]="mapMonetizationType(monetizationType)" class="mr-2"></p-chip>
+						}
 					</div>
 				</p-card>
 			</div>
 
 			<div class="col-12 pb-3">
-				<app-film-node *ngFor="let filmCredit of this.filmsAvailable$ | async" [filmOverview]="filmCredit"
-					[providerId]="serviceId">
-				</app-film-node>
+				@for (filmCredit of this.filmsAvailable$ | async; track filmCredit) {
+					<app-film-node [filmOverview]="filmCredit" [providerId]="serviceId"> </app-film-node>
+				}
 			</div>
 		</div>
 	</div>

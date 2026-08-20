@@ -5,7 +5,8 @@ import { buildBaseApuUrlBasedOffEnv } from 'src/app/util/api-url-builder';
 @Component({
 	selector: 'app-service-icon',
 	templateUrl: './service-icon.component.html',
-	styleUrls: ['./service-icon.component.scss']
+	styleUrls: ['./service-icon.component.scss'],
+	standalone: false
 })
 export class ServiceIconComponent {
 	private apiURL = buildBaseApuUrlBasedOffEnv(isDevMode());

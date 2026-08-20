@@ -6,7 +6,8 @@ import { SEE_MORE_SERVICE_ID } from '../../services';
 @Component({
 	selector: 'app-service-button-node',
 	templateUrl: './service-button-node.component.html',
-	styleUrls: ['./service-button-node.component.scss']
+	styleUrls: ['./service-button-node.component.scss'],
+	standalone: false
 })
 export class ServiceButtonNodeComponent implements OnInit {
 	@Input() serviceName: string = '';

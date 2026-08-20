@@ -8,7 +8,8 @@ import { MonetizationTypes } from '../../service-provider-overview/service-provi
 @Component({
 	selector: 'app-film-overview-container',
 	templateUrl: './container.component.html',
-	styleUrls: ['./container.component.scss']
+	styleUrls: ['./container.component.scss'],
+	standalone: false
 })
 export class ContainerComponent implements OnInit, OnDestroy {
 	filmId: number;
@@ -16,7 +17,10 @@ export class ContainerComponent implements OnInit, OnDestroy {
 	private notifier = new Subject();
 	MonetizationTypes = MonetizationTypes;
 
-	constructor(private filmographyRepository: FilmographyRepository, private route: ActivatedRoute) {
+	constructor(
+		private filmographyRepository: FilmographyRepository,
+		private route: ActivatedRoute
+	) {
 		this.filmId = Number(this.route.snapshot.paramMap.get('filmId') || '');
 	}
 	ngOnDestroy(): void {

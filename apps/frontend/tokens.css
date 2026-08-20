@@ -8,24 +8,24 @@
 	--font-display: 'Easy Print', 'Courier New', Courier, monospace;
 	--font-body: 'Special Elite', 'Easy Print', 'Courier New', Courier, monospace;
 
-	--color-paper: var(--surface-ground, oklch(14% 0.008 305));
+	--color-paper: var(--p-content-background, oklch(14% 0.008 305));
 	--color-paper-2: color-mix(
 		in oklch,
-		var(--surface-card, oklch(18% 0.01 305)) 97%,
-		var(--primary-color, oklch(75% 0.14 305)) 3%
+		var(--p-content-background, oklch(18% 0.01 305)) 97%,
+		var(--p-primary-color, oklch(75% 0.14 305)) 3%
 	);
 	--color-paper-3: color-mix(
 		in oklch,
-		var(--surface-hover, oklch(23% 0.012 305)) 94%,
-		var(--primary-color, oklch(75% 0.14 305)) 6%
+		var(--p-content-hover-background, oklch(23% 0.012 305)) 94%,
+		var(--p-primary-color, oklch(75% 0.14 305)) 6%
 	);
-	--color-ink: var(--text-color, oklch(94% 0.008 305));
-	--color-muted: var(--text-color-secondary, oklch(72% 0.012 305));
-	--color-rule: var(--surface-600, oklch(48% 0.018 305));
-	--color-accent: var(--primary-color, oklch(75% 0.14 305));
-	--color-accent-ink: var(--primary-color-text, oklch(16% 0.01 305));
+	--color-ink: var(--p-text-color, oklch(94% 0.008 305));
+	--color-muted: var(--p-text-muted-color, oklch(72% 0.012 305));
+	--color-rule: var(--p-content-border-color, oklch(48% 0.018 305));
+	--color-accent: var(--p-primary-color, oklch(75% 0.14 305));
+	--color-accent-ink: var(--p-primary-contrast-color, oklch(16% 0.01 305));
 	--color-accent-soft: color-mix(in oklch, var(--color-accent) 14%, var(--color-paper-2));
-	--color-focus: var(--primary-color, oklch(58% 0.2 305));
+	--color-focus: var(--p-primary-color, oklch(58% 0.2 305));
 	--color-error: oklch(68% 0.19 28);
 	--color-success: oklch(72% 0.14 150);
 

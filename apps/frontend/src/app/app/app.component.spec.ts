@@ -42,6 +42,6 @@ describe('AppComponent', () => {
 		component.handleChange({ checked: false });
 		component.handleChange({ checked: true });
 
-		expect(themeService.switchTheme.calls.allArgs()).toEqual([['light-th'], ['dark-th']]);
+		expect(themeService.switchTheme.calls.allArgs()).toEqual([[false], [true]]);
 	});
 });

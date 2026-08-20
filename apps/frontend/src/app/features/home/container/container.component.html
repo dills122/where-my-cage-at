@@ -10,12 +10,13 @@
 		<div class="providers__inner">
 			<h2 id="providers-title" class="providers__title">{{ cardHeader }}</h2>
 			<div class="providers__grid">
-				<app-service-button-node
-					*ngFor="let service of highlightedServices"
-					[serviceName]="service.serviceName"
-					[serviceIcon]="service.serviceIcon"
-					[serviceId]="service.serviceId"
-				></app-service-button-node>
+				@for (service of highlightedServices; track service) {
+					<app-service-button-node
+						[serviceName]="service.serviceName"
+						[serviceIcon]="service.serviceIcon"
+						[serviceId]="service.serviceId"
+					></app-service-button-node>
+				}
 			</div>
 		</div>
 	</section>

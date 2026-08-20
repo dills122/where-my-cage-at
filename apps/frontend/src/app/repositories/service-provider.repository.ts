@@ -7,33 +7,19 @@ import {
 	setEntities,
 	withEntities
 } from '@ngneat/elf-entities';
-import { createRequestsCacheOperator, updateRequestCache, withRequestsCache } from '@ngneat/elf-requests';
 import { EMPTY, of, switchMap } from 'rxjs';
 import { ServiceProvider } from '../models';
 
-const storeName = 'service-provider';
+const { state, config } = createState(withEntities<ServiceProvider>());
 
-const { state, config } = createState(
-	withEntities<ServiceProvider>(),
-	withRequestsCache<'service-provider'>()
-);
-
-export const serviceProviderStore = new Store({ state, name: storeName, config });
-
-export const skipServiceProviderWhileCached = createRequestsCacheOperator(serviceProviderStore);
+export const serviceProviderStore = new Store({ state, name: 'service-provider', config });
 
 export class ServiceProviderRepository {
 	initialized$ = of(true);
 	serviceProviders$ = serviceProviderStore.pipe(selectAllEntities());
 
 	set(entities: ServiceProvider[]) {
-		serviceProviderStore.update(
-			updateRequestCache(storeName, {
-				value: 'full',
-				ttl: 43200000 //12 hours
-			}),
-			setEntities(entities)
-		);
+		serviceProviderStore.update(setEntities(entities));
 	}
 	getServiceProviderById(providerId: number) {
 		return serviceProviderStore.pipe(

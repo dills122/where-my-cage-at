@@ -1,8 +1,9 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { ServiceProviderRepository } from 'src/app/repositories';
 import { createServiceProvider } from 'src/testing/fixtures';
 import { ServiceProvidersService } from './service-providers.service';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('ServiceProvidersService', () => {
 	let service: ServiceProvidersService;
@@ -12,8 +13,12 @@ describe('ServiceProvidersService', () => {
 	beforeEach(() => {
 		repository = jasmine.createSpyObj<ServiceProviderRepository>('ServiceProviderRepository', ['set']);
 		TestBed.configureTestingModule({
-			imports: [HttpClientTestingModule],
-			providers: [{ provide: ServiceProviderRepository, useValue: repository }]
+			imports: [],
+			providers: [
+				{ provide: ServiceProviderRepository, useValue: repository },
+				provideHttpClient(withInterceptorsFromDi()),
+				provideHttpClientTesting()
+			]
 		});
 		service = TestBed.inject(ServiceProvidersService);
 		http = TestBed.inject(HttpTestingController);
