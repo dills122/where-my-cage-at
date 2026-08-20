@@ -1,6 +1,14 @@
 [
 	{
 		"date": "2026-08-19",
+		"macrostructure": "Catalogue",
+		"theme": "existing Cage typewriter",
+		"enrichment": "provider marks",
+		"scope": "provider directory information architecture",
+		"brief": "Group Cage viewing providers by access model and channel host"
+	},
+	{
+		"date": "2026-08-19",
 		"macrostructure": "Catalogue + Long Document",
 		"theme": "existing Cage typewriter",
 		"enrichment": "provider marks",

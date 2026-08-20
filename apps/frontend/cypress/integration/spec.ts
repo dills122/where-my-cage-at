@@ -38,7 +38,11 @@ describe('Where My Cage At local stack', () => {
 		cy.visit('/available-service-providers');
 		cy.wait(['@filmography', '@serviceProviders']);
 		cy.contains('h1', 'All available providers');
-		cy.get('.provider-index__summary').should('contain.text', 'providers with Cage movies');
+		cy.get('.provider-index__summary').should('contain.text', 'ways to watch');
+		cy.contains('h2', 'Streaming subscriptions');
+		cy.contains('h2', 'Channel add-ons');
+		cy.contains('h3', 'Prime Video Channels');
+		cy.contains('.service-icon__note', 'Add-on via Amazon');
 		cy.get('.provider-index__grid app-service-icon button')
 			.should('have.length.greaterThan', 0)
 			.first()
