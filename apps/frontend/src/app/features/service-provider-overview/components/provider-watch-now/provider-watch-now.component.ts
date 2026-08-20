@@ -21,7 +21,25 @@ export class ProviderWatchNowComponent implements OnInit {
 	}
 
 	createLabelName(monetizationType: string, presentationType: string) {
-		return `${mapToActionName(monetizationType)} · ${presentationType.toLocaleUpperCase()}`;
+		return `${mapToActionName(monetizationType)} · ${this.formatPresentationType(presentationType)}`;
+	}
+
+	formatPresentationType(presentationType: string): string {
+		return presentationType.replace(/^_+/, '').toLocaleUpperCase();
+	}
+
+	shouldShowPrice(offer: Offer): boolean {
+		return (
+			['buy', 'rent'].includes(offer.monetizationType) && offer.retailPrice > 0 && Boolean(offer.currency)
+		);
+	}
+
+	formatPrice(offer: Offer): string {
+		return new Intl.NumberFormat('en-US', {
+			style: 'currency',
+			currency: offer.currency,
+			maximumFractionDigits: 2
+		}).format(offer.retailPrice);
 	}
 
 	openExternalLink(urls: WatchUrlsMap) {

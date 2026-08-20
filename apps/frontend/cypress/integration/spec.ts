@@ -49,6 +49,11 @@ describe('Where My Cage At local stack', () => {
 			.click();
 
 		cy.location('pathname').should('match', /^\/service-provider-overview\/\d+$/);
+		cy.get('.provider-detail__stat strong').invoke('text').should('match', /^\d+$/);
+		cy.contains('h2', 'Available titles');
+		cy.get('.film-record__summary').first().click();
+		cy.contains('h3', 'Quick facts');
+		cy.contains('h3', 'Watch options');
 	});
 
 	it('loads a film detail route directly', () => {

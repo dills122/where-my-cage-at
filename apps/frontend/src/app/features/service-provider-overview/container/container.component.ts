@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, isDevMode, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { MovieRecord, ServiceProvider } from 'src/app/models';
 import { FilmographyRepository, ServiceProviderRepository } from 'src/app/repositories';
+import { buildBaseApuUrlBasedOffEnv } from 'src/app/util/api-url-builder';
 import { mapToFriendlyVerbousName } from '../service-providers-monetization-types-mapping';
 
 @Component({
@@ -12,7 +13,7 @@ import { mapToFriendlyVerbousName } from '../service-providers-monetization-type
 	standalone: false
 })
 export class ContainerComponent implements OnInit {
-	readonly serviceProviderCardHeader: string = 'Service Provider Overview:';
+	private readonly apiURL = buildBaseApuUrlBasedOffEnv(isDevMode());
 	serviceId!: number;
 	serviceProviderData$!: Observable<ServiceProvider>;
 	filmsAvailable$!: Observable<MovieRecord[]>;
@@ -31,5 +32,25 @@ export class ContainerComponent implements OnInit {
 
 	mapMonetizationType(monetizationType: string) {
 		return mapToFriendlyVerbousName(monetizationType);
+	}
+
+	get providerIconUrl(): string {
+		return `${this.apiURL}/icons/${this.serviceId}.webp`;
+	}
+
+	useProviderFallback(event: Event, providerIconUrl?: string | null): void {
+		const image = event.target as HTMLImageElement;
+		const iconId = providerIconUrl?.split('/')[2];
+		if (!iconId) {
+			image.hidden = true;
+			return;
+		}
+
+		const fallbackUrl = `https://www.justwatch.com/images/icon/${iconId}/s100/icon.webp`;
+		if (image.src === fallbackUrl) {
+			image.hidden = true;
+			return;
+		}
+		image.src = fallbackUrl;
 	}
 }

@@ -10,7 +10,12 @@
 				"
 				(click)="openExternalLink(offer.urls)"
 			>
-				<span>{{ createLabelName(offer.monetizationType, offer.presentationType) }}</span>
+				<span class="offer-link__label">{{
+					createLabelName(offer.monetizationType, offer.presentationType)
+				}}</span>
+				@if (shouldShowPrice(offer)) {
+					<span class="offer-link__price">{{ formatPrice(offer) }}</span>
+				}
 				<i class="pi pi-external-link" aria-hidden="true"></i>
 			</button>
 		}

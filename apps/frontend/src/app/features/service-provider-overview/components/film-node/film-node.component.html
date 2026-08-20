@@ -4,20 +4,30 @@
 			{{ filmOverview.title }}
 			<span>({{ filmOverview.originalReleaseYear }})</span>
 		</span>
+		<span class="film-record__runtime">
+			<span>Runtime</span>
+			<strong>{{ filmOverview.runtime }}&nbsp;min</strong>
+		</span>
 		<span class="film-record__popularity">
-			<span>TMDB popularity</span>
+			<span>TMDB</span>
 			<strong>{{ filmOverview.tmdbPopularity | number: '1.1-1' }}</strong>
+		</span>
+		<span class="film-record__indicator" aria-hidden="true">
+			<span>Details</span>
+			<strong></strong>
 		</span>
 	</summary>
 
 	<div class="film-record__content">
-		<p class="film-record__description">{{ filmOverview.shortDescription }}</p>
+		<div class="film-record__story">
+			<p class="film-record__description">{{ filmOverview.shortDescription }}</p>
 
-		<ul class="film-record__genres" aria-label="Genres">
-			@for (genre of filmOverview.genres; track genre) {
-				<li>{{ genre }}</li>
-			}
-		</ul>
+			<ul class="film-record__genres" aria-label="Genres">
+				@for (genre of filmOverview.genres; track genre) {
+					<li>{{ genre }}</li>
+				}
+			</ul>
+		</div>
 
 		<div class="film-record__details">
 			<section aria-labelledby="quick-facts-{{ filmOverview.id }}">
@@ -31,6 +41,18 @@
 						<dt>Release date</dt>
 						<dd>{{ filmOverview.localizedReleaseDate }}</dd>
 					</div>
+					@if (filmOverview.ageCertification) {
+						<div>
+							<dt>Rating</dt>
+							<dd>{{ filmOverview.ageCertification }}</dd>
+						</div>
+					}
+					@if (filmOverview.originalLanguage) {
+						<div>
+							<dt>Language</dt>
+							<dd>{{ filmOverview.originalLanguage | uppercase }}</dd>
+						</div>
+					}
 				</dl>
 				<a class="film-record__external" [href]="tmdbUrl" target="_blank" rel="noopener noreferrer">
 					TMDB page <i class="pi pi-external-link" aria-hidden="true"></i>
