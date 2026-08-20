@@ -1,0 +1,108 @@
+/* Hallmark · macrostructure: Long Document · tone: playful · anchor hue: violet
+ * theme: existing Cage typewriter · design-system: shared tokens · enrichment: none
+ */
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4 */
+:host {
+	display: block;
+	min-inline-size: 0;
+}
+
+.provider-detail {
+	max-inline-size: var(--page-max);
+	margin-inline: auto;
+	padding: clamp(var(--space-lg), 4vw, var(--space-xl)) var(--page-gutter) var(--space-3xl);
+}
+
+.provider-detail__intro {
+	display: grid;
+	gap: var(--space-xl);
+	padding-block-end: var(--space-2xl);
+	border-block-end: var(--rule-hair) solid var(--color-rule);
+}
+
+.provider-detail__intro h1,
+.provider-detail__section-head h2 {
+	min-inline-size: 0;
+	margin: 0;
+	font-weight: 400;
+	overflow-wrap: anywhere;
+}
+
+.provider-detail__intro h1 {
+	max-inline-size: 16ch;
+	font-size: clamp(var(--text-xl), 5vw, 4.5rem);
+	line-height: 1.04;
+	letter-spacing: -0.02em;
+}
+
+.provider-detail__intro p {
+	max-inline-size: 45ch;
+	margin: var(--space-md) 0 0;
+	color: var(--color-muted);
+	font-size: var(--text-base);
+	line-height: 1.55;
+}
+
+.provider-detail__models {
+	list-style: none;
+	display: flex;
+	flex-wrap: wrap;
+	align-content: end;
+	gap: var(--space-xs);
+	margin: 0;
+	padding: 0;
+}
+
+.provider-detail__models li {
+	padding: var(--space-xs) var(--space-sm);
+	border: var(--rule-hair) solid var(--color-rule);
+	border-radius: var(--radius-card);
+	background: var(--color-paper-2);
+	color: var(--color-ink);
+	font-size: var(--text-sm);
+	line-height: 1.2;
+	white-space: nowrap;
+}
+
+.provider-detail__films {
+	padding-block-start: var(--space-xl);
+}
+
+.provider-detail__section-head {
+	display: grid;
+	gap: var(--space-xs);
+	padding-block-end: var(--space-lg);
+}
+
+.provider-detail__section-head h2 {
+	max-inline-size: 22ch;
+	font-size: clamp(var(--text-lg), 4vw, var(--text-xl));
+	line-height: 1.1;
+}
+
+.provider-detail__section-head p {
+	margin: 0;
+	color: var(--color-muted);
+	font-variant-numeric: tabular-nums;
+}
+
+.provider-detail__list {
+	display: grid;
+	border-block-start: var(--rule-hair) solid var(--color-rule);
+}
+
+@media (min-width: 60rem) {
+	.provider-detail__intro {
+		grid-template-columns: minmax(0, 7fr) minmax(18rem, 5fr);
+		align-items: end;
+	}
+
+	.provider-detail__models {
+		justify-content: flex-end;
+	}
+
+	.provider-detail__section-head {
+		grid-template-columns: minmax(0, 1fr) auto;
+		align-items: end;
+	}
+}

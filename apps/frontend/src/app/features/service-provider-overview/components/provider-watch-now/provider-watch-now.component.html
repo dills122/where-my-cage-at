@@ -1,11 +1,20 @@
-<div class="flex flex-wrap">
-	@for (offer of offersForProvider; track offer) {
-		<div class="flex align-items-center justify-content-center p-1">
-			<p-chip
-				[label]="createLabelName(offer.monetizationType, offer.presentationType)"
-				class="watch-action-node text-xs"
+@if (offersForProvider.length > 0) {
+	<div class="offer-list">
+		@for (offer of offersForProvider; track $index) {
+			<button
+				type="button"
+				class="offer-link"
+				[disabled]="!offer.urls.standardWeb"
+				[attr.aria-label]="
+					createLabelName(offer.monetizationType, offer.presentationType) + ', opens in a new tab'
+				"
 				(click)="openExternalLink(offer.urls)"
-			></p-chip>
-		</div>
-	}
-</div>
+			>
+				<span>{{ createLabelName(offer.monetizationType, offer.presentationType) }}</span>
+				<i class="pi pi-external-link" aria-hidden="true"></i>
+			</button>
+		}
+	</div>
+} @else {
+	<p class="offer-list__empty">No direct watch link is available.</p>
+}

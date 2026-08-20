@@ -8,7 +8,7 @@ import { ServiceInfo, services } from '../services';
 	standalone: false
 })
 export class HomeComponent {
-	readonly cardHeader: string = "Checkout What's Streaming on your Platform";
+	readonly cardHeader: string = 'Check out what’s streaming on your platform';
 	highlightedServices: ServiceInfo[] = services;
 	constructor() {}
 }

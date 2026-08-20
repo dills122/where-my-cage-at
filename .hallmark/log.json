@@ -1,5 +1,13 @@
 [
 	{
+		"date": "2026-08-19",
+		"macrostructure": "Catalogue + Long Document",
+		"theme": "existing Cage typewriter",
+		"enrichment": "provider marks",
+		"scope": "app",
+		"brief": "Post-Angular-upgrade visual remediation across provider and film detail routes"
+	},
+	{
 		"date": "2026-08-17",
 		"macrostructure": "Catalogue",
 		"theme": "existing Cage typewriter",

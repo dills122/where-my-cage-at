@@ -1,0 +1,121 @@
+/* Hallmark · macrostructure: Long Document · tone: playful · anchor hue: violet
+ * theme: existing Cage typewriter · design-system: shared tokens · enrichment: none
+ */
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4 */
+:host {
+	display: block;
+	min-inline-size: 0;
+}
+
+.film-detail {
+	max-inline-size: var(--page-max);
+	margin-inline: auto;
+	padding: clamp(var(--space-lg), 4vw, var(--space-xl)) var(--page-gutter) var(--space-3xl);
+}
+
+.film-detail__intro {
+	display: grid;
+	gap: var(--space-xl);
+	padding-block-end: var(--space-2xl);
+}
+
+.film-detail__copy {
+	min-inline-size: 0;
+}
+
+.film-detail__copy h1,
+.film-detail__viewing h2 {
+	min-inline-size: 0;
+	margin: 0;
+	font-weight: 400;
+	overflow-wrap: anywhere;
+}
+
+.film-detail__copy h1 {
+	max-inline-size: 16ch;
+	font-size: clamp(var(--text-xl), 5vw, 4.5rem);
+	line-height: 1.04;
+	letter-spacing: -0.02em;
+}
+
+.film-detail__copy p {
+	max-inline-size: 68ch;
+	margin: var(--space-lg) 0 0;
+	font-family: var(--font-body);
+	font-size: var(--text-base);
+	line-height: 1.65;
+}
+
+.film-detail__context {
+	display: grid;
+	align-content: end;
+	gap: var(--space-lg);
+}
+
+.film-detail__context dl {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-lg);
+	margin: 0;
+}
+
+.film-detail__context dt {
+	color: var(--color-muted);
+	font-size: var(--text-sm);
+}
+
+.film-detail__context dd {
+	margin: var(--space-2xs) 0 0;
+	font-variant-numeric: tabular-nums;
+}
+
+.film-detail__context ul {
+	list-style: none;
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-xs);
+	margin: 0;
+	padding: 0;
+}
+
+.film-detail__context li {
+	padding: var(--space-2xs) var(--space-sm);
+	border: var(--rule-hair) solid var(--color-rule);
+	border-radius: var(--radius-card);
+	background: var(--color-paper-2);
+	font-size: var(--text-sm);
+}
+
+.film-detail__viewing {
+	padding-block-start: var(--space-xl);
+	border-block-start: var(--rule-hair) solid var(--color-rule);
+}
+
+.film-detail__viewing h2 {
+	max-inline-size: 20ch;
+	font-size: clamp(var(--text-lg), 4vw, var(--text-xl));
+	line-height: 1.1;
+}
+
+.film-detail__groups {
+	display: grid;
+	gap: var(--space-xl);
+	margin-block-start: var(--space-xl);
+}
+
+.film-detail__status {
+	min-block-size: 18rem;
+	display: grid;
+	place-items: center;
+	margin: 0;
+	padding: var(--space-xl) var(--page-gutter);
+	color: var(--color-muted);
+	text-align: center;
+}
+
+@media (min-width: 60rem) {
+	.film-detail__intro {
+		grid-template-columns: minmax(0, 8fr) minmax(16rem, 4fr);
+		align-items: end;
+	}
+}

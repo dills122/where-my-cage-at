@@ -20,4 +20,8 @@ export class FilmographyService {
 			.get<MovieRecord[]>(`${this.apiURL}/filmography`)
 			.pipe(tap(records => this.filmographyRepository.set(records)));
 	}
+
+	getFilmographyCredit(creditId: number) {
+		return this.http.get<MovieRecord>(`${this.apiURL}/filmography/${creditId}`);
+	}
 }

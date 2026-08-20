@@ -1,10 +1,10 @@
 {
-	"date": "2026-08-17",
-	"framework": "Angular 14 with PrimeNG and PrimeFlex",
+	"date": "2026-08-19",
+	"framework": "Angular 21 with PrimeNG 21 and PrimeFlex 4",
 	"font_stack": ["Easy Print", "Special Elite"],
-	"palette": "PrimeNG deep-purple light and dark themes",
+	"palette": "PrimeNG Aura semantic tokens bridged through Hallmark OKLCH fallbacks",
 	"motion": "motion-cut; no motion library",
-	"spacing": "PrimeFlex utilities with sparse component SCSS",
+	"spacing": "Hallmark 4-point tokens with scoped component SCSS; PrimeFlex retained for legacy compatibility",
 	"preserve": [
 		"typewriter font pairing",
 		"deep-purple themes",

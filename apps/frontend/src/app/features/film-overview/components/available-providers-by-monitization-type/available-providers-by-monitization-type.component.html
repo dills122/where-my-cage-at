@@ -1,21 +1,20 @@
 @if (checkForProvidersWithDesiredMonitizationModel(this.monitizationType)) {
-	<div class="py-1">
-		<h2>{{ title }}:</h2>
-		<p-card>
-			<div class="flex justify-content-around flex-wrap">
-				@for (
-					serviceProvider of getViewingOptionsBasedOnViewingPreference(this.monitizationType) | async;
-					track serviceProvider
-				) {
-					<app-service-icon
-						[serviceId]="serviceProvider.id"
-						[serviceName]="serviceProvider.clearName"
-						[providerIconUrl]="serviceProvider.iconUrl"
-						[externalUrl]="getFirstUrlForServiceProvider(serviceProvider.id, this.monitizationType)"
-					>
-					</app-service-icon>
+	<section class="viewing-group">
+		<h3>{{ title }}</h3>
+		@if (getViewingOptionsBasedOnViewingPreference(this.monitizationType) | async; as serviceProviders) {
+			<ul class="viewing-group__providers">
+				@for (serviceProvider of serviceProviders; track serviceProvider.id) {
+					<li>
+						<app-service-icon
+							[serviceId]="serviceProvider.id"
+							[serviceName]="serviceProvider.clearName"
+							[providerIconUrl]="serviceProvider.iconUrl"
+							[externalUrl]="getFirstUrlForServiceProvider(serviceProvider.id, this.monitizationType)"
+						>
+						</app-service-icon>
+					</li>
 				}
-			</div>
-		</p-card>
-	</div>
+			</ul>
+		}
+	</section>
 }

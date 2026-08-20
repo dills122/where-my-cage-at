@@ -36,4 +36,14 @@ describe('FilmographyService', () => {
 		expect(request.request.method).toBe('GET');
 		expect(repository.set).toHaveBeenCalledOnceWith(movies);
 	});
+
+	it('fetches one film directly for a cold detail route', () => {
+		const movie = createMovie({ id: 42 });
+
+		service.getFilmographyCredit(42).subscribe(record => expect(record).toEqual(movie));
+		const request = http.expectOne(req => req.url.endsWith('/filmography/42'));
+		request.flush(movie);
+
+		expect(request.request.method).toBe('GET');
+	});
 });

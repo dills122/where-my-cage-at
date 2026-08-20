@@ -22,16 +22,16 @@
 		</nav>
 
 		<div class="theme-control">
-			<span class="visually-hidden">Color theme</span>
-			<p-toggleButton
-				onLabel="Light"
-				offLabel="Dark"
-				onIcon="pi pi-moon"
-				offIcon="pi pi-sun"
-				iconPos="right"
-				[(ngModel)]="isDarkTheme"
-				(onChange)="handleChange($event)"
-			></p-toggleButton>
+			<button
+				type="button"
+				class="theme-toggle"
+				[attr.aria-label]="isDarkTheme ? 'Switch to light theme' : 'Switch to dark theme'"
+				[attr.aria-pressed]="isDarkTheme"
+				(click)="toggleTheme()"
+			>
+				<span>{{ isDarkTheme ? 'Light' : 'Dark' }}</span>
+				<i class="pi" [class.pi-moon]="isDarkTheme" [class.pi-sun]="!isDarkTheme" aria-hidden="true"></i>
+			</button>
 		</div>
 	</header>
 

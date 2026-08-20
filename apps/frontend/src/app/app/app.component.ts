@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { ToggleButtonModule } from 'primeng/togglebutton';
 import { combineLatest, Subject, Subscription, takeUntil, tap } from 'rxjs';
 import { FilmographyRepository, ServiceProviderRepository } from '../repositories';
 import { FilmographyService } from '../services/filmography/filmography.service';
@@ -13,7 +11,7 @@ import { ThemeService } from '../services/theme/theme-service';
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [FormsModule, RouterLink, RouterLinkActive, RouterOutlet, ToggleButtonModule]
+	imports: [RouterLink, RouterLinkActive, RouterOutlet]
 })
 export default class AppComponent implements OnInit, OnDestroy {
 	isDarkTheme: boolean = true;
@@ -45,8 +43,9 @@ export default class AppComponent implements OnInit, OnDestroy {
 			.subscribe();
 	}
 
-	handleChange(e: { checked: boolean }) {
-		this.changeTheme(e.checked);
+	toggleTheme() {
+		this.isDarkTheme = !this.isDarkTheme;
+		this.changeTheme(this.isDarkTheme);
 	}
 
 	changeTheme(isDarkTheme: boolean) {
