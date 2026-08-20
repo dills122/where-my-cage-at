@@ -68,3 +68,22 @@ test('publishes and reads catalogues through Redis JSON', async () => {
 		await reader.disconnect();
 	}
 });
+
+test('allows only the lease owner to run a catalogue refresh', async () => {
+	const connection = { host: '127.0.0.1', port };
+	const first = new FullClient(connection);
+	const second = new FullClient(connection);
+
+	try {
+		assert.equal(await first.acquireRefreshLock('integration-owner-1', 60_000), true);
+		assert.equal(await second.acquireRefreshLock('integration-owner-2', 60_000), false);
+		assert.equal(await second.releaseRefreshLock('integration-owner-2'), false);
+		assert.equal(await first.extendRefreshLock('integration-owner-1', 60_000), true);
+		assert.equal(await first.releaseRefreshLock('integration-owner-1'), true);
+		assert.equal(await second.acquireRefreshLock('integration-owner-2', 60_000), true);
+	} finally {
+		await second.releaseRefreshLock('integration-owner-2');
+		await first.disconnect();
+		await second.disconnect();
+	}
+});

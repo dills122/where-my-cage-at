@@ -10,6 +10,7 @@ import {
 	UpdateFailures
 } from './refresh-redis-data';
 import { Movie } from './types';
+import { runRefreshJob } from './run-refresh-job';
 
 const createCredit = (id: number, title = `Movie ${id}`): ObjectSearchResult => ({
 	id,
@@ -69,7 +70,9 @@ function createSource(credits: ObjectSearchResult[]) {
 	};
 }
 
-function createPublisher(options: { failPublication?: boolean } = {}) {
+function createPublisher(
+	options: { failPublication?: boolean; lockAvailable?: boolean; loseLock?: boolean } = {}
+) {
 	const calls: string[] = [];
 	let publication: CataloguePublication | undefined;
 	let failureStatus: CatalogueRefreshStatus | undefined;
@@ -90,6 +93,18 @@ function createPublisher(options: { failPublication?: boolean } = {}) {
 		},
 		disconnect: async () => {
 			calls.push('disconnect');
+		},
+		acquireRefreshLock: async () => {
+			calls.push('acquire-lock');
+			return options.lockAvailable !== false;
+		},
+		extendRefreshLock: async () => {
+			calls.push('extend-lock');
+			return options.loseLock !== true;
+		},
+		releaseRefreshLock: async () => {
+			calls.push('release-lock');
+			return true;
 		},
 		publishCatalog: async (nextPublication: CataloguePublication) => {
 			calls.push('publish');
@@ -133,7 +148,14 @@ describe('Redis data refresh', () => {
 			failed: 0
 		});
 		assert.equal(publisher.publication?.movies.length, 2);
-		assert.deepEqual(publisher.calls, ['connect', 'publish', 'disconnect']);
+		assert.deepEqual(publisher.calls, [
+			'connect',
+			'acquire-lock',
+			'extend-lock',
+			'publish',
+			'release-lock',
+			'disconnect'
+		]);
 	});
 
 	it('allows a partial refresh at the configured failure threshold', async () => {
@@ -206,7 +228,13 @@ describe('Redis data refresh', () => {
 		assert.equal(publisher.activeVersion, 'last-successful-version');
 		assert.equal(publisher.failureStatus?.state, 'failed');
 		assert.equal(publisher.failureStatus?.counts.failed, 2);
-		assert.deepEqual(publisher.calls, ['connect', 'record-failure', 'disconnect']);
+		assert.deepEqual(publisher.calls, [
+			'connect',
+			'acquire-lock',
+			'record-failure',
+			'release-lock',
+			'disconnect'
+		]);
 	});
 
 	it('records a failed publish without activating its staged version', async () => {
@@ -227,10 +255,62 @@ describe('Redis data refresh', () => {
 		assert.equal(publisher.failureStatus?.activeVersion, 'last-successful-version');
 		assert.deepEqual(publisher.calls, [
 			'connect',
+			'acquire-lock',
+			'extend-lock',
 			'publish',
-			'disconnect',
-			'connect',
 			'record-failure',
+			'release-lock',
+			'disconnect'
+		]);
+	});
+
+	it('rejects an overlapping refresh before gathering external data', async () => {
+		const publisher = createPublisher({ lockAvailable: false });
+		let sourceCalled = false;
+
+		await assert.rejects(
+			refreshCatalogue({
+				source: {
+					getPersonsFilmography: async () => {
+						sourceCalled = true;
+						return [createCredit(1)];
+					},
+					getProviders: async () => {
+						sourceCalled = true;
+						return [provider];
+					}
+				},
+				redisClient: publisher,
+				log: quietLog
+			}),
+			/already running/
+		);
+
+		assert.equal(sourceCalled, false);
+		assert.equal(publisher.failureStatus, undefined);
+		assert.deepEqual(publisher.calls, ['connect', 'acquire-lock', 'disconnect']);
+	});
+
+	it('refuses to publish after losing the distributed refresh lease', async () => {
+		const publisher = createPublisher({ loseLock: true });
+
+		await assert.rejects(
+			refreshCatalogue({
+				source: createSource([createCredit(1)]),
+				redisClient: publisher,
+				fetchMovieData: async ({ movieId, title }) => createMovie(movieId, title),
+				log: quietLog
+			}),
+			/lock was lost/
+		);
+
+		assert.equal(publisher.publication, undefined);
+		assert.equal(publisher.failureStatus, undefined);
+		assert.deepEqual(publisher.calls, [
+			'connect',
+			'acquire-lock',
+			'extend-lock',
+			'release-lock',
 			'disconnect'
 		]);
 	});
@@ -314,5 +394,40 @@ describe('Redis data refresh', () => {
 			/timed out after 5ms/
 		);
 		assert.equal(attempts, 2);
+	});
+});
+
+describe('one-shot refresh job', () => {
+	it('returns zero and logs the completed refresh summary', async () => {
+		const output: string[] = [];
+		const exitCode = await runRefreshJob(async () => ({ version: 'version-1', durationMs: 250 }), {
+			log: message => output.push(message),
+			error: message => output.push(message)
+		});
+
+		assert.equal(exitCode, 0);
+		assert.deepEqual(
+			output.map(message => JSON.parse(message).event),
+			['catalogue_refresh_job_started', 'catalogue_refresh_job_completed']
+		);
+	});
+
+	it('returns non-zero and logs the scheduler-visible failure', async () => {
+		const errors: string[] = [];
+		const exitCode = await runRefreshJob(
+			async () => {
+				throw new Error('refresh failed');
+			},
+			{
+				log: () => undefined,
+				error: message => errors.push(message)
+			}
+		);
+
+		assert.equal(exitCode, 1);
+		assert.deepEqual(JSON.parse(errors[0]), {
+			event: 'catalogue_refresh_job_failed',
+			message: 'refresh failed'
+		});
 	});
 });

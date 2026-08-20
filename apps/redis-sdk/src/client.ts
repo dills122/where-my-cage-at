@@ -2,6 +2,20 @@ import { CataloguePublication, CatalogueRefreshStatus, MovieRecord, ServiceProvi
 import { createRedisClient, RedisClientLike } from './redis-client';
 import config from './shared';
 
+const EXTEND_LOCK_SCRIPT = `
+	if redis.call('get', KEYS[1]) == ARGV[1] then
+		return redis.call('pexpire', KEYS[1], ARGV[2])
+	end
+	return 0
+`;
+
+const RELEASE_LOCK_SCRIPT = `
+	if redis.call('get', KEYS[1]) == ARGV[1] then
+		return redis.call('del', KEYS[1])
+	end
+	return 0
+`;
+
 export class FullClient {
 	private _client: RedisClientLike;
 	private _connected: boolean;
@@ -55,6 +69,33 @@ export class FullClient {
 			...status,
 			activeVersion: activeVersion || undefined
 		});
+	}
+
+	async acquireRefreshLock(token: string, ttlMs: number) {
+		await this.ensureConnected();
+		const result = await this._client.set(config.refreshLockPath, token, {
+			NX: true,
+			PX: ttlMs
+		});
+		return result === 'OK';
+	}
+
+	async extendRefreshLock(token: string, ttlMs: number) {
+		await this.ensureConnected();
+		const result = await this._client.eval(EXTEND_LOCK_SCRIPT, {
+			keys: [config.refreshLockPath],
+			arguments: [token, String(ttlMs)]
+		});
+		return result === 1;
+	}
+
+	async releaseRefreshLock(token: string) {
+		await this.ensureConnected();
+		const result = await this._client.eval(RELEASE_LOCK_SCRIPT, {
+			keys: [config.refreshLockPath],
+			arguments: [token]
+		});
+		return result === 1;
 	}
 
 	async updateServiceProviders(serviceProviders: ServiceProvider[]) {

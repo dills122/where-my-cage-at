@@ -1,32 +1,29 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Should only be run in a droplet
+set -euo pipefail
+
+repo_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+readonly repo_dir
 
 sudo mkdir -p /var/www/prod
+pushd "${repo_dir}"
 
-pushd ~/app-src/
-
-# If true do a fresh pull
-if [ "$1" = true ]; then
-    git pull
+if [[ "${1:-false}" == 'true' ]]; then
+	git pull --ff-only
 fi
 
-# Build and deploy the angular frontend
 docker build -t ang-node-builder:latest -f AngBuildDockerfile .
-
 sudo docker create -ti --name dummy ang-node-builder:latest bash
-# This one can be used for local testing
-# docker cp dummy:/tmp/apps/frontend/dist/frontend/. /c/Users/dss25/repos/where-my-cage-at/tmp
 sudo docker cp dummy:/tmp/apps/frontend/dist/frontend/. /var/www/prod
 sudo docker rm -f dummy
 
-export API_PORT=3000
-export CRON_PORT=3001
-export REDIS_PORT=6379
+# Build both long-running services and the one-shot refresh image. Only Redis and the API stay up.
+sudo docker compose --profile jobs rm --stop --force data-service
+sudo docker compose --profile jobs build api data-service
+sudo docker compose up -d redis api
 
-# Get all of the docker services running
-sudo docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
-
+sudo ./scripts/install-catalogue-refresh-timer.sh "${repo_dir}"
+sudo systemctl start wmca-catalogue-refresh.service
 sudo systemctl restart nginx
 
 popd

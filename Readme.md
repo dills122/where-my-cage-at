@@ -29,6 +29,11 @@ cd apps/data-service
 rushx refresh
 ```
 
+The data service is a one-shot job: it exits successfully after publishing a complete catalogue and
+returns a non-zero status when the refresh fails or another refresh owns the Redis lease. Production
+schedules the same container twice daily with a systemd timer; operational commands are documented in
+`apps/data-service/README.md`.
+
 The JustWatch contract can be checked without writing to Redis:
 
 ```sh

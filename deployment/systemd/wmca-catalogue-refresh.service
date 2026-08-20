@@ -1,0 +1,11 @@
+[Unit]
+Description=Refresh the Where My Cage At catalogue
+Requires=docker.service
+After=docker.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/wmca/catalogue-refresh.env
+ExecStart=/usr/local/bin/wmca-catalogue-refresh
+TimeoutStartSec=45min
