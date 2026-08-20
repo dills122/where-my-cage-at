@@ -7,14 +7,15 @@
 	"
 >
 	<span class="service-button__icon" aria-hidden="true">
-		<i *ngIf="serviceId === SEE_MORE_SERVICE_ID; else providerIcon" class="pi" [ngClass]="serviceIcon"></i>
-		<ng-template #providerIcon>
+		@if (serviceId === SEE_MORE_SERVICE_ID) {
+			<i class="pi" [ngClass]="serviceIcon"></i>
+		} @else {
 			<app-service-icon
 				[serviceId]="serviceId"
 				[serviceName]="serviceName"
 				[interactive]="false"
 			></app-service-icon>
-		</ng-template>
+		}
 	</span>
 	<span class="service-button__label">{{ serviceName }}</span>
 </button>

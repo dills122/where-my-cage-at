@@ -17,7 +17,7 @@ describe('Where My Cage At local stack', () => {
 			});
 
 		cy.get('p-autocomplete input').type('Longlegs');
-		cy.contains('.p-autocomplete-item', 'Longlegs').click();
+		cy.contains('.p-autocomplete-option', 'Longlegs').click();
 
 		cy.location('pathname').should('match', /^\/film-overview\/\d+$/);
 		cy.contains('h1', 'Longlegs');

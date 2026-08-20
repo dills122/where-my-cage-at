@@ -5,7 +5,8 @@ import { mapToActionName } from '../../service-providers-monetization-types-mapp
 @Component({
 	selector: 'app-provider-watch-now',
 	templateUrl: './provider-watch-now.component.html',
-	styleUrls: ['./provider-watch-now.component.scss']
+	styleUrls: ['./provider-watch-now.component.scss'],
+	standalone: false
 })
 export class ProviderWatchNowComponent implements OnInit {
 	@Input()

@@ -13,8 +13,8 @@ describe('FilmSearchComponent', () => {
 		const component = new FilmSearchComponent(repository, router);
 
 		component.ngOnInit();
-		component.search({ query: 'Moon' });
-		component.navigate(component.results[0]);
+		component.search({ originalEvent: new Event('input'), query: 'Moon' });
+		component.navigate({ originalEvent: new Event('click'), value: component.results[0] });
 
 		expect(component.searchDictonary).toEqual([
 			{ id: 42, title: 'Moonstruck' },

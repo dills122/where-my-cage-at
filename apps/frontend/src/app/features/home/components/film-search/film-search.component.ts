@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import Fuse from 'fuse.js';
+import { AutoCompleteCompleteEvent, AutoCompleteSelectEvent } from 'primeng/autocomplete';
 import { filter, map, Subject, take, takeUntil, tap } from 'rxjs';
 import { FilmographyRepository } from 'src/app/repositories';
 
@@ -12,7 +13,8 @@ export interface FilmSearchResult {
 @Component({
 	selector: 'app-film-search',
 	templateUrl: './film-search.component.html',
-	styleUrls: ['./film-search.component.scss']
+	styleUrls: ['./film-search.component.scss'],
+	standalone: false
 })
 export class FilmSearchComponent implements OnInit, OnDestroy {
 	text: string = '';
@@ -48,8 +50,8 @@ export class FilmSearchComponent implements OnInit, OnDestroy {
 		this.searchResults$.subscribe();
 	}
 
-	search(event: any) {
-		let query = event.query;
+	search(event: AutoCompleteCompleteEvent) {
+		const query = event.query;
 		if (!query) {
 			return;
 		}
@@ -63,7 +65,8 @@ export class FilmSearchComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	navigate(event: FilmSearchResult) {
-		this.router.navigate([`/film-overview/${event.id}`]);
+	navigate(event: AutoCompleteSelectEvent) {
+		const selectedFilm = event.value as FilmSearchResult;
+		this.router.navigate([`/film-overview/${selectedFilm.id}`]);
 	}
 }

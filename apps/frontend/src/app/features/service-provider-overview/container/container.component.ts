@@ -8,7 +8,8 @@ import { mapToFriendlyVerbousName } from '../service-providers-monetization-type
 @Component({
 	selector: 'app-service-overview-container',
 	templateUrl: './container.component.html',
-	styleUrls: ['./container.component.scss']
+	styleUrls: ['./container.component.scss'],
+	standalone: false
 })
 export class ContainerComponent implements OnInit {
 	readonly serviceProviderCardHeader: string = 'Service Provider Overview:';

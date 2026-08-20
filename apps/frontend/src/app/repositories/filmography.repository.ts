@@ -6,30 +6,19 @@ import {
 	setEntities,
 	withEntities
 } from '@ngneat/elf-entities';
-import { createRequestsCacheOperator, updateRequestCache, withRequestsCache } from '@ngneat/elf-requests';
 import { EMPTY, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { MovieRecord } from '../models';
 
-const storeName = 'filmography';
+const { state, config } = createState(withEntities<MovieRecord>());
 
-const { state, config } = createState(withEntities<MovieRecord>(), withRequestsCache<'filmography'>());
-
-const filmographyStore = new Store({ state, name: storeName, config });
-
-export const skipFilmographyWhileCached = createRequestsCacheOperator(filmographyStore);
+const filmographyStore = new Store({ state, name: 'filmography', config });
 
 export class FilmographyRepository {
 	initialized$ = of(true);
 	credits$ = filmographyStore.pipe(selectAllEntities());
 	set(entities: MovieRecord[]) {
-		filmographyStore.update(
-			updateRequestCache(storeName, {
-				value: 'full',
-				ttl: 43200000 //12 hours
-			}),
-			setEntities(entities)
-		);
+		filmographyStore.update(setEntities(entities));
 	}
 	getCredit(creditId: number) {
 		return filmographyStore.pipe(

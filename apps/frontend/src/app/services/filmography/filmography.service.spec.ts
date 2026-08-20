@@ -1,8 +1,9 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { FilmographyRepository } from 'src/app/repositories';
 import { createMovie } from 'src/testing/fixtures';
 import { FilmographyService } from './filmography.service';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('FilmographyService', () => {
 	let service: FilmographyService;
@@ -12,8 +13,12 @@ describe('FilmographyService', () => {
 	beforeEach(() => {
 		repository = jasmine.createSpyObj<FilmographyRepository>('FilmographyRepository', ['set']);
 		TestBed.configureTestingModule({
-			imports: [HttpClientTestingModule],
-			providers: [{ provide: FilmographyRepository, useValue: repository }]
+			imports: [],
+			providers: [
+				{ provide: FilmographyRepository, useValue: repository },
+				provideHttpClient(withInterceptorsFromDi()),
+				provideHttpClientTesting()
+			]
 		});
 		service = TestBed.inject(FilmographyService);
 		http = TestBed.inject(HttpTestingController);

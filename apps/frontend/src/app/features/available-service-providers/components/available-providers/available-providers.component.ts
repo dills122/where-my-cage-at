@@ -6,7 +6,8 @@ import { FilmographyRepository, ServiceProviderRepository } from 'src/app/reposi
 @Component({
 	selector: 'app-available-providers',
 	templateUrl: './available-providers.component.html',
-	styleUrls: ['./available-providers.component.scss']
+	styleUrls: ['./available-providers.component.scss'],
+	standalone: false
 })
 export class AvailableProvidersComponent implements OnInit {
 	serviceProvidersWithFilmsAvailable$!: Observable<ServiceProvider[]>;

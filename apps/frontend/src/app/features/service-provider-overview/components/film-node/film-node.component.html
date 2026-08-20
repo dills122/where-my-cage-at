@@ -5,11 +5,8 @@
 				{{ filmOverview.title }}: ({{ filmOverview.originalReleaseYear }})
 			</div>
 			<div class="flex align-items-center justify-content-center m-2">
-				<span class="text-xs">
-					tmdb avg. score
-				</span>
-				&nbsp;
-				&nbsp;
+				<span class="text-xs"> tmdb avg. score </span>
+				&nbsp; &nbsp;
 				<span>
 					{{ filmOverview.tmdbPopularity }}
 				</span>
@@ -19,16 +16,17 @@
 	<ng-template pTemplate="content">
 		<div class="flex mb-2">
 			<div class="flex-initial flex align-items-center justify-content-center m-2">
-				{{filmOverview.shortDescription}}
+				{{ filmOverview.shortDescription }}
 			</div>
 		</div>
 		<div class="flex mb-2">
 			<div class="flex-initial flex align-items-center justify-content-center">
 				<div class="flex flex-wrap">
-					<div class="flex-initial flex align-items-center justify-content-center p-1"
-						*ngFor="let genre of filmOverview.genres">
-						<p-chip [label]="genre" styleClass="text-xs"></p-chip>
-					</div>
+					@for (genre of filmOverview.genres; track genre) {
+						<div class="flex-initial flex align-items-center justify-content-center p-1">
+							<p-chip [label]="genre" class="text-xs"></p-chip>
+						</div>
+					}
 				</div>
 			</div>
 		</div>
@@ -40,19 +38,17 @@
 			<div class="flex">
 				<div class="flex-1">
 					<div class="flex-initial flex align-items-center mb-2">
-						<span>
-							TMDB
-						</span>
-						<p-button label="Link" styleClass="p-button-link" (onClick)="openTmdb()"></p-button>
+						<span> TMDB </span>
+						<p-button label="Link" [link]="true" (onClick)="openTmdb()"></p-button>
 					</div>
 					<div class="mb-4">
 						<span> Runtime: </span>
-						{{filmOverview.runtime}}
+						{{ filmOverview.runtime }}
 						<span class="text-xs">min.</span>
 					</div>
 					<div class="mb-4">
 						<span> Release Date: </span>
-						{{filmOverview.localizedReleaseDate}}
+						{{ filmOverview.localizedReleaseDate }}
 					</div>
 				</div>
 				<p-divider layout="vertical"></p-divider>
@@ -61,7 +57,6 @@
 					</app-provider-watch-now>
 				</div>
 			</div>
-
 		</div>
 	</ng-template>
 </p-panel>
