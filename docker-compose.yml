@@ -6,17 +6,16 @@ services:
     networks:
       - webnet
   data-service:
+    profiles: ['jobs']
     build:
       context: .
       dockerfile: ./apps/data-service/Dockerfile
     depends_on:
       redis:
         condition: service_healthy
-    ports:
-      - '${CRON_PORT}:${CRON_PORT}'
     networks:
       - webnet
-    restart: always
+    restart: 'no'
   api:
     build:
       context: .

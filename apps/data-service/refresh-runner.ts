@@ -1,6 +1,6 @@
 import refresh from './src/refresh-redis-data';
+import { runRefreshJob } from './src/run-refresh-job';
 
-(async () => {
-	console.log('Manual refresh initiated');
-	await refresh();
-})();
+void runRefreshJob(refresh).then(exitCode => {
+	process.exitCode = exitCode;
+});

@@ -1,0 +1,12 @@
+[Unit]
+Description=Refresh the Where My Cage At catalogue twice daily
+
+[Timer]
+OnCalendar=*-*-* 00,12:00:00 UTC
+Persistent=true
+RandomizedDelaySec=5min
+AccuracySec=1min
+Unit=wmca-catalogue-refresh.service
+
+[Install]
+WantedBy=timers.target

@@ -15,8 +15,7 @@ RUN node common/scripts/install-run-rush.js install --to data-service --purge \
 
 FROM ${NODE_IMAGE} AS runtime
 
-ENV CRON_PORT=3001 \
-	NODE_ENV=prod \
+ENV NODE_ENV=prod \
 	REDIS_HOST=redis \
 	REDIS_PORT=6379
 
@@ -26,6 +25,4 @@ COPY --from=builder --chown=node:node /opt/deploy /app
 
 USER node
 
-EXPOSE 3001
-
-CMD ["node", "cron-runner.js"]
+CMD ["node", "refresh-runner.js"]

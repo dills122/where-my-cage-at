@@ -24,6 +24,27 @@ function createFakeRedis(
 			calls.push({ method: 'string.get', args: [key] });
 			return (values.get(key) as string | undefined) || null;
 		},
+		set: async (key: string, value: string, options?: { NX?: boolean; PX?: number }) => {
+			calls.push({ method: 'string.set', args: [key, value, options] });
+			if (options?.NX && values.has(key)) {
+				return null;
+			}
+			values.set(key, value);
+			return 'OK';
+		},
+		eval: async (script: string, options: { keys: string[]; arguments: string[] }) => {
+			calls.push({ method: 'eval', args: [script, options] });
+			const [key] = options.keys;
+			const [token] = options.arguments;
+			if (values.get(key) !== token) {
+				return 0;
+			}
+			if (script.includes('pexpire')) {
+				return 1;
+			}
+			values.delete(key);
+			return 1;
+		},
 		multi: () => {
 			const operations: Array<() => void> = [];
 			const transaction = {
@@ -193,4 +214,17 @@ test('FullClient records a failed refresh against the retained active version', 
 		...failedStatus,
 		activeVersion: 'version-1'
 	});
+});
+
+test('FullClient leases the refresh lock to only one owner', async () => {
+	const { client } = createFakeRedis();
+	const first = new FullClient({ host: 'redis', port: '6379', client });
+	const second = new FullClient({ host: 'redis', port: '6379', client });
+
+	assert.equal(await first.acquireRefreshLock('owner-1', 60_000), true);
+	assert.equal(await second.acquireRefreshLock('owner-2', 60_000), false);
+	assert.equal(await first.extendRefreshLock('owner-1', 60_000), true);
+	assert.equal(await second.releaseRefreshLock('owner-2'), false);
+	assert.equal(await first.releaseRefreshLock('owner-1'), true);
+	assert.equal(await second.acquireRefreshLock('owner-2', 60_000), true);
 });

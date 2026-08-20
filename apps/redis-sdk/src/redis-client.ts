@@ -12,6 +12,8 @@ export interface RedisClientLike {
 	connect(): Promise<unknown>;
 	disconnect(): Promise<unknown>;
 	get(key: string): Promise<string | null>;
+	set(key: string, value: string, options?: { NX?: boolean; PX?: number }): Promise<string | null>;
+	eval(script: string, options: { keys: string[]; arguments: string[] }): Promise<unknown>;
 	multi(): RedisMultiLike;
 	json: {
 		get(key: string, path?: string): Promise<unknown>;

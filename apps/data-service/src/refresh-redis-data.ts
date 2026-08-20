@@ -45,6 +45,9 @@ interface RedisPublisher {
 	disconnect(): Promise<void>;
 	publishCatalog(publication: CataloguePublication): Promise<void>;
 	recordRefreshFailure(status: CatalogueRefreshStatus): Promise<void>;
+	acquireRefreshLock(token: string, ttlMs: number): Promise<boolean>;
+	extendRefreshLock(token: string, ttlMs: number): Promise<boolean>;
+	releaseRefreshLock(token: string): Promise<boolean>;
 }
 
 type MovieDataFetcher = (args: {
@@ -69,6 +72,11 @@ interface EnrichmentOptions {
 	sleep: (milliseconds: number) => Promise<void>;
 }
 
+interface RefreshLockOptions {
+	ttlMs: number;
+	renewIntervalMs: number;
+}
+
 interface CatalogueSource {
 	getPersonsFilmography(args: {
 		personId: number;
@@ -86,6 +94,7 @@ export interface RefreshDependencies {
 	createVersion?: (startedAt: number) => string;
 	maxFailureRatio?: number;
 	enrichment?: Partial<EnrichmentOptions>;
+	refreshLock?: Partial<RefreshLockOptions>;
 }
 
 export const DEFAULT_RETRY_POLICY: RetryPolicy = {
@@ -93,6 +102,11 @@ export const DEFAULT_RETRY_POLICY: RetryPolicy = {
 	timeoutMs: 10_000,
 	baseDelayMs: 250,
 	maxDelayMs: 4_000
+};
+
+export const DEFAULT_REFRESH_LOCK: RefreshLockOptions = {
+	ttlMs: 60_000,
+	renewIntervalMs: 20_000
 };
 
 export default async () => refreshCatalogue();
@@ -120,10 +134,37 @@ export async function refreshCatalogue(
 		...dependencies.enrichment?.retryPolicy
 	};
 	const wait = dependencies.enrichment?.sleep || sleep;
+	const lockOptions = { ...DEFAULT_REFRESH_LOCK, ...dependencies.refreshLock };
+	const lockToken = randomUUID();
+	let lockAcquired = false;
+	let lockHealthy = true;
+	let renewalTimer: NodeJS.Timeout | undefined;
+	let renewalInFlight: Promise<void> | undefined;
 
 	await safeLog(log, JSON.stringify({ event: 'catalogue_refresh_started', version }));
 
 	try {
+		await client.connect();
+		lockAcquired = await client.acquireRefreshLock(lockToken, lockOptions.ttlMs);
+		if (!lockAcquired) {
+			throw new RefreshAlreadyRunningError();
+		}
+		const renewLock = async () => {
+			try {
+				lockHealthy = await client.extendRefreshLock(lockToken, lockOptions.ttlMs);
+			} catch (err) {
+				lockHealthy = false;
+			}
+		};
+		renewalTimer = setInterval(() => {
+			if (!renewalInFlight) {
+				renewalInFlight = renewLock().finally(() => {
+					renewalInFlight = undefined;
+				});
+			}
+		}, lockOptions.renewIntervalMs);
+		renewalTimer.unref();
+
 		const [creditRecords, providers] = await Promise.all([
 			executeWithRetry(
 				() =>
@@ -153,6 +194,13 @@ export async function refreshCatalogue(
 		);
 
 		assertPublishable(creditCount, movies.length, failures, dependencies.maxFailureRatio);
+		if (renewalInFlight) {
+			await renewalInFlight;
+		}
+		lockHealthy = lockHealthy && (await client.extendRefreshLock(lockToken, lockOptions.ttlMs));
+		if (!lockHealthy) {
+			throw new RefreshLockLostError();
+		}
 		const status = createStatus({
 			state: 'success',
 			version,
@@ -164,7 +212,13 @@ export async function refreshCatalogue(
 			failures
 		});
 
-		await updateEntireRedisInstance(movies, serviceProviders, client, log, status);
+		await client.publishCatalog({
+			version: status.version,
+			movies,
+			serviceProviders,
+			status
+		});
+		await safeLog(log, JSON.stringify({ event: 'catalogue_publish_succeeded', version }));
 		await safeLog(log, JSON.stringify({ event: 'catalogue_refresh_completed', ...status }));
 		return status;
 	} catch (err) {
@@ -179,29 +233,57 @@ export async function refreshCatalogue(
 			failures
 		});
 
-		try {
-			await recordFailedRefresh(client, status);
-		} catch (statusError) {
-			await safeLog(
-				log,
-				JSON.stringify({
-					event: 'catalogue_refresh_status_write_failed',
-					version,
-					message: getErrorMessage(statusError)
-				}),
-				true
-			);
+		if (lockAcquired && !(err instanceof RefreshLockLostError)) {
+			try {
+				await client.recordRefreshFailure(status);
+			} catch (statusError) {
+				await safeLog(
+					log,
+					JSON.stringify({
+						event: 'catalogue_refresh_status_write_failed',
+						version,
+						message: getErrorMessage(statusError)
+					}),
+					true
+				);
+			}
 		}
 		await safeLog(
 			log,
 			JSON.stringify({
-				event: 'catalogue_refresh_failed',
+				event:
+					err instanceof RefreshAlreadyRunningError
+						? 'catalogue_refresh_skipped'
+						: 'catalogue_refresh_failed',
 				...status,
 				message: getErrorMessage(err)
 			}),
 			true
 		);
 		throw err;
+	} finally {
+		if (renewalTimer) {
+			clearInterval(renewalTimer);
+		}
+		if (renewalInFlight) {
+			await renewalInFlight;
+		}
+		if (lockAcquired) {
+			try {
+				await client.releaseRefreshLock(lockToken);
+			} catch (releaseError) {
+				await safeLog(
+					log,
+					JSON.stringify({
+						event: 'catalogue_refresh_lock_release_failed',
+						version,
+						message: getErrorMessage(releaseError)
+					}),
+					true
+				);
+			}
+		}
+		await client.disconnect();
 	}
 }
 
@@ -298,53 +380,6 @@ export async function executeWithRetry<T>(
 		}
 	}
 	throw lastError;
-}
-
-export async function updateEntireRedisInstance(
-	movies: MovieRecord[],
-	serviceProviders: ServiceProvider[],
-	redisClient?: RedisPublisher,
-	log: RefreshLogger = LogToAllInterfaces,
-	status: CatalogueRefreshStatus = createAdHocSuccessStatus(movies, serviceProviders)
-) {
-	const client =
-		redisClient ||
-		new FullClient({
-			host: getRedisHostName(),
-			port: RedisPort
-		});
-	try {
-		await client.connect();
-		await client.publishCatalog({
-			version: status.version,
-			movies,
-			serviceProviders,
-			status
-		});
-		await safeLog(log, JSON.stringify({ event: 'catalogue_publish_succeeded', version: status.version }));
-	} catch (err) {
-		await safeLog(
-			log,
-			JSON.stringify({
-				event: 'catalogue_publish_failed',
-				version: status.version,
-				message: getErrorMessage(err)
-			}),
-			true
-		);
-		throw err;
-	} finally {
-		await client.disconnect();
-	}
-}
-
-async function recordFailedRefresh(client: RedisPublisher, status: CatalogueRefreshStatus) {
-	try {
-		await client.connect();
-		await client.recordRefreshFailure(status);
-	} finally {
-		await client.disconnect();
-	}
 }
 
 async function getAdditionalMovieData({
@@ -450,23 +485,6 @@ function createStatus({
 	};
 }
 
-function createAdHocSuccessStatus(
-	movies: MovieRecord[],
-	serviceProviders: ServiceProvider[]
-): CatalogueRefreshStatus {
-	const timestamp = Date.now();
-	return createStatus({
-		state: 'success',
-		version: createVersion(timestamp),
-		startedAtMs: timestamp,
-		completedAtMs: timestamp,
-		creditCount: movies.length,
-		movieCount: movies.length,
-		providerCount: serviceProviders.length,
-		failures: { totalFailed: 0, failedMovies: [] }
-	});
-}
-
 function createVersion(startedAt: number) {
 	return `${new Date(startedAt).toISOString()}-${randomUUID()}`;
 }
@@ -489,6 +507,20 @@ class RequestTimeoutError extends Error {
 	constructor(timeoutMs: number) {
 		super(`External request timed out after ${timeoutMs}ms`);
 		this.name = 'RequestTimeoutError';
+	}
+}
+
+export class RefreshAlreadyRunningError extends Error {
+	constructor() {
+		super('A catalogue refresh is already running');
+		this.name = 'RefreshAlreadyRunningError';
+	}
+}
+
+class RefreshLockLostError extends Error {
+	constructor() {
+		super('Catalogue refresh lock was lost before publication');
+		this.name = 'RefreshLockLostError';
 	}
 }
 
