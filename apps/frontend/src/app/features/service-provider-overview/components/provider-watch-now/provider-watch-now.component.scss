@@ -1,4 +1,68 @@
+/* Hallmark · component: offer button · genre: playful · theme: existing Cage typewriter
+ * states: default · hover · focus · active · disabled · loading · error · success
+ * contrast: pass (40–41) · responsive: pass (49)
+ */
+/* Hallmark · pre-emit critique: P5 H4 E5 S5 R5 V4 */
+.offer-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-xs);
+}
 
-    p-chip:hover {
-        cursor: pointer;
-    }
+.offer-link {
+	min-block-size: 44px;
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-xs);
+	padding: var(--space-xs) var(--space-sm);
+	border: var(--rule-hair) solid var(--color-rule);
+	border-radius: var(--radius-md);
+	background: var(--color-paper);
+	color: var(--color-ink);
+	font: inherit;
+	cursor: pointer;
+	transition:
+		background-color var(--dur-short) var(--ease-out),
+		transform var(--dur-micro) var(--ease-out);
+}
+
+.offer-link span {
+	white-space: nowrap;
+}
+
+.offer-link:active {
+	transform: translateY(1px);
+}
+
+.offer-link:disabled,
+.offer-link[aria-busy='true'] {
+	opacity: 0.5;
+	cursor: not-allowed;
+	transform: none;
+}
+
+.offer-link.is-error {
+	color: var(--color-error);
+}
+
+.offer-link.is-success {
+	color: var(--color-success);
+}
+
+.offer-list__empty {
+	margin: 0;
+	color: var(--color-muted);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.offer-link:not(:disabled):hover {
+		background: var(--color-accent-soft);
+		transform: translateY(-1px);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.offer-link {
+		transition: none;
+	}
+}

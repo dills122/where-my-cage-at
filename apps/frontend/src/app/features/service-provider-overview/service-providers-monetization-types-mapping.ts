@@ -15,7 +15,7 @@ export const mapToFriendlyVerbousName = (monetizationType: string) => {
 		case 'flatrate':
 			return 'Streaming with Subscription';
 		case 'rent':
-			return 'Retnal';
+			return 'Rental';
 		case 'buy':
 			return 'Purchase';
 		default:

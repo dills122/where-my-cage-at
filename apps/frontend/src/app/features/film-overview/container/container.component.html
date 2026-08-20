@@ -1,52 +1,58 @@
-<div class="grid-nogutter">
-	<div class="col-8 col-offset-2">
-		<h1>
-			{{ filmRecord?.title }}
-		</h1>
-	</div>
-	<div class="col-8 col-offset-2">
-		<p class="py-4">
-			{{ filmRecord?.shortDescription }}
-		</p>
-		<div class="flex-initial flex align-items-center justify-content-center">
-			<div class="flex flex-wrap">
-				@for (genre of getGenres(); track genre) {
-					<div class="flex-initial flex align-items-center justify-content-center p-1">
-						<p-chip [label]="genre" class="text-xs"></p-chip>
-					</div>
-				}
+@if (filmRecord$ | async; as film) {
+	<main class="film-detail" aria-labelledby="film-title">
+		<header class="film-detail__intro">
+			<div class="film-detail__copy">
+				<h1 id="film-title">{{ film.title }}</h1>
+				<p>{{ film.shortDescription }}</p>
 			</div>
-		</div>
-	</div>
-	<div class="col-8 col-offset-2">
-		<div class="py-2">
-			<h2>Viewing Options:</h2>
-			<p-divider></p-divider>
-		</div>
-		<app-available-providers-by-monitization-type
-			[offers]="this.filmRecord?.offers || []"
-			[monitizationType]="MonetizationTypes.BUY"
-		>
-		</app-available-providers-by-monitization-type>
-		<app-available-providers-by-monitization-type
-			[offers]="this.filmRecord?.offers || []"
-			[monitizationType]="MonetizationTypes.ADS"
-		>
-		</app-available-providers-by-monitization-type>
-		<app-available-providers-by-monitization-type
-			[offers]="this.filmRecord?.offers || []"
-			[monitizationType]="MonetizationTypes.FREE"
-		>
-		</app-available-providers-by-monitization-type>
-		<app-available-providers-by-monitization-type
-			[offers]="this.filmRecord?.offers || []"
-			[monitizationType]="MonetizationTypes.RENT"
-		>
-		</app-available-providers-by-monitization-type>
-		<app-available-providers-by-monitization-type
-			[offers]="this.filmRecord?.offers || []"
-			[monitizationType]="MonetizationTypes.SUBSCRIPTION"
-		>
-		</app-available-providers-by-monitization-type>
-	</div>
-</div>
+
+			<div class="film-detail__context">
+				<dl>
+					<div>
+						<dt>Released</dt>
+						<dd>{{ film.originalReleaseYear }}</dd>
+					</div>
+					<div>
+						<dt>Runtime</dt>
+						<dd>{{ film.runtime }}&nbsp;min</dd>
+					</div>
+				</dl>
+
+				<ul aria-label="Genres">
+					@for (genre of film.genres; track genre) {
+						<li>{{ genre }}</li>
+					}
+				</ul>
+			</div>
+		</header>
+
+		<section class="film-detail__viewing" aria-labelledby="viewing-options-title">
+			<h2 id="viewing-options-title">Viewing options</h2>
+
+			<div class="film-detail__groups">
+				<app-available-providers-by-monitization-type
+					[offers]="film.offers"
+					[monitizationType]="MonetizationTypes.BUY"
+				></app-available-providers-by-monitization-type>
+				<app-available-providers-by-monitization-type
+					[offers]="film.offers"
+					[monitizationType]="MonetizationTypes.ADS"
+				></app-available-providers-by-monitization-type>
+				<app-available-providers-by-monitization-type
+					[offers]="film.offers"
+					[monitizationType]="MonetizationTypes.FREE"
+				></app-available-providers-by-monitization-type>
+				<app-available-providers-by-monitization-type
+					[offers]="film.offers"
+					[monitizationType]="MonetizationTypes.RENT"
+				></app-available-providers-by-monitization-type>
+				<app-available-providers-by-monitization-type
+					[offers]="film.offers"
+					[monitizationType]="MonetizationTypes.SUBSCRIPTION"
+				></app-available-providers-by-monitization-type>
+			</div>
+		</section>
+	</main>
+} @else {
+	<p class="film-detail__status" aria-live="polite">Loading film details…</p>
+}

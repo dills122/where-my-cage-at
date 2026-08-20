@@ -21,6 +21,11 @@ export class ServiceIconComponent {
 	get imageUrl() {
 		return `${this.apiURL}/icons/${this.serviceId}.webp`;
 	}
+	get accessibleLabel() {
+		return this.externalUrl
+			? `Open ${this.serviceName} viewing option in a new tab`
+			: `Browse ${this.serviceName} movies`;
+	}
 
 	openUrl() {
 		if (!this.interactive) {
@@ -31,11 +36,6 @@ export class ServiceIconComponent {
 			return this.openServicePage(this.serviceId);
 		}
 		window.open(this.externalUrl, '_blank', 'noopener,noreferrer');
-	}
-
-	activateWithKeyboard(event: Event) {
-		event.preventDefault();
-		this.openUrl();
 	}
 
 	openServicePage(serviceId: number) {

@@ -21,7 +21,7 @@ describe('Where My Cage At local stack', () => {
 
 		cy.location('pathname').should('match', /^\/film-overview\/\d+$/);
 		cy.contains('h1', 'Longlegs');
-		cy.contains('Viewing Options:');
+		cy.contains('h2', 'Viewing options');
 		cy.get('app-service-icon img').each(image => {
 			cy.wrap(image).should(($image: JQuery<HTMLImageElement>) => {
 				expect($image[0].naturalWidth).to.be.greaterThan(0);
@@ -37,11 +37,19 @@ describe('Where My Cage At local stack', () => {
 		cy.wait(['@filmography', '@serviceProviders']);
 		cy.contains('h1', 'All available providers');
 		cy.get('.provider-index__summary').should('contain.text', 'providers with Cage movies');
-		cy.get('.provider-index__grid app-service-icon [role="button"]')
+		cy.get('.provider-index__grid app-service-icon button')
 			.should('have.length.greaterThan', 0)
 			.first()
 			.click();
 
 		cy.location('pathname').should('match', /^\/service-provider-overview\/\d+$/);
+	});
+
+	it('loads a film detail route directly', () => {
+		cy.visit('/film-overview/2039');
+
+		cy.contains('h1', 'Moonstruck');
+		cy.contains('h2', 'Viewing options');
+		cy.get('.viewing-group__providers button').should('have.length.greaterThan', 0);
 	});
 });

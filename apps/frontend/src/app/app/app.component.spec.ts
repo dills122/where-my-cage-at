@@ -39,8 +39,8 @@ describe('AppComponent', () => {
 	});
 
 	it('switches between the light and dark themes', () => {
-		component.handleChange({ checked: false });
-		component.handleChange({ checked: true });
+		component.toggleTheme();
+		component.toggleTheme();
 
 		expect(themeService.switchTheme.calls.allArgs()).toEqual([[false], [true]]);
 	});

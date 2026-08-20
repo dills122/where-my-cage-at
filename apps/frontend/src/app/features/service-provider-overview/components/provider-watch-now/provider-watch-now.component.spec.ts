@@ -13,7 +13,7 @@ describe('ProviderWatchNowComponent', () => {
 		component.ngOnInit();
 
 		expect(component.offersForProvider).toEqual([component.offers[0]]);
-		expect(component.createLabelName('flatrate', 'hd')).toBe('Stream Now:HD');
+		expect(component.createLabelName('flatrate', 'hd')).toBe('Stream Now · HD');
 	});
 
 	it('opens valid watch links and ignores missing ones', () => {
@@ -23,6 +23,6 @@ describe('ProviderWatchNowComponent', () => {
 		component.openExternalLink({});
 		component.openExternalLink({ standardWeb: 'https://example.com/watch' });
 
-		expect(open).toHaveBeenCalledOnceWith('https://example.com/watch', '_blank');
+		expect(open).toHaveBeenCalledOnceWith('https://example.com/watch', '_blank', 'noopener,noreferrer');
 	});
 });

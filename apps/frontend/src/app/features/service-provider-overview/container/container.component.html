@@ -1,27 +1,37 @@
-<div class="grid-nogutter">
-	<div class="col-offset-2 col-8">
-		<div class="grid-nogutter">
-			<div class="col-12">
-				<h1>{{ (serviceProviderData$ | async)?.clearName }}</h1>
-			</div>
-			<div class="col-12 pb-3">
-				<p-card [header]="serviceProviderCardHeader" id="whats-streaming-platform-card" class="text-center">
-					<div class="flex justify-content-around flex-wrap m-2">
-						@for (
-							monetizationType of (serviceProviderData$ | async)?.monetizationTypes;
-							track monetizationType
-						) {
-							<p-chip [label]="mapMonetizationType(monetizationType)" class="mr-2"></p-chip>
-						}
-					</div>
-				</p-card>
+@if (serviceProviderData$ | async; as serviceProvider) {
+	<main class="provider-detail" [attr.aria-labelledby]="'provider-title'">
+		<header class="provider-detail__intro">
+			<div>
+				<h1 id="provider-title">{{ serviceProvider.clearName }}</h1>
+				<p>Explore the Cage films available through this service.</p>
 			</div>
 
-			<div class="col-12 pb-3">
-				@for (filmCredit of this.filmsAvailable$ | async; track filmCredit) {
-					<app-film-node [filmOverview]="filmCredit" [providerId]="serviceId"> </app-film-node>
+			<ul class="provider-detail__models" aria-label="Available viewing options">
+				@for (monetizationType of serviceProvider.monetizationTypes; track monetizationType) {
+					<li>{{ mapMonetizationType(monetizationType) }}</li>
 				}
-			</div>
-		</div>
-	</div>
-</div>
+			</ul>
+		</header>
+
+		@if (filmsAvailable$ | async; as filmsAvailable) {
+			<section class="provider-detail__films" aria-labelledby="provider-films-title">
+				<div class="provider-detail__section-head">
+					<h2 id="provider-films-title">Films on {{ serviceProvider.clearName }}</h2>
+					<p>{{ filmsAvailable.length }} titles</p>
+				</div>
+
+				@if (filmsAvailable.length > 0) {
+					<div class="provider-detail__list">
+						@for (filmCredit of filmsAvailable; track filmCredit.id) {
+							<app-film-node [filmOverview]="filmCredit" [providerId]="serviceId"></app-film-node>
+						}
+					</div>
+				} @else {
+					<p class="provider-detail__empty">No Cage films are currently listed for this service.</p>
+				}
+			</section>
+		}
+	</main>
+} @else {
+	<p class="provider-detail__status" aria-live="polite">Loading service details…</p>
+}

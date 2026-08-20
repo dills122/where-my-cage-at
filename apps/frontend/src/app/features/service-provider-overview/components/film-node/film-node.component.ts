@@ -18,7 +18,4 @@ export class FilmNodeComponent implements OnInit {
 	ngOnInit(): void {
 		this.tmdbUrl = tmdbUrlBuilders.buildMoviePageUrl(this.filmOverview.id);
 	}
-	openTmdb() {
-		window.open(this.tmdbUrl, '_blank');
-	}
 }

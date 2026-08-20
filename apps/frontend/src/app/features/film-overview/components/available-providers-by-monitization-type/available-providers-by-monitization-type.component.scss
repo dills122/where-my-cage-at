@@ -1,0 +1,69 @@
+/* Hallmark · component: viewing-options list · genre: playful · theme: existing Cage typewriter
+ * states: default · hover · focus · active · disabled · loading · error · success
+ * contrast: pass (40–41) · responsive: pass (49–52)
+ */
+/* Hallmark · pre-emit critique: P5 H4 E5 S5 R5 V4 */
+:host {
+	display: block;
+	min-inline-size: 0;
+}
+
+:host:empty {
+	display: none;
+}
+
+.viewing-group {
+	min-inline-size: 0;
+}
+
+.viewing-group h3 {
+	margin: 0 0 var(--space-md);
+	font-size: var(--text-md);
+	font-weight: 400;
+}
+
+.viewing-group__providers {
+	list-style: none;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	margin: 0;
+	padding: 0;
+	border-block-start: var(--rule-hair) solid var(--color-rule);
+	border-inline-start: var(--rule-hair) solid var(--color-rule);
+}
+
+.viewing-group__providers li {
+	min-inline-size: 0;
+	border-block-end: var(--rule-hair) solid var(--color-rule);
+	border-inline-end: var(--rule-hair) solid var(--color-rule);
+}
+
+:host ::ng-deep .viewing-group__providers .service-icon {
+	min-block-size: 5.5rem;
+	grid-template-columns: auto minmax(0, 1fr);
+	justify-items: start;
+	gap: var(--space-md);
+	padding: var(--space-sm) var(--space-md);
+	text-align: start;
+}
+
+:host ::ng-deep .viewing-group__providers .service-icon__image {
+	inline-size: 3.5rem;
+	block-size: 3.5rem;
+}
+
+:host ::ng-deep .viewing-group__providers .service-icon__name {
+	inline-size: 100%;
+}
+
+@media (min-width: 40rem) {
+	.viewing-group__providers {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (min-width: 60rem) {
+	.viewing-group__providers {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}

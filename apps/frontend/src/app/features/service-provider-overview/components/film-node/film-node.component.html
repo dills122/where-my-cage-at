@@ -1,62 +1,48 @@
-<p-panel [toggleable]="true" [collapsed]="true">
-	<ng-template pTemplate="header">
-		<div class="flex justify-content-between flex-wrap w-full">
-			<div class="flex align-items-center justify-content-center m-2">
-				{{ filmOverview.title }}: ({{ filmOverview.originalReleaseYear }})
-			</div>
-			<div class="flex align-items-center justify-content-center m-2">
-				<span class="text-xs"> tmdb avg. score </span>
-				&nbsp; &nbsp;
-				<span>
-					{{ filmOverview.tmdbPopularity }}
-				</span>
-			</div>
-		</div>
-	</ng-template>
-	<ng-template pTemplate="content">
-		<div class="flex mb-2">
-			<div class="flex-initial flex align-items-center justify-content-center m-2">
-				{{ filmOverview.shortDescription }}
-			</div>
-		</div>
-		<div class="flex mb-2">
-			<div class="flex-initial flex align-items-center justify-content-center">
-				<div class="flex flex-wrap">
-					@for (genre of filmOverview.genres; track genre) {
-						<div class="flex-initial flex align-items-center justify-content-center p-1">
-							<p-chip [label]="genre" class="text-xs"></p-chip>
-						</div>
-					}
-				</div>
-			</div>
-		</div>
-		<div class="flex w-full">
-			<p-divider class="w-full"></p-divider>
-		</div>
-		<div class="mb-2">
-			<h5 class="mt-0 mb-3">Quick Data Points:</h5>
-			<div class="flex">
-				<div class="flex-1">
-					<div class="flex-initial flex align-items-center mb-2">
-						<span> TMDB </span>
-						<p-button label="Link" [link]="true" (onClick)="openTmdb()"></p-button>
+<details class="film-record">
+	<summary class="film-record__summary">
+		<span class="film-record__title">
+			{{ filmOverview.title }}
+			<span>({{ filmOverview.originalReleaseYear }})</span>
+		</span>
+		<span class="film-record__popularity">
+			<span>TMDB popularity</span>
+			<strong>{{ filmOverview.tmdbPopularity | number: '1.1-1' }}</strong>
+		</span>
+	</summary>
+
+	<div class="film-record__content">
+		<p class="film-record__description">{{ filmOverview.shortDescription }}</p>
+
+		<ul class="film-record__genres" aria-label="Genres">
+			@for (genre of filmOverview.genres; track genre) {
+				<li>{{ genre }}</li>
+			}
+		</ul>
+
+		<div class="film-record__details">
+			<section aria-labelledby="quick-facts-{{ filmOverview.id }}">
+				<h3 id="quick-facts-{{ filmOverview.id }}">Quick facts</h3>
+				<dl>
+					<div>
+						<dt>Runtime</dt>
+						<dd>{{ filmOverview.runtime }}&nbsp;min</dd>
 					</div>
-					<div class="mb-4">
-						<span> Runtime: </span>
-						{{ filmOverview.runtime }}
-						<span class="text-xs">min.</span>
+					<div>
+						<dt>Release date</dt>
+						<dd>{{ filmOverview.localizedReleaseDate }}</dd>
 					</div>
-					<div class="mb-4">
-						<span> Release Date: </span>
-						{{ filmOverview.localizedReleaseDate }}
-					</div>
-				</div>
-				<p-divider layout="vertical"></p-divider>
-				<div class="flex-1">
-					<app-provider-watch-now [offers]="filmOverview.offers" [providerId]="providerId">
-					</app-provider-watch-now>
-				</div>
-			</div>
+				</dl>
+				<a class="film-record__external" [href]="tmdbUrl" target="_blank" rel="noopener noreferrer">
+					TMDB page <i class="pi pi-external-link" aria-hidden="true"></i>
+					<span class="visually-hidden">(opens in a new tab)</span>
+				</a>
+			</section>
+
+			<section aria-labelledby="watch-options-{{ filmOverview.id }}">
+				<h3 id="watch-options-{{ filmOverview.id }}">Watch options</h3>
+				<app-provider-watch-now [offers]="filmOverview.offers" [providerId]="providerId">
+				</app-provider-watch-now>
+			</section>
 		</div>
-	</ng-template>
-</p-panel>
+	</div>
+</details>

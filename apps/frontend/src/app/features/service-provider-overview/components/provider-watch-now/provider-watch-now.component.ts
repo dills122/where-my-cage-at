@@ -21,7 +21,7 @@ export class ProviderWatchNowComponent implements OnInit {
 	}
 
 	createLabelName(monetizationType: string, presentationType: string) {
-		return `${mapToActionName(monetizationType)}:${presentationType.toLocaleUpperCase()}`;
+		return `${mapToActionName(monetizationType)} · ${presentationType.toLocaleUpperCase()}`;
 	}
 
 	openExternalLink(urls: WatchUrlsMap) {
@@ -29,6 +29,6 @@ export class ProviderWatchNowComponent implements OnInit {
 			//TODO better way to handle this situation
 			return;
 		}
-		window.open(urls.standardWeb, '_blank');
+		window.open(urls.standardWeb, '_blank', 'noopener,noreferrer');
 	}
 }
