@@ -1,0 +1,23 @@
+name: Setup Rush
+description: Install the pinned Node and Rush workspace dependencies with shared caches.
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 22.22.1
+    - name: Restore Rush, pnpm, and Cypress caches
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.rush
+          ~/.cache/Cypress
+          common/temp/node_modules
+          common/temp/pnpm-store
+        key: ${{ runner.os }}-node-22.22.1-rush-${{ hashFiles('rush.json', 'common/config/rush/pnpm-lock.yaml', 'common/config/rush/pnpm-config.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-22.22.1-rush-
+    - name: Install frozen workspace dependencies
+      shell: bash
+      run: node common/scripts/install-run-rush.js install
