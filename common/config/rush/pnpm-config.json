@@ -1,7 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/pnpm-config.schema.json",
 	"useWorkspaces": true,
-	"minimumReleaseAgeExclude": ["miniflare@5.20260820.0-alpha", "wrangler@4.125.0"],
 	"globalAllowBuilds": {
 		"@parcel/watcher": true,
 		"@nestjs/core": true,
