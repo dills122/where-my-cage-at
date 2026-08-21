@@ -8,6 +8,7 @@
 		"es5-ext": true,
 		"esbuild": true,
 		"nice-napi": true,
-		"nx": true
+		"nx": true,
+		"workerd": true
 	}
 }

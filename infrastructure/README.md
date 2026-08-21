@@ -140,9 +140,16 @@ using the exact Worker name:
 
 ```bash
 tofu output -raw wrangler_worker_name
-# From the application workspace:
-wrangler deploy --name where-my-cage-at
+# From apps/frontend after `rushx build`:
+rushx cloudflare:dry-run
+rushx cloudflare:deploy
 ```
+
+For normal releases, use the `Refresh and deploy Cloudflare` GitHub Actions
+workflow with a full merged commit SHA. Keep the repository variable
+`CLOUDFLARE_DEPLOY_ENABLED` unset or false until this bootstrap deployment and
+the custom-domain apply below have succeeded. The bootstrap workflow run should
+disable its hosted smoke check until the custom domain is attached.
 
 After the zone is active and the first Worker version exists, apply the normal
 values to attach the apex, `www`, and any additional custom domains:

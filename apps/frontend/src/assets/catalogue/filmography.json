@@ -1,0 +1,50 @@
+[
+	{
+		"id": 1226578,
+		"imdbId": "tt23468450",
+		"title": "Longlegs",
+		"poster": "/assets/images/cage-icon.svg",
+		"originalReleaseYear": 2024,
+		"tmdbPopularity": 100,
+		"runtime": 101,
+		"originalLanguage": "en",
+		"ageCertification": "R",
+		"cinemaReleaseDate": "2024-07-12",
+		"shortDescription": "A local catalogue fixture for frontend development.",
+		"objectType": "movie",
+		"localizedReleaseDate": "2024-07-12",
+		"offers": [
+			{
+				"providerId": 8,
+				"monetizationType": "flatrate",
+				"packageShortName": "nfx",
+				"retailPrice": 0,
+				"currency": "CAD",
+				"urls": { "standardWeb": "https://example.com/watch/longlegs" },
+				"presentationType": "hd",
+				"country": "CA"
+			},
+			{
+				"providerId": 15,
+				"monetizationType": "flatrate",
+				"packageShortName": "hlu",
+				"retailPrice": 0,
+				"currency": "CAD",
+				"urls": { "standardWeb": "https://example.com/watch/longlegs" },
+				"presentationType": "hd",
+				"country": "CA"
+			},
+			{
+				"providerId": 384,
+				"monetizationType": "flatrate",
+				"packageShortName": "hbm",
+				"retailPrice": 0,
+				"currency": "CAD",
+				"urls": { "standardWeb": "https://example.com/watch/longlegs" },
+				"presentationType": "hd",
+				"country": "CA"
+			}
+		],
+		"genres": ["Horror", "Thriller"]
+	}
+]

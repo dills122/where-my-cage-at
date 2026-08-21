@@ -2,8 +2,8 @@ import type { MovieRecord } from '../../src/app/models';
 
 describe('Where My Cage At local stack', () => {
 	it('loads catalog data and opens a film from search', () => {
-		cy.intercept('GET', 'http://localhost:3000/filmography').as('filmography');
-		cy.intercept('GET', 'http://localhost:3000/service-providers').as('serviceProviders');
+		cy.intercept('GET', '/assets/catalogue/filmography.json').as('filmography');
+		cy.intercept('GET', '/assets/catalogue/service-providers.json').as('serviceProviders');
 
 		cy.visit('/');
 		cy.wait(['@filmography', '@serviceProviders']);
@@ -42,8 +42,8 @@ describe('Where My Cage At local stack', () => {
 	});
 
 	it('organizes the available providers and opens one', () => {
-		cy.intercept('GET', 'http://localhost:3000/filmography').as('filmography');
-		cy.intercept('GET', 'http://localhost:3000/service-providers').as('serviceProviders');
+		cy.intercept('GET', '/assets/catalogue/filmography.json').as('filmography');
+		cy.intercept('GET', '/assets/catalogue/service-providers.json').as('serviceProviders');
 
 		cy.visit('/available-service-providers');
 		cy.wait(['@filmography', '@serviceProviders']);
@@ -73,7 +73,7 @@ describe('Where My Cage At local stack', () => {
 	});
 
 	it('loads a film detail route directly', () => {
-		cy.request<MovieRecord[]>('http://localhost:3000/filmography').then(({ body }) => {
+		cy.request<MovieRecord[]>('/assets/catalogue/filmography.json').then(({ body }) => {
 			const film = body.find(record => record.offers.length > 0);
 			expect(film, 'film with viewing options').to.exist;
 

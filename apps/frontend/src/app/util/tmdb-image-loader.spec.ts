@@ -11,5 +11,8 @@ describe('TMDB image loader', () => {
 	it('uses the original image for oversized requests and preserves absolute URLs', () => {
 		expect(buildPosterImageUrl('/poster.jpg', 900)).toBe('https://image.tmdb.org/t/p/original/poster.jpg');
 		expect(buildPosterImageUrl('https://example.com/poster.jpg', 342)).toBe('https://example.com/poster.jpg');
+		expect(buildPosterImageUrl('/assets/images/local-poster.svg', 342)).toBe(
+			'/assets/images/local-poster.svg'
+		);
 	});
 });

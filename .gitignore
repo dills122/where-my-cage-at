@@ -92,6 +92,7 @@ tsconfig.tsbuildinfo
 
 # Locally generated static catalogue snapshots
 /apps/data-service/generated/
+/apps/frontend/src/assets/icons/
 
 # Cypress run artifacts
 /apps/frontend/cypress/screenshots/
