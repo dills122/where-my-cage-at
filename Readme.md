@@ -79,6 +79,8 @@ set it to `true` only after the OpenTofu bootstrap and first manual deployment
 have succeeded. Disable `run_hosted_smoke` for that bootstrap deployment if the
 custom domain has not been attached yet.
 
-See [`infrastructure/README.md`](infrastructure/README.md) for prerequisites,
+Start with the
+[Cloudflare owner bootstrap and handoff checklist](docs/cloudflare-owner-bootstrap.md),
+then see [`infrastructure/README.md`](infrastructure/README.md) for
 credential-free validation, R2 remote-state bootstrap, planning, applying, and
 the exact OpenTofu/CI ownership boundary.

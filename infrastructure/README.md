@@ -3,6 +3,10 @@
 This OpenTofu stack replaces the legacy DigitalOcean Droplet with the durable
 Cloudflare resources needed by the static Angular application.
 
+Cloudflare and domain owners should complete the focused
+[owner bootstrap and handoff checklist](../docs/cloudflare-owner-bootstrap.md)
+before running this operator guide.
+
 ## Ownership boundary
 
 | OpenTofu owns | Wrangler/application deployment owns |
@@ -80,13 +84,14 @@ bucket once with Wrangler, the Cloudflare API, or the dashboard, then create an
 R2 API token scoped to that bucket with Object Read & Write permission.
 
 ```bash
-wrangler r2 bucket create replace-with-state-bucket
+wrangler r2 bucket create where-my-cage-at-tofu-state
 cd infrastructure
 cp backend.r2.hcl.example backend.r2.hcl
 ```
 
-Edit the bucket name and account-specific R2 endpoint in `backend.r2.hcl`, then
-provide the R2 credentials through the S3-compatible environment variables:
+Edit the account-specific R2 endpoint in `backend.r2.hcl` (and the bucket name
+only if the owner chose a different one), then provide the R2 credentials
+through the S3-compatible environment variables:
 
 ```bash
 export AWS_ACCESS_KEY_ID='R2 access key ID'
