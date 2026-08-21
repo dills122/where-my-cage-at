@@ -1,22 +1,19 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable, isDevMode } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
-import { ServiceProvider } from 'src/app/models';
+import { CATALOGUE_DATA_SOURCE, CatalogueDataSource } from 'src/app/data-access';
 import { ServiceProviderRepository } from 'src/app/repositories/service-provider.repository';
-import { buildBaseApuUrlBasedOffEnv } from 'src/app/util/api-url-builder';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class ServiceProvidersService {
-	private apiURL = buildBaseApuUrlBasedOffEnv(isDevMode());
 	constructor(
-		private http: HttpClient,
+		@Inject(CATALOGUE_DATA_SOURCE) private readonly dataSource: CatalogueDataSource,
 		private serviceProviderRepository: ServiceProviderRepository
 	) {}
 	getServiceProviders() {
-		return this.http
-			.get<ServiceProvider[]>(`${this.apiURL}/service-providers`)
+		return this.dataSource
+			.getServiceProviders()
 			.pipe(tap(providers => this.serviceProviderRepository.set(providers)));
 	}
 }
