@@ -75,6 +75,7 @@ interface EnrichmentOptions {
 interface RefreshLockOptions {
 	ttlMs: number;
 	renewIntervalMs: number;
+	disabled?: boolean;
 }
 
 interface CatalogueSource {
@@ -145,25 +146,27 @@ export async function refreshCatalogue(
 
 	try {
 		await client.connect();
-		lockAcquired = await client.acquireRefreshLock(lockToken, lockOptions.ttlMs);
-		if (!lockAcquired) {
-			throw new RefreshAlreadyRunningError();
+		if (!lockOptions.disabled) {
+			lockAcquired = await client.acquireRefreshLock(lockToken, lockOptions.ttlMs);
+			if (!lockAcquired) {
+				throw new RefreshAlreadyRunningError();
+			}
+			const renewLock = async () => {
+				try {
+					lockHealthy = await client.extendRefreshLock(lockToken, lockOptions.ttlMs);
+				} catch (err) {
+					lockHealthy = false;
+				}
+			};
+			renewalTimer = setInterval(() => {
+				if (!renewalInFlight) {
+					renewalInFlight = renewLock().finally(() => {
+						renewalInFlight = undefined;
+					});
+				}
+			}, lockOptions.renewIntervalMs);
+			renewalTimer.unref();
 		}
-		const renewLock = async () => {
-			try {
-				lockHealthy = await client.extendRefreshLock(lockToken, lockOptions.ttlMs);
-			} catch (err) {
-				lockHealthy = false;
-			}
-		};
-		renewalTimer = setInterval(() => {
-			if (!renewalInFlight) {
-				renewalInFlight = renewLock().finally(() => {
-					renewalInFlight = undefined;
-				});
-			}
-		}, lockOptions.renewIntervalMs);
-		renewalTimer.unref();
 
 		const [creditRecords, providers] = await Promise.all([
 			executeWithRetry(
@@ -197,9 +200,11 @@ export async function refreshCatalogue(
 		if (renewalInFlight) {
 			await renewalInFlight;
 		}
-		lockHealthy = lockHealthy && (await client.extendRefreshLock(lockToken, lockOptions.ttlMs));
-		if (!lockHealthy) {
-			throw new RefreshLockLostError();
+		if (!lockOptions.disabled) {
+			lockHealthy = lockHealthy && (await client.extendRefreshLock(lockToken, lockOptions.ttlMs));
+			if (!lockHealthy) {
+				throw new RefreshLockLostError();
+			}
 		}
 		const status = createStatus({
 			state: 'success',

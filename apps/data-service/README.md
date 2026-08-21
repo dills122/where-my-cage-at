@@ -36,6 +36,54 @@ the same one-shot behavior:
 docker compose --profile jobs run --rm data-service
 ```
 
+## Generating a static catalogue
+
+The Cloudflare-oriented publisher reuses the same JustWatch/TMDB gathering, retry, concurrency, and
+failure-threshold behavior, but does not connect to Redis. Configure `TMDB_KEY` in `.env`, then provide
+an output directory as an argument:
+
+```sh
+cd apps/data-service
+rushx refresh:static ./generated/catalogue
+```
+
+Alternatively, set `STATIC_CATALOGUE_OUTPUT_DIR` and run `rushx refresh:static` without an argument.
+The local `generated/` directory is ignored by Git; CI should pass its artifact or frontend staging
+directory explicitly.
+
+Publication writes a complete staged directory before promoting it. If gathering, validation, file
+writing, or pre-promotion checks fail, the existing output directory is left unchanged. A successful
+output contains only the files below. For safety, an existing directory is replaced only when it
+already contains a schema-v1 `catalogue-manifest.json`; use a dedicated output directory rather than
+a general frontend assets directory.
+
+- `filmography.json`: the complete `MovieRecord[]` snapshot.
+- `service-providers.json`: the complete `ServiceProvider[]` snapshot.
+- `catalogue-manifest.json`: schema version, catalogue version, generation timestamp, and an artifact
+  entry containing the relative path, record count, and SHA-256 of the exact bytes for each data file.
+
+The manifest contract is:
+
+```json
+{
+  "schemaVersion": 1,
+  "catalogueVersion": "2026-08-20T12:00:00.000Z-<uuid>",
+  "generatedAt": "2026-08-20T12:00:42.000Z",
+  "artifacts": [
+    {
+      "path": "filmography.json",
+      "recordCount": 42,
+      "sha256": "<64 lowercase hexadecimal characters>"
+    },
+    {
+      "path": "service-providers.json",
+      "recordCount": 18,
+      "sha256": "<64 lowercase hexadecimal characters>"
+    }
+  ]
+}
+```
+
 ## Production schedule
 
 Production uses `wmca-catalogue-refresh.timer` on the application host. It starts the data-service

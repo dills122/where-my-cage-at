@@ -3,12 +3,13 @@
 	"version": "0.1.5",
 	"description": "",
 	"scripts": {
-		"test": "TS_NODE_PREFER_TS_EXTS=true node --test --require ts-node/register src/refresh-redis-data.spec.ts",
+		"test": "TS_NODE_PREFER_TS_EXTS=true node --test --require ts-node/register src/*.spec.ts",
 		"build": "tsc -p .",
 		"watch": "tsc -p . --watch",
 		"compile": "tsc",
 		"clean": "tsc --build --clean && rm -rf ./types",
 		"refresh": "ts-node ./refresh-runner.ts",
+		"refresh:static": "ts-node ./static-refresh-runner.ts",
 		"start": "node refresh-runner.js",
 		"lint": "eslint . --ext .ts",
 		"lint:fix": "eslint . --ext .ts --fix"
