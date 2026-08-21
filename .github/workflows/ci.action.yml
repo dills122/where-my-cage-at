@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
       - uses: ./.github/actions/setup-rush
@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
       - uses: ./.github/actions/setup-rush
@@ -45,12 +45,15 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - uses: ./.github/actions/setup-rush
       - name: Remove generated TypeScript output
         run: node common/scripts/install-run-rush.js clean
       - name: Build every workspace
         run: node common/scripts/install-run-rush.js build
+      - name: Validate the Cloudflare static-assets bundle
+        working-directory: apps/frontend
+        run: node ../../common/scripts/install-run-rushx.js cloudflare:dry-run
 
   unit_and_contract_tests:
     name: Unit and contract tests
@@ -58,7 +61,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - uses: ./.github/actions/setup-rush
       - name: Frontend unit tests
         working-directory: apps/frontend
@@ -78,48 +81,29 @@ jobs:
       - name: JustWatch fixture contract tests
         working-directory: apps/wtw
         run: node ../../common/scripts/install-run-rushx.js test
+      - name: Deployment configuration contract tests
+        run: node --test scripts/deployment-config.test.mjs
 
   integration_smoke:
-    name: API, Redis, and browser smoke
+    name: Static catalogue and browser smoke
     needs: dependencies
     runs-on: ubuntu-latest
     timeout-minutes: 25
-    services:
-      redis:
-        image: redis/redis-stack-server:7.4.0-v8
-        ports:
-          - 6379:6379
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 2s
-          --health-timeout 2s
-          --health-retries 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - uses: ./.github/actions/setup-rush
-      - name: Build API and workspace dependencies
-        run: node common/scripts/install-run-rush.js build --to api
-      - name: Exercise Redis SDK against an isolated instance
-        working-directory: apps/redis-sdk
-        run: node ../../common/scripts/install-run-rushx.js test:integration
-      - name: Seed deterministic catalogues
+      - name: Start the static frontend
         run: |
-          docker exec -i "${{ job.services.redis.id }}" redis-cli -x JSON.SET moviecatalog:jsondata '$' < .github/fixtures/movie-catalog.json
-          docker exec -i "${{ job.services.redis.id }}" redis-cli -x JSON.SET serviceproviders:jsondata '$' < .github/fixtures/service-providers.json
-      - name: Start isolated API and frontend
-        run: |
-          NODE_ENV=dev REDIS_HOST=127.0.0.1 REDIS_PORT=6379 API_PORT=3000 node apps/api/dist/main.js > api-smoke.log 2>&1 &
-          echo $! > api-smoke.pid
           (cd apps/frontend && node ../../common/scripts/install-run-rushx.js start --host 127.0.0.1 --port 4200) > frontend-smoke.log 2>&1 &
           echo $! > frontend-smoke.pid
-      - name: Wait for the isolated stack
+      - name: Wait for static assets
         run: |
-          curl --fail --silent --show-error --retry 30 --retry-all-errors --retry-delay 1 http://127.0.0.1:3000/filmography > /dev/null
           curl --fail --silent --show-error --retry 30 --retry-all-errors --retry-delay 1 http://127.0.0.1:4200/ > /dev/null
-      - name: Verify API reads the seeded Redis catalogues
+          curl --fail --silent --show-error --retry 30 --retry-all-errors --retry-delay 1 http://127.0.0.1:4200/assets/catalogue/catalogue-manifest.json > /dev/null
+      - name: Verify the static catalogue fixture
         run: |
-          curl --fail --silent --show-error http://127.0.0.1:3000/filmography | jq --exit-status 'length == 1 and .[0].title == "Longlegs"'
-          curl --fail --silent --show-error http://127.0.0.1:3000/service-providers | jq --exit-status 'length == 3'
+          curl --fail --silent --show-error http://127.0.0.1:4200/assets/catalogue/filmography.json | jq --exit-status 'length == 1 and .[0].title == "Longlegs"'
+          curl --fail --silent --show-error http://127.0.0.1:4200/assets/catalogue/service-providers.json | jq --exit-status 'length == 3'
       - name: Cypress browser smoke
         working-directory: apps/frontend
         run: node ../../common/scripts/install-run-rushx.js cypress:run
@@ -130,36 +114,13 @@ jobs:
           name: smoke-diagnostics
           if-no-files-found: ignore
           path: |
-            api-smoke.log
             frontend-smoke.log
             apps/frontend/cypress/screenshots
             apps/frontend/cypress/videos
       - name: Stop local smoke processes
         if: always()
         run: |
-          if [ -f api-smoke.pid ]; then kill "$(cat api-smoke.pid)" 2>/dev/null || true; fi
           if [ -f frontend-smoke.pid ]; then kill "$(cat frontend-smoke.pid)" 2>/dev/null || true; fi
-
-  docker_images:
-    name: Production image (${{ matrix.service }})
-    runs-on: ubuntu-latest
-    timeout-minutes: 25
-    strategy:
-      fail-fast: false
-      matrix:
-        service: [api, data-service]
-    steps:
-      - uses: actions/checkout@v4
-      - uses: docker/setup-buildx-action@v3
-      - name: Build ${{ matrix.service }} production image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: apps/${{ matrix.service }}/Dockerfile
-          push: false
-          tags: where-my-cage-at/${{ matrix.service }}:ci
-          cache-from: type=gha,scope=${{ matrix.service }}
-          cache-to: type=gha,mode=max,scope=${{ matrix.service }}
 
   automerge:
     needs:
@@ -168,7 +129,6 @@ jobs:
       - build
       - unit_and_contract_tests
       - integration_smoke
-      - docker_images
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write

@@ -7,7 +7,7 @@ const normalizePosterPath = (posterPath: string) =>
 	posterPath.startsWith('/') ? posterPath : `/${posterPath}`;
 
 export const buildPosterImageUrl = (posterPath: string, requestedWidth = 342): string => {
-	if (/^https?:\/\//i.test(posterPath)) {
+	if (/^https?:\/\//i.test(posterPath) || posterPath.startsWith('/assets/')) {
 		return posterPath;
 	}
 

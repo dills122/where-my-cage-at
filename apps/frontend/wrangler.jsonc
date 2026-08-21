@@ -1,0 +1,11 @@
+{
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "where-my-cage-at",
+	"compatibility_date": "2026-08-20",
+	"workers_dev": false,
+	"preview_urls": true,
+	"assets": {
+		"directory": "./dist/frontend",
+		"not_found_handling": "single-page-application"
+	}
+}

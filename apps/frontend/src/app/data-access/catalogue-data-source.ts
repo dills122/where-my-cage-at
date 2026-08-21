@@ -4,8 +4,7 @@ import { MovieRecord, ServiceProvider } from '../models';
 
 /**
  * Boundary between catalogue consumers and its transport/storage format.
- * A future static JSON implementation can replace the HTTP source without
- * changing services, stores, or components.
+ * Keeps catalogue consumers independent from the generated static JSON format.
  */
 export interface CatalogueDataSource {
 	getFilmography(): Observable<MovieRecord[]>;

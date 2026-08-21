@@ -24,10 +24,10 @@ jobs:
         working-directory: infrastructure
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Install OpenTofu
-        uses: opentofu/setup-opentofu@v2
+        uses: opentofu/setup-opentofu@a1320f892987e89d278cc92dc5adc984fb93aca4 # v2
         with:
           tofu_version: 1.12.5
           tofu_wrapper: false
@@ -36,7 +36,7 @@ jobs:
         run: tofu fmt -check -recursive
 
       - name: Initialize providers without a backend
-        run: tofu init -backend=false -input=false
+        run: tofu init -backend=false -input=false -lockfile=readonly
 
       - name: Validate configuration
         run: tofu validate -no-color

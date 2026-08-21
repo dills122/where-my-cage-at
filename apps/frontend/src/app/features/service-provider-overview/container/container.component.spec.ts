@@ -22,7 +22,7 @@ describe('Service provider overview ContainerComponent', () => {
 		component.ngOnInit();
 
 		expect(component.serviceId).toBe(8);
-		expect(component.providerIconUrl).toContain('/icons/8.webp');
+		expect(component.providerIconUrl).toContain('/assets/icons/8.webp');
 		expect(providerRepository.getServiceProviderById).toHaveBeenCalledOnceWith(8);
 		expect(filmographyRepository.getAllCreditsByProviderId).toHaveBeenCalledOnceWith(8);
 	});

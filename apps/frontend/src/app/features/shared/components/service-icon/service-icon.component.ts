@@ -1,6 +1,5 @@
-import { Component, Input, isDevMode } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { buildBaseApuUrlBasedOffEnv } from 'src/app/util/api-url-builder';
 
 @Component({
 	selector: 'app-service-icon',
@@ -9,7 +8,6 @@ import { buildBaseApuUrlBasedOffEnv } from 'src/app/util/api-url-builder';
 	standalone: false
 })
 export class ServiceIconComponent {
-	private apiURL = buildBaseApuUrlBasedOffEnv(isDevMode());
 	@Input() serviceId: number = -1;
 	@Input() serviceName: string = '';
 	@Input() serviceNote?: string;
@@ -20,7 +18,7 @@ export class ServiceIconComponent {
 	constructor(private router: Router) {}
 
 	get imageUrl() {
-		return `${this.apiURL}/icons/${this.serviceId}.webp`;
+		return `/assets/icons/${this.serviceId}.webp`;
 	}
 	get accessibleLabel() {
 		return this.externalUrl

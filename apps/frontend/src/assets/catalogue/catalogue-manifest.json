@@ -1,0 +1,17 @@
+{
+	"schemaVersion": 1,
+	"catalogueVersion": "local-development-fixture",
+	"generatedAt": "2026-08-20T00:00:00.000Z",
+	"artifacts": [
+		{
+			"path": "filmography.json",
+			"recordCount": 1,
+			"sha256": "727ed51d4f262d1d12f39225d1dda330c46ed5beabd535dd747257878ad0f2b0"
+		},
+		{
+			"path": "service-providers.json",
+			"recordCount": 3,
+			"sha256": "cb155599dab45e31a73f1198abccba648a0ccc3b5f4e661580ce527ad5fb1f9a"
+		}
+	]
+}

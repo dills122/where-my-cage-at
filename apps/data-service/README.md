@@ -1,9 +1,8 @@
 # Catalogue data service
 
-The refresher gathers the filmography and provider catalogue, enriches movies through TMDB, and
-publishes one versioned snapshot to Redis. Movie and provider data are staged under version-specific
-keys before a Redis transaction switches the active-version pointer. A failed refresh therefore
-leaves the previous version available to readers.
+The refresher gathers the filmography and provider catalogue and enriches movies through TMDB. Its
+primary publisher now writes one static snapshot for the Angular/Cloudflare deployment. The legacy
+Redis publisher remains available while the old API path is retired.
 
 ## Resilience policy
 
@@ -15,7 +14,7 @@ leaves the previous version available to readers.
   the ratio from 0 through 1 with `MAX_ENRICHMENT_FAILURE_RATIO`.
 - Rejected and failed publications do not change the active catalogue version.
 
-The latest refresh summary is stored in Redis and exposed by `GET /filmography/refresh-status`. It
+For the legacy publisher, the latest refresh summary is stored in Redis and exposed by `GET /filmography/refresh-status`. It
 includes the outcome, active and attempted versions, timestamps, duration, record counts, and failure
 details. Logs use one JSON summary per refresh instead of per-movie messages.
 
@@ -86,20 +85,11 @@ The manifest contract is:
 
 ## Production schedule
 
-Production uses `wmca-catalogue-refresh.timer` on the application host. It starts the data-service
-container at midnight and noon UTC, with up to five minutes of randomized delay. The deployment
-workflow installs the timer and executes one refresh immediately after the long-running Redis and API
-services start.
+`.github/workflows/deploy-cloudflare.action.yml` generates a fresh snapshot and deploys it with the
+Angular assets at midnight and noon UTC. The schedule is inert unless the repository variable
+`CLOUDFLARE_DEPLOY_ENABLED` is `true`; manual releases remain available for an explicit full commit
+SHA. GitHub's `production` environment supplies `TMDB_KEY` and the Cloudflare credentials.
 
-The timer does not run an HTTP server. Systemd records the one-shot container exit status and sends
-stdout and stderr to the journal. A host `flock` prevents duplicate timer/manual service invocations;
-the Redis lease remains the authoritative cross-process guard.
-
-```sh
-systemctl status wmca-catalogue-refresh.timer
-systemctl status wmca-catalogue-refresh.service
-journalctl -u wmca-catalogue-refresh.service
-
-# Trigger one production refresh and wait for its exit status.
-sudo systemctl start wmca-catalogue-refresh.service
-```
+The workflow serializes production releases, performs a Wrangler dry-run, records the deployment and
+catalogue versions, and checks the hosted manifest. A failed refresh or build never changes the
+currently deployed snapshot.

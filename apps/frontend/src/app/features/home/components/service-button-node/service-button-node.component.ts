@@ -1,6 +1,5 @@
-import { Component, Input, isDevMode, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { buildBaseApuUrlBasedOffEnv } from 'src/app/util/api-url-builder';
 import { SEE_MORE_SERVICE_ID } from '../../services';
 
 @Component({
@@ -13,12 +12,11 @@ export class ServiceButtonNodeComponent implements OnInit {
 	@Input() serviceName: string = '';
 	@Input() serviceIcon: string = '';
 	@Input() serviceId: number = -1;
-	private apiURL = buildBaseApuUrlBasedOffEnv(isDevMode());
 	imageUrl: string = '';
 	SEE_MORE_SERVICE_ID = SEE_MORE_SERVICE_ID;
 	constructor(private router: Router) {}
 	ngOnInit(): void {
-		this.imageUrl = `${this.apiURL}/icons/${this.serviceId}.webp`;
+		this.imageUrl = `/assets/icons/${this.serviceId}.webp`;
 	}
 
 	openServicePage(serviceId: number) {
