@@ -17,10 +17,15 @@ describe('FilmSearchComponent', () => {
 		component.navigate({ originalEvent: new Event('click'), value: component.results[0] });
 
 		expect(component.searchDictonary).toEqual([
-			{ id: 42, title: 'Moonstruck' },
-			{ id: 7, title: 'Mandy' }
+			{ id: 42, title: 'Moonstruck', poster: '/poster.jpg', originalReleaseYear: 1987 },
+			{ id: 7, title: 'Mandy', poster: '/poster.jpg', originalReleaseYear: 1987 }
 		]);
-		expect(component.results[0]).toEqual({ id: 42, title: 'Moonstruck' });
+		expect(component.results[0]).toEqual({
+			id: 42,
+			title: 'Moonstruck',
+			poster: '/poster.jpg',
+			originalReleaseYear: 1987
+		});
 		expect(router.navigate).toHaveBeenCalledOnceWith(['/film-overview/42']);
 	});
 });

@@ -11,6 +11,9 @@
 		/>
 	</div>
 	<div class="service-icon__name" [attr.title]="serviceName">{{ serviceName }}</div>
+	@if (serviceNote) {
+		<div class="service-icon__note">{{ serviceNote }}</div>
+	}
 </ng-template>
 
 @if (interactive) {

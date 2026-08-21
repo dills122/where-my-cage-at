@@ -1,20 +1,44 @@
-@if (serviceProvidersWithFilmsAvailable$ | async; as serviceProviders) {
+@if (providerCatalogue$ | async; as catalogue) {
 	<section class="provider-index" aria-labelledby="provider-count">
 		<p id="provider-count" class="provider-index__summary" aria-live="polite">
-			{{ serviceProviders.length }} providers with Cage movies
+			{{ catalogue.totalProviders }} providers across {{ catalogue.groups.length }} ways to watch
 		</p>
-		@if (serviceProviders.length > 0) {
-			<ul class="provider-index__grid">
-				@for (serviceProvider of serviceProviders; track trackServiceProvider($index, serviceProvider)) {
-					<li>
-						<app-service-icon
-							[serviceId]="serviceProvider.id"
-							[serviceName]="serviceProvider.clearName"
-							[providerIconUrl]="serviceProvider.iconUrl"
-						></app-service-icon>
-					</li>
+		@if (catalogue.groups.length > 0) {
+			<div class="provider-index__groups">
+				@for (group of catalogue.groups; track group.key) {
+					<section class="provider-group" [attr.aria-labelledby]="'provider-group-' + group.key">
+						<header class="provider-group__header">
+							<div>
+								<h2 [id]="'provider-group-' + group.key">{{ group.title }}</h2>
+								<p>{{ group.description }}</p>
+							</div>
+							<p class="provider-group__count">
+								{{ group.providerCount }} {{ group.providerCount === 1 ? 'service' : 'services' }}
+							</p>
+						</header>
+
+						@for (collection of group.collections; track collection.key) {
+							<div class="provider-collection">
+								@if (collection.title) {
+									<h3>{{ collection.title }}</h3>
+								}
+								<ul class="provider-index__grid">
+									@for (serviceProvider of collection.providers; track serviceProvider.id) {
+										<li>
+											<app-service-icon
+												[serviceId]="serviceProvider.id"
+												[serviceName]="serviceProvider.clearName"
+												[serviceNote]="serviceProvider.accessNote"
+												[providerIconUrl]="serviceProvider.iconUrl"
+											></app-service-icon>
+										</li>
+									}
+								</ul>
+							</div>
+						}
+					</section>
 				}
-			</ul>
+			</div>
 		} @else {
 			<div class="provider-index__state">
 				<i class="pi pi-search" aria-hidden="true"></i>

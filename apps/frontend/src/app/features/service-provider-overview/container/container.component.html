@@ -1,26 +1,54 @@
 @if (serviceProviderData$ | async; as serviceProvider) {
-	<main class="provider-detail" [attr.aria-labelledby]="'provider-title'">
-		<header class="provider-detail__intro">
-			<div>
-				<h1 id="provider-title">{{ serviceProvider.clearName }}</h1>
-				<p>Explore the Cage films available through this service.</p>
-			</div>
+	@if (filmsAvailable$ | async; as filmsAvailable) {
+		<main class="provider-detail" [attr.aria-labelledby]="'provider-title'">
+			<header class="provider-detail__hero">
+				<div class="provider-detail__identity">
+					<img
+						[src]="providerIconUrl"
+						(error)="useProviderFallback($event, serviceProvider.iconUrl)"
+						alt=""
+						width="96"
+						height="96"
+						decoding="async"
+						class="provider-detail__mark"
+					/>
+					<div>
+						<h1 id="provider-title">{{ serviceProvider.clearName }}</h1>
+						<p>
+							The Nicolas Cage shelf on {{ serviceProvider.clearName }}, with the details you need to pick a
+							film.
+						</p>
+					</div>
+				</div>
 
-			<ul class="provider-detail__models" aria-label="Available viewing options">
-				@for (monetizationType of serviceProvider.monetizationTypes; track monetizationType) {
-					<li>{{ mapMonetizationType(monetizationType) }}</li>
-				}
-			</ul>
-		</header>
+				<div class="provider-detail__stat" aria-label="Cage titles currently listed">
+					<strong>{{ filmsAvailable.length }}</strong>
+					<p>Cage {{ filmsAvailable.length === 1 ? 'title' : 'titles' }} currently listed</p>
+				</div>
 
-		@if (filmsAvailable$ | async; as filmsAvailable) {
+				<div class="provider-detail__access">
+					<p>Ways to watch</p>
+					<ul aria-label="Available viewing options">
+						@for (monetizationType of serviceProvider.monetizationTypes; track monetizationType) {
+							<li>{{ mapMonetizationType(monetizationType) }}</li>
+						}
+					</ul>
+				</div>
+			</header>
+
 			<section class="provider-detail__films" aria-labelledby="provider-films-title">
 				<div class="provider-detail__section-head">
-					<h2 id="provider-films-title">Films on {{ serviceProvider.clearName }}</h2>
-					<p>{{ filmsAvailable.length }} titles</p>
+					<h2 id="provider-films-title">Available titles</h2>
+					<p>Open a film for its synopsis, quick facts, and direct watch links.</p>
 				</div>
 
 				@if (filmsAvailable.length > 0) {
+					<div class="provider-detail__table-head" aria-hidden="true">
+						<span>Film</span>
+						<span>Runtime</span>
+						<span>TMDB</span>
+						<span>Details</span>
+					</div>
 					<div class="provider-detail__list">
 						@for (filmCredit of filmsAvailable; track filmCredit.id) {
 							<app-film-node [filmOverview]="filmCredit" [providerId]="serviceId"></app-film-node>
@@ -30,8 +58,8 @@
 					<p class="provider-detail__empty">No Cage films are currently listed for this service.</p>
 				}
 			</section>
-		}
-	</main>
+		</main>
+	}
 } @else {
 	<p class="provider-detail__status" aria-live="polite">Loading service details…</p>
 }

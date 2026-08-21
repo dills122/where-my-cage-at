@@ -8,6 +8,8 @@ import { FilmographyRepository } from 'src/app/repositories';
 export interface FilmSearchResult {
 	title: string;
 	id: number;
+	poster: string;
+	originalReleaseYear: number;
 }
 
 @Component({
@@ -25,9 +27,11 @@ export class FilmSearchComponent implements OnInit, OnDestroy {
 		takeUntil(this.notifier),
 		filter(records => records.length > 0),
 		map(records =>
-			records.map(({ id, title }) => ({
+			records.map(({ id, title, poster, originalReleaseYear }) => ({
 				id,
-				title
+				title,
+				poster,
+				originalReleaseYear
 			}))
 		),
 		tap(records => {

@@ -6,13 +6,15 @@
 
 .app-shell {
 	min-block-size: 100dvh;
+	display: grid;
+	grid-template-rows: auto 1fr auto;
 }
 
 .site-header {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) auto;
 	align-items: center;
-	gap: var(--space-sm) var(--space-md);
+	gap: var(--space-sm) var(--space-xs);
 	padding: var(--space-sm) var(--page-gutter);
 	border-block-end: var(--rule-hair) solid var(--color-rule);
 	background: var(--color-paper);
@@ -28,7 +30,7 @@
 }
 
 .site-brand {
-	gap: var(--space-sm);
+	gap: var(--space-xs);
 	color: inherit;
 	font-family: var(--font-display);
 	font-size: var(--text-md);

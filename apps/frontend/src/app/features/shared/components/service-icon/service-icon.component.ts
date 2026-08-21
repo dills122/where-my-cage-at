@@ -12,6 +12,7 @@ export class ServiceIconComponent {
 	private apiURL = buildBaseApuUrlBasedOffEnv(isDevMode());
 	@Input() serviceId: number = -1;
 	@Input() serviceName: string = '';
+	@Input() serviceNote?: string;
 	@Input() externalUrl?: string;
 	@Input() providerIconUrl?: string | null;
 	@Input() interactive: boolean = true;

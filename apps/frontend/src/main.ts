@@ -1,4 +1,5 @@
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { IMAGE_LOADER } from '@angular/common';
 import { enableProdMode, importProvidersFrom, inject, provideAppInitializer } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { definePreset } from '@primeuix/themes';
@@ -11,6 +12,7 @@ import { HeadersInterceptor } from './app/interceptors/headers/headers.intercept
 import { FilmographyRepository, ServiceProviderRepository } from './app/repositories';
 import { LocalStorageService } from './app/services/local-storage/local-storage.service';
 import { environment } from './environments/environment';
+import { tmdbPosterImageLoader } from './app/util/tmdb-image-loader';
 
 if (environment.production) {
 	enableProdMode();
@@ -41,6 +43,7 @@ bootstrapApplication(AppComponent, {
 		ServiceProviderRepository,
 		provideAppInitializer(() => inject(LocalStorageService).removeLegacyCatalogueEntries()),
 		{ provide: HTTP_INTERCEPTORS, useClass: HeadersInterceptor, multi: true },
+		{ provide: IMAGE_LOADER, useValue: tmdbPosterImageLoader },
 		provideHttpClient(withInterceptorsFromDi()),
 		providePrimeNG({
 			theme: {

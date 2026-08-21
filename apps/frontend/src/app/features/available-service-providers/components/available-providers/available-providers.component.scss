@@ -1,3 +1,9 @@
+/* Hallmark · macrostructure: Catalogue · genre: playful · tone: cinematic index
+ * theme: studied-DNA (source: existing Cage UI) · palette: violet anchor
+ * grouping: access model first, channel host second · motion: none
+ * pre-emit critique: P5 H5 E4 S5 R5 V5 · contrast: pass (40–41)
+ * mobile: pass (34, 49, 50–57) · slop: pass (58/58)
+ */
 :host {
 	display: block;
 	min-inline-size: 0;
@@ -33,7 +39,7 @@
 }
 
 :host ::ng-deep .provider-index__grid .service-icon {
-	min-block-size: 11rem;
+	min-block-size: 12rem;
 	block-size: 100%;
 	padding: var(--space-lg) var(--space-sm);
 }
@@ -78,6 +84,6 @@
 
 @media (min-width: 60rem) {
 	.provider-index__grid {
-		grid-template-columns: repeat(5, minmax(0, 1fr));
+		grid-template-columns: repeat(4, minmax(0, 1fr));
 	}
 }

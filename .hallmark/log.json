@@ -1,5 +1,29 @@
 [
 	{
+		"date": "2026-08-20",
+		"macrostructure": "Existing system enrichment",
+		"theme": "existing Cage typewriter",
+		"enrichment": "official TMDB poster artwork",
+		"scope": "film discovery surfaces",
+		"brief": "Add responsive movie posters to film detail, provider rows, and search"
+	},
+	{
+		"date": "2026-08-20",
+		"macrostructure": "Stat-Led",
+		"theme": "existing Cage typewriter",
+		"enrichment": "provider mark",
+		"scope": "provider detail",
+		"brief": "A provider-first title index with access metadata, film facts, and direct watch pricing"
+	},
+	{
+		"date": "2026-08-19",
+		"macrostructure": "Catalogue",
+		"theme": "existing Cage typewriter",
+		"enrichment": "provider marks",
+		"scope": "provider directory information architecture",
+		"brief": "Group Cage viewing providers by access model and channel host"
+	},
+	{
 		"date": "2026-08-19",
 		"macrostructure": "Catalogue + Long Document",
 		"theme": "existing Cage typewriter",

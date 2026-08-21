@@ -1,0 +1,21 @@
+<figure class="movie-poster" [class.movie-poster--detail]="variant === 'detail'">
+	@if (posterPath && !hasError) {
+		<img
+			[ngSrc]="posterPath"
+			[width]="intrinsicWidth"
+			[height]="intrinsicHeight"
+			[priority]="priority"
+			[alt]="altText"
+			(error)="handleError()"
+		/>
+	} @else {
+		<span
+			class="movie-poster__fallback"
+			[attr.aria-hidden]="decorative ? 'true' : null"
+			[attr.role]="decorative ? null : 'img'"
+			[attr.aria-label]="decorative ? null : title + ' poster unavailable'"
+		>
+			Poster unavailable
+		</span>
+	}
+</figure>

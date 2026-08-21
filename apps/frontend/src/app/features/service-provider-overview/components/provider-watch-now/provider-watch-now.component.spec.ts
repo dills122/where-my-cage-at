@@ -14,6 +14,17 @@ describe('ProviderWatchNowComponent', () => {
 
 		expect(component.offersForProvider).toEqual([component.offers[0]]);
 		expect(component.createLabelName('flatrate', 'hd')).toBe('Stream Now · HD');
+		expect(component.createLabelName('flatrate', '_4k')).toBe('Stream Now · 4K');
+	});
+
+	it('shows real prices for rentals and purchases only', () => {
+		const component = new ProviderWatchNowComponent();
+		const rental = createOffer({ monetizationType: 'rent', retailPrice: 4.99, currency: 'USD' });
+		const subscription = createOffer({ monetizationType: 'flatrate', retailPrice: 9.99, currency: 'USD' });
+
+		expect(component.shouldShowPrice(rental)).toBeTrue();
+		expect(component.formatPrice(rental)).toBe('$4.99');
+		expect(component.shouldShowPrice(subscription)).toBeFalse();
 	});
 
 	it('opens valid watch links and ignores missing ones', () => {

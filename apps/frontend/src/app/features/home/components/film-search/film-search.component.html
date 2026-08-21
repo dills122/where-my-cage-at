@@ -12,5 +12,15 @@
 		[forceSelection]="true"
 		placeholder="Try “Moonstruck”"
 		aria-describedby="film-search-help"
-	></p-autoComplete>
+	>
+		<ng-template #item let-film>
+			<span class="film-search__result">
+				<app-movie-poster [posterPath]="film.poster" [title]="film.title"></app-movie-poster>
+				<span>
+					<strong>{{ film.title }}</strong>
+					<small>{{ film.originalReleaseYear }}</small>
+				</span>
+			</span>
+		</ng-template>
+	</p-autoComplete>
 </div>

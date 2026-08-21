@@ -2,7 +2,8 @@
 	<header class="site-header">
 		<a class="site-brand" routerLink="/" aria-label="Where My Cage At home">
 			<i class="pi pi-home" aria-hidden="true"></i>
-			<span>Where My Cage At?</span>
+			<span class="site-brand__long">Where My Cage At?</span>
+			<span class="site-brand__short" aria-hidden="true">Cage</span>
 		</a>
 
 		<nav class="site-nav" aria-label="Primary navigation">
@@ -38,4 +39,37 @@
 	<main class="app-main">
 		<router-outlet></router-outlet>
 	</main>
+
+	<footer class="site-credits" aria-label="Data credits">
+		<div class="site-credits__inner">
+			<a
+				class="site-credits__tmdb"
+				href="https://www.themoviedb.org/"
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				<img
+					src="assets/images/tmdb-logo-short.svg"
+					alt="The Movie Database (TMDB)"
+					width="273"
+					height="36"
+				/>
+			</a>
+			<div class="site-credits__copy">
+				<p>
+					Film data and imagery from TMDB. Availability data from
+					<a href="https://www.justwatch.com/" target="_blank" rel="noopener noreferrer">JustWatch</a>.
+				</p>
+				<p>This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
+			</div>
+			<div class="site-credits__studio">
+				<p>Built + maintained by</p>
+				<a href="https://shwimp.studio/" target="_blank" rel="noopener noreferrer">
+					D. Steele · Shwimp Studios
+					<i class="pi pi-external-link" aria-hidden="true"></i>
+					<span class="visually-hidden">(opens in a new tab)</span>
+				</a>
+			</div>
+		</div>
+	</footer>
 </div>
