@@ -1,44 +1,46 @@
-import { createState, Store } from '@ngneat/elf';
-import {
-	selectAllEntities,
-	selectEntity,
-	selectManyByPredicate,
-	setEntities,
-	withEntities
-} from '@ngneat/elf-entities';
-import { EMPTY, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { patchState, signalStore, withMethods, withProps, withState } from '@ngrx/signals';
+import { filter, map, of } from 'rxjs';
 import { MovieRecord } from '../models';
 
-const { state, config } = createState(withEntities<MovieRecord>());
-
-const filmographyStore = new Store({ state, name: 'filmography', config });
-
-export class FilmographyRepository {
-	initialized$ = of(true);
-	credits$ = filmographyStore.pipe(selectAllEntities());
-	set(entities: MovieRecord[]) {
-		filmographyStore.update(setEntities(entities));
-	}
-	getCredit(creditId: number) {
-		return filmographyStore.pipe(
-			selectEntity(creditId),
-			switchMap(credit => {
-				if (credit === undefined) {
-					return EMPTY;
-				}
-				return of(credit);
-			})
-		);
-	}
-	getAllCreditsByProviderId(providerId: number) {
-		return filmographyStore.pipe(
-			selectManyByPredicate(credit => {
-				if (!credit.offers) {
-					return false;
-				}
-				return credit.offers.some(offer => offer.providerId === providerId);
-			})
-		);
-	}
+interface FilmographyState {
+	credits: MovieRecord[];
 }
+
+const initialState: FilmographyState = {
+	credits: []
+};
+
+/**
+ * Application-scoped film catalogue state.
+ *
+ * The Observable properties keep the existing component API stable while the
+ * signals are also public for new signal-native consumers.
+ */
+export const FilmographyRepository = signalStore(
+	withState(initialState),
+	withProps(store => ({
+		credits$: toObservable(store.credits),
+		initialized$: of(true)
+	})),
+	withMethods(store => ({
+		set(credits: MovieRecord[]): void {
+			patchState(store, { credits: [...credits] });
+		},
+		getCredit(creditId: number) {
+			return store.credits$.pipe(
+				map(credits => credits.find(credit => credit.id === creditId)),
+				filter((credit): credit is MovieRecord => credit !== undefined)
+			);
+		},
+		getAllCreditsByProviderId(providerId: number) {
+			return store.credits$.pipe(
+				map(credits =>
+					credits.filter(credit => credit.offers?.some(offer => offer.providerId === providerId))
+				)
+			);
+		}
+	}))
+);
+
+export type FilmographyRepository = InstanceType<typeof FilmographyRepository>;

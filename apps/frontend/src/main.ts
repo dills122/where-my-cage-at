@@ -7,6 +7,7 @@ import { providePrimeNG } from 'primeng/config';
 
 import { AppRoutingModule } from './app/app-routing.module';
 import AppComponent from './app/app/app.component';
+import { CATALOGUE_DATA_SOURCE, HttpCatalogueDataSource } from './app/data-access';
 import { HeadersInterceptor } from './app/interceptors/headers/headers.interceptor';
 import { FilmographyRepository, ServiceProviderRepository } from './app/repositories';
 import { LocalStorageService } from './app/services/local-storage/local-storage.service';
@@ -39,6 +40,7 @@ bootstrapApplication(AppComponent, {
 		importProvidersFrom(AppRoutingModule),
 		FilmographyRepository,
 		ServiceProviderRepository,
+		{ provide: CATALOGUE_DATA_SOURCE, useClass: HttpCatalogueDataSource },
 		provideAppInitializer(() => inject(LocalStorageService).removeLegacyCatalogueEntries()),
 		{ provide: HTTP_INTERCEPTORS, useClass: HeadersInterceptor, multi: true },
 		provideHttpClient(withInterceptorsFromDi()),
