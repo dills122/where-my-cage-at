@@ -1,0 +1,42 @@
+name: OpenTofu Infrastructure Checks
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+    paths:
+      - 'infrastructure/**'
+      - '.github/workflows/opentofu.action.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: opentofu-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Format and validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: infrastructure
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install OpenTofu
+        uses: opentofu/setup-opentofu@v2
+        with:
+          tofu_version: 1.12.5
+          tofu_wrapper: false
+
+      - name: Check formatting
+        run: tofu fmt -check -recursive
+
+      - name: Initialize providers without a backend
+        run: tofu init -backend=false -input=false
+
+      - name: Validate configuration
+        run: tofu validate -no-color
