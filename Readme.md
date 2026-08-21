@@ -73,17 +73,11 @@ docker compose down
 
 ## Deployment
 
-This section will go over all you need to know to deploy and manage this application on `Digital Ocean`
-### First Time Setup
+Production is being rebuilt on Cloudflare Workers Static Assets. OpenTofu owns
+the durable zone, Worker identity, settings, and custom-domain attachments;
+the application deployment pipeline will build Angular and deploy versioned
+static assets with Wrangler.
 
-For you first deployment you will need to setup and provision the Infrastructure on `Digital Ocean`.
-
-Follow the setup instructions in `/infrastructure/Readme.md` to use `terraform` to build and deploy the application for the first time.
-
-**Note: you will obviously need to change the URL since I own the one listed in the configs currently**
-
-To update navigate to the vars file here: `/infrastructure/prod.auto.tfvars`
-
-#### Important Note
-
-Sometimes the `cloud-init` file `/infrastructure/app.yaml` does not seem to execute all of the command listed. If you notice that after a while it does not seem like the app is deployed to the droplet, you might need to manually run these commands.
+See [`infrastructure/README.md`](infrastructure/README.md) for prerequisites,
+credential-free validation, R2 remote-state bootstrap, planning, applying, and
+the exact OpenTofu/CI ownership boundary.

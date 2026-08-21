@@ -1,0 +1,15 @@
+cloudflare_account_id = "00000000000000000000000000000000"
+cloudflare_zone_name  = "example.com"
+
+worker_name = "where-my-cage-at"
+
+# The apex and www hostnames are enabled by default. Add more hostnames only when
+# they belong to cloudflare_zone_name.
+enable_apex_domain       = true
+enable_www_domain        = true
+additional_custom_domains = []
+
+workers_dev_enabled                = false
+preview_urls_enabled               = true
+worker_observability_enabled       = true
+worker_observability_sampling_rate = 1
