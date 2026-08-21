@@ -90,6 +90,9 @@ tsconfig.tsbuildinfo
 # Local data-service runtime log
 /apps/data-service/src/loggerlogs.txt
 
+# Locally generated static catalogue snapshots
+/apps/data-service/generated/
+
 # Cypress run artifacts
 /apps/frontend/cypress/screenshots/
 /apps/frontend/cypress/videos/
